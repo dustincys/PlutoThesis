@@ -34,7 +34,12 @@ Ubuntu用户安装好Windows字体之后，需要自己载入Windows字体。
 3.	定义一下默认的衬线和非衬线字体
 
 Windows 用户没有这麻烦，可以直接用默认字体。
-Windows 编译方法：
+
+## 编译方法：
+
+Windows:
 	xelatex main.tex
-Ubuntu 直接 make
+Ubuntu (Ubuntu 14.04, texlive 2013, 已测):
+	make
+
 
