@@ -1,0 +1,97 @@
+% !Mode:: "TeX:UTF-8" 
+
+\usepackage{graphicx}
+\usepackage{CJK}
+\usepackage[a4paper,text={150true mm,224true mm},top=35.5true mm,left=30true mm,head=5true mm,headsep=2.5true mm,foot=8.5true mm]{geometry}
+\usepackage{titlesec}               % 控制标题的宏包
+\usepackage{titletoc}                   % 控制目录的宏包
+\usepackage{fancyhdr}                   % fancyhdr宏包 页眉和页脚的相关定义
+\usepackage{color}          % 支持彩色
+\usepackage{amsmath}        % AMSLaTeX宏包 用来排出更加漂亮的公式
+\usepackage{amssymb}
+\usepackage[below]{placeins}%允许上一个section的浮动图形出现在下一个section的开始部分,还提供\FloatBarrier命令,使所有未处理的浮动图形立即被处理
+\usepackage{flafter}       % 使得所有浮动体不能被放置在其浮动环境之前，以免浮动体在引述它的文本之前出现.
+\usepackage{multirow}       %使用Multirow宏包，使得表格可以合并多个row格
+\usepackage{booktabs}       % 表格，横的粗线；\specialrule{1pt}{0pt}{0pt}
+\usepackage{longtable}      %支持跨页的表格。
+\usepackage{tabularx}
+\usepackage[hang]{subfigure}%支持子图 %centerlast 设置最后一行是否居中
+\usepackage[subfigure]{ccaption} %支持双语标题
+\usepackage[sort&compress,numbers]{natbib}% 支持引用缩写的宏包
+\usepackage{enumitem}       %使用enumitem宏包,改变列表项的格式
+\usepackage{calc}           %长度可以用+ - * / 进行计算
+%\usepackage{txfonts}
+\usepackage{fontspec}
+\usepackage[amsmath,thmmarks,hyperref]{ntheorem}% 定理类环境宏包，其中 amsmath 选项用来兼容 AMS LaTeX 的宏包
+
+% 生成有书签的pdf及其开关, 该宏包应放在所有宏包的最后, 宏包之间有冲突
+\def\atemp{dvipdfmx}\ifx\atemp\usewhat
+\usepackage[dvipdfmx,unicode,           %dvi-->pdf 生成书签
+            bookmarksnumbered=true,
+            bookmarksopen=true,
+            colorlinks=false,
+            pdfborder={0 0 1},
+            citecolor=blue,
+            linkcolor=red,
+            anchorcolor=green,
+            urlcolor=blue,
+            breaklinks=true
+            ]{hyperref}
+\fi
+
+\def\atemp{pdflatex}\ifx\atemp\usewhat
+\usepackage{cmap}                       %pdflatex编译时，可以生成可复制、粘贴的中文PDF文档
+\usepackage[pdftex,unicode,
+            %CJKbookmarks=true,
+            bookmarksnumbered=true,
+            bookmarksopen=true,
+            colorlinks=false,
+            pdfborder={0 0 1},
+            citecolor=blue,
+            linkcolor=red,
+            anchorcolor=green,
+            urlcolor=blue,
+            breaklinks=true
+            ]{hyperref}
+\fi
+
+\def\atempxetex{xelatex}\ifx\atempxetex\usewhat %\def\atempxetex{xelatex} main.tex中已定义;
+\usepackage[xetex,
+            bookmarksnumbered=true,
+            bookmarksopen=true,
+            colorlinks=false,
+            pdfborder={0 0 1},
+            citecolor=blue,
+            linkcolor=red,
+            anchorcolor=green,
+            urlcolor=blue,
+            breaklinks=true,
+            naturalnames  %与algorithm2e宏包协调
+            ]{hyperref}
+%\usepackage[BoldFont,normalindentfirst,BoldFont,SlantFont]{xeCJK}
+\defaultfontfeatures{Mapping=tex-text}
+\xeCJKsetemboldenfactor{1}%只对随后定义的CJK字体有效
+\setCJKfamilyfont{hei}{SimHei}
+\xeCJKsetemboldenfactor{4}
+\setCJKfamilyfont{song}{SimSun}
+\xeCJKsetemboldenfactor{1}
+\setCJKfamilyfont{fs}{FangSong}
+\setCJKfamilyfont{kai}{KaiTi}
+\setCJKfamilyfont{li}{LiSu}
+\setCJKfamilyfont{xw}{STXinwei}
+\setCJKmainfont{SimSun}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\newcommand{\hei}{\CJKfamily{hei}}% 黑体   (Windows自带simhei.ttf)
+\newcommand{\song}{\CJKfamily{song}}    % 宋体   (Windows自带simsun.ttf)
+\newcommand{\fs}{\CJKfamily{fs}}        % 仿宋体 (Windows自带simfs.ttf)
+\newcommand{\kaishu}{\CJKfamily{kai}}      % 楷体   (Windows自带simkai.ttf)
+\newcommand{\li}{\CJKfamily{li}}        % 隶书   (Windows自带simli.ttf)
+\newcommand{\xw}{\CJKfamily{xw}}        % 隶书   (Windows自带simli.ttf)
+\newfontfamily\arial{Arial}
+\newfontfamily\timesnewroman{Times New Roman}
+\fi
+
+\usepackage[boxed,linesnumbered,algochapter]{algorithm2e}  % 算法的宏包，注意宏包兼容性，先后顺序为float、hyperref、algorithm(2e)，否则无法生成算法列表 
+\usepackage{tabularx}
+\usepackage{xltxtra}

@@ -1,0 +1,87 @@
+% !Mode:: "TeX:UTF-8" 
+
+\BiChapter{绪论}{Introduction}
+
+\BiSection{\XeLaTeX 编译方法的配置}{Introduction to the \XeLaTeX way of compiling}
+
+模版无法用\XeLaTeX 编译的原因主要是~\href{http://bay.uchicago.edu/tex-archive/macros/xetex/latex/xecjk/xeCJK.pdf}{xeCJK}包不兼容CJK包。
+例如：xeCJK原来重写了CJK包大部分命令，如\textbackslash xeCJKcaption 。
+v3.2.11之后，这个命令也废弃了。
+
+ctexbook 中含有默认的字体设置，texlive2014-full (ubuntu 14.04) 中字体设置在下面这个文件中：
+\begin{verbatim}
+/usr/share/texlive/texmf-dist/tex/latex/ctex/fontset/ctex-xecjk-winfonts.def
+\end{verbatim}
+
+该文件中有些字体默认的设置会导致字体出错，例如无法找到[SimKai]之类。解决方法也很简单，要么在这个文件里面设置好字体；
+要么在setup/package.tex中自定义好字体。
+例如：ctex-xecjk-winfonts.def　文件设置为：
+
+\begin{verbatim}
+% ctex-xecjk-winfonts.def: Windows 的 xeCJK 字体设置，默认为六种中易字体
+% vim:ft=tex
+
+\setCJKmainfont{SimSun}
+\setCJKsansfont{SimHei}
+
+\setCJKfamilyfont{zhsong}{SimSun}
+\setCJKfamilyfont{zhhei}{SimHei}
+
+\newcommand*{\songti}{\CJKfamily{zhsong}} % 宋体
+\newcommand*{\heiti}{\CJKfamily{zhhei}}   % 黑体
+
+\endinput
+\end{verbatim}
+
+package.tex 中字体定义为：
+\begin{verbatim}
+57 \def\atempxetex{xelatex}\ifx\atempxetex\usewhat %\def\atempxetex{xelatex} main.tex中已定义;
+58 \usepackage[xetex,
+59             bookmarksnumbered=true,
+60             bookmarksopen=true,
+61             colorlinks=false,
+62             pdfborder={0 0 1},
+63             citecolor=blue,
+64             linkcolor=red,
+65             anchorcolor=green,
+66             urlcolor=blue,
+67             breaklinks=true,
+68             naturalnames  %与algorithm2e宏包协调
+69             ]{hyperref}
+70 %\usepackage[BoldFont,normalindentfirst,BoldFont,SlantFont]{xeCJK}
+71 \defaultfontfeatures{Mapping=tex-text}
+72 \xeCJKsetemboldenfactor{1}%只对随后定义的CJK字体有效
+73 \setCJKfamilyfont{hei}{SimHei}
+74 \xeCJKsetemboldenfactor{4}
+75 \setCJKfamilyfont{song}{SimSun}
+76 \xeCJKsetemboldenfactor{1}
+77 \setCJKfamilyfont{fs}{FangSong}
+78 \setCJKfamilyfont{kai}{KaiTi}
+79 \setCJKfamilyfont{li}{LiSu}
+80 \setCJKfamilyfont{xw}{STXinwei}
+81 \setCJKmainfont{SimSun}
+82 \setmainfont{Times New Roman}
+83 \setsansfont{Arial}
+84 \newcommand{\hei}{\CJKfamily{hei}}% 黑体   (Windows自带simhei.ttf)
+85 \newcommand{\song}{\CJKfamily{song}}    % 宋体   (Windows自带simsun.ttf)
+86 \newcommand{\fs}{\CJKfamily{fs}}        % 仿宋体 (Windows自带simfs.ttf)
+87 \newcommand{\kaishu}{\CJKfamily{kai}}      % 楷体   (Windows自带simkai.ttf)
+88 \newcommand{\li}{\CJKfamily{li}}        % 隶书   (Windows自带simli.ttf)
+89 \newcommand{\xw}{\CJKfamily{xw}}        % 隶书   (Windows自带simli.ttf)
+90 \newfontfamily\arial{Arial}                                                                                                                                               
+91 \newfontfamily\timesnewroman{Times New Roman}
+92 \fi
+\end{verbatim}
+
+
+\BiSection{模板的使用方法介绍}{Introduction to the application method of the template}
+如果您是~\LaTeX~新手，请您在使用此模板之前，先观看一下模板的使用说明~PPT 演示文档《哈工大学位论文~\LaTeX~模板使用方法介绍》，先大致了解一下此模板的使用方法，之后再准备使用此模板撰写学位论文；如果您有一定的~\LaTeX~技术基础，可以跳过此步骤。
+
+\BiSection{哈尔滨工业大学~\LaTeX~技术交流~QQ 群介绍}{Introduction to the QQ groups for \LaTeX~technical exchange in HIT}
+《哈工大硕博学位论文~\LaTeX~模板》项目现已加入哈工大研究生“学术桥”活动中，其两个官方~QQ 群分别为
+
+\centerline{学术桥-\LaTeX~交流群~1：38872389}
+\centerline{学术桥-\LaTeX~交流群~2：88984107}
+\noindent 欢迎大家加入。加入~QQ 群之后，请大家将自己的名字前面加上当前月份标识，如果您没有标识，在~QQ 群人数已满但仍有人要加入此~QQ 群时，我们会将您优先请出~QQ 群，谢谢合作！您可以在~QQ 群中和其他人讨论关于此模板或其它~\LaTeX~技术相关的任何问题，在提问之前，可以先去~\href{http://bbs.ctex.org/}{CTEX 论坛}或其它网站搜索您所要得到的解决方案，然后确定是否要继续提问，从而节省您的宝贵时间。群共享中包含有大量的~\LaTeX~技术资料，方便大家下载阅读，同时还包含了最新的《哈工大硕博学位论文~\LaTeX~模板》。
+
+原则上，模板在~Google Code 的~\href{http://code.google.com/p/plutothesis/}{PlutoThesis 项目}的\href{http://code.google.com/p/plutothesis/downloads/list}{下载列表}中也进行了同步更新，但是模板维护人员不再解答用户在此网站提出的问题，如有问题请加入上述的两个~QQ 群中再询问，敬请谅解。

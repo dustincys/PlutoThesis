@@ -1,0 +1,22 @@
+\BiChapter{图片的插入方法}{Methods of inserting figures}
+
+\BiSection{单张图片的插入方法}{The method of inserting one single figure}
+
+\BiSubsection{条标题}{The caption of subsection}
+
+单张图片独自占一行的插入形式如图~\ref{golfer1}~所示。
+\begin{figure}[htbp]
+\centering
+\includegraphics[width = 0.4\textwidth]{golfer}
+\bicaption[golfer1]{}{打高尔夫球的人}{Fig.$\!$}{The person playing golf}\vspace{-1em}
+\end{figure}
+
+其插入图片的代码及其说明如下。
+\begin{verbatim}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.4\textwidth]{文件名(.eps)}
+\bicaption[标签名(英文)]{}{中文标题}{Fig.$\!$}
+          {English caption (首字母大写)}\vspace{-1em}
+\end{figure}
+\end{verbatim}

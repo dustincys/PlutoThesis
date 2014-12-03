@@ -1,0 +1,152 @@
+% !Mode:: "TeX:UTF-8" 
+
+%\newcommand{\song}{\CJKfamily{song}}    % 宋体   (Windows自带simsun.ttf)
+%\newcommand{\hei}{\CJKfamily{hei}}      % 黑体   (Windows自带simhei.ttf)
+%\newcommand{\kaishu}{\CJKfamily{kai}}      % 黑体   (Windows自带simhei.ttf)
+
+\newcommand{\yihao}{\fontsize{26pt}{26pt}\selectfont}       % 一号, 1.倍行距
+\newcommand{\xiaoyi}{\fontsize{24pt}{24pt}\selectfont}      % 小一, 1.倍行距
+\newcommand{\erhao}{\fontsize{22pt}{1.25\baselineskip}\selectfont}       % 二号, 1.倍行距
+\newcommand{\xiaoer}{\fontsize{18pt}{18pt}\selectfont}      % 小二, 单倍行距
+\newcommand{\sanhao}{\fontsize{16pt}{16pt}\selectfont}      % 三号, 1.倍行距
+\newcommand{\xiaosan}{\fontsize{15pt}{15pt}\selectfont}     % 小三, 1.倍行距
+\newcommand{\sihao}{\fontsize{14pt}{14pt}\selectfont}       % 四号, 1.0倍行距
+\newcommand{\xiaosi}{\fontsize{12pt}{12pt}\selectfont}      % 小四, 1.倍行距
+\newcommand{\wuhao}{\fontsize{10.5pt}{10.5pt}\selectfont}   % 五号, 单倍行距
+\newcommand{\xiaowu}{\fontsize{9pt}{9pt}\selectfont}        % 小五, 单倍行距
+
+
+%避免宏包 hyperref 和 arydshln 不兼容带来的目录链接失效的问题。
+\def\temp{\relax}
+\let\temp\addcontentsline
+\gdef\addcontentsline{\phantomsection\temp}
+
+\makeatletter
+\gdef\hitempty{}
+
+%重新定义BiChapter命令，可实现标题手动换行，但不影响目录
+\def\BiChapter{\relax\@ifnextchar [{\@BiChapter}{\@@BiChapter}}
+\def\@BiChapter[#1]#2#3{\chapter[#1]{#2}
+    \addcontentsline{toe}{chapter}{\bfseries \xiaosi Chapter \thechapter\hspace{0.5em} #3}}
+\def\@@BiChapter#1#2{\chapter{#1}
+    \addcontentsline{toe}{chapter}{\bfseries \xiaosi Chapter \thechapter\hspace{0.5em}{\boldmath #2}}}
+
+\newcommand{\BiSection}[2]
+{   \section{#1}
+    \addcontentsline{toe}{section}{\protect\numberline{\csname thesection\endcsname}#2}
+}
+
+\newcommand{\BiSubsection}[2]
+{    \subsection{#1}
+    \addcontentsline{toe}{subsection}{\protect\numberline{\csname thesubsection\endcsname}#2}
+}
+
+\newcommand{\BiSubsubsection}[2]
+{    \subsubsection{#1}
+    \addcontentsline{toe}{subsubsection}{\protect\numberline{\csname thesubsubsection\endcsname}#2}
+}
+
+\newcommand{\BiAppendixChapter}[2] % 该附录命令适用于发表文章，简历等
+{\phantomsection
+\markboth{#1}{#1}
+\addcontentsline{toc}{chapter}{\xiaosi #1}
+\addcontentsline{toe}{chapter}{\bfseries \xiaosi #2}  \chapter*{#1}
+}
+
+\newcommand{\BiAppChapter}[2]    % 该附录命令适用于有章节的完整附录
+{\phantomsection 
+ \chapter{#1}
+ \addcontentsline{toe}{chapter}{\bfseries \xiaosi Appendix \thechapter~~#2}
+}
+
+\renewcommand{\thefigure}{\arabic{chapter}-\arabic{figure}}%使图编号为 7-1 的格式 %\protect{~}
+\renewcommand{\thesubfigure}{\alph{subfigure})}%使子图编号为 a)的格式
+\renewcommand{\p@subfigure}{\thefigure~} %使子图引用为 7-1 a) 的格式，母图编号和子图编号之间用~加一个空格
+\renewcommand{\thetable}{\arabic{chapter}-\arabic{table}}%使表编号为 7-1 的格式
+\renewcommand{\theequation}{\arabic{chapter}-\arabic{equation}}%使公式编号为 7-1 的格式
+
+\newcommand{\algoenname}{Algo.} %算法英文标题
+\newfloatlist[chapter]{algoen}{aen}{\listalgoenname}{\algoenname}
+\newfixedcaption{\algoencaption}{algoen}
+\renewcommand{\thealgoen}{\thechapter-\arabic{algocf}}
+\renewcommand{\@cftmakeaentitle}{\chapter*{\listalgoenname\@mkboth{\bfseries\listalgoenname}{\bfseries\listalgoenname}}}
+
+\renewcommand{\algorithmcfname}{算法}
+\setlength\AlCapSkip{1.2ex}
+\SetAlgoSkip{1pt}
+\renewcommand{\algocf@captiontext}[2]{\wuhao#1\algocf@typo ~ \AlCapFnt{}#2} % text of caption
+\expandafter\ifx\csname algocf@within\endcsname\relax% if \algocf@within doesn't exist
+\renewcommand\thealgocf{\@arabic\c@algocf} % and the way it is printed
+\else%                                    else
+\renewcommand\thealgocf{\csname the\algocf@within\endcsname-\@arabic\c@algocf}
+\fi
+\renewcommand{\algocf@makecaption}[2]{%中英文双标题一定多于一行，因此去掉单行时的判断，并将\parbox中标题设置为居中
+  \addtolength{\hsize}{\algomargin}%
+  \sbox\@tempboxa{\algocf@captiontext{#1}{#2}}%
+    \hskip .5\algomargin%
+    \parbox[t]{\hsize}{\centering\algocf@captiontext{#1}{#2}}% 
+  \addtolength{\hsize}{-\algomargin}%
+}
+\newcommand{\AlgoBiCaption}[2]{%直接取出自定义的中英文标题条目加入到真正的\caption 中  
+   \caption[#1]{\protect\setlength{\baselineskip}{1.5em}#1 \protect \\ Algo. \thealgocf~~ #2} % \algoencaption{#2}   
+   \addcontentsline{aen}{algoen}{\protect\numberline{\thealgoen}{#2}}
+   }
+
+\makeatother
+
+%定义 学科 学位
+\def \xuekeEngineering {Engineering}
+\def \xuekeScience {Science}
+\def \xuekeManagement {Management}
+\def \xuekeArts {Arts}
+\def \xuekePhilosophy {Philosophy}
+\def \xuekeEconomics {Economics}
+\def \xuekeLaws {Laws}
+\def \xuekeEducation {Education}
+\def \xuekeHistory {History}
+
+
+\ifx \xueke \xuekeEngineering
+\newcommand{\cxueke}{工学}
+\newcommand{\exueke}{Engineering}
+\fi
+
+\ifx \xueke \xuekeScience
+\newcommand{\cxueke}{理学}
+\newcommand{\exueke}{Science}
+\fi
+
+\ifx \xueke \xuekeManagement
+\newcommand{\cxueke}{管理学}
+\newcommand{\exueke}{Management}
+\fi
+
+\ifx \xueke \xuekeArts
+\newcommand{\cxueke}{文学}
+\newcommand{\exueke}{Arts}
+\fi 
+
+\ifx \xueke \xuekePhilosophy
+\newcommand{\cxueke}{哲学}
+\newcommand{\exueke}{Philosophy}
+\fi 
+
+\ifx \xueke \xuekeEconomics
+\newcommand{\cxueke}{经济学}
+\newcommand{\exueke}{Economics}
+\fi 
+
+\ifx \xueke \xuekeLaws
+\newcommand{\cxueke}{法学}
+\newcommand{\exueke}{Laws}
+\fi 
+
+\ifx \xueke \xuekeEducation
+\newcommand{\cxueke}{教育学}
+\newcommand{\exueke}{Education}
+\fi 
+
+\ifx \xueke \xuekeHistory
+\newcommand{\cxueke}{历史学}
+\newcommand{\exueke}{History}
+\fi 

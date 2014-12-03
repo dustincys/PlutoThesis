@@ -1,0 +1,37 @@
+\BiChapter{表格的绘制方法}{Methods of drawing tables}
+
+\BiSection{普通表格的绘制方法}{Methods of drawing normal tables}
+
+
+表格应具有三线表格式，因此需要调用~booktabs~宏包，其标准格式如表~\ref{table1}~所示。
+\begin{table}[htbp]
+\bicaption[table1]{}{符合研究生院绘图规范的表格}{Table$\!$}{Table in agreement of the standard from graduate school}
+\vspace{0.5em}\centering\wuhao
+\begin{tabular}{ccccc}
+\toprule[1.5pt]
+$D$(in) & $P_u$(lbs) & $u_u$(in) & $\beta$ & $G_f$(psi.in)\\
+\midrule[1pt]
+ 5 & 269.8 & 0.000674 & 1.79 & 0.04089\\
+10 & 421.0 & 0.001035 & 3.59 & 0.04089\\
+20 & 640.2 & 0.001565 & 7.18 & 0.04089\\
+\bottomrule[1.5pt]
+\end{tabular}
+\end{table}
+
+其绘制表格的代码及其说明如下。
+\begin{verbatim}
+\begin{table}[htbp]
+\bicaption[标签名]{}{中文标题}{Table$\!$}{English caption}
+\vspace{0.5em}\centering\wuhao
+\begin{tabular}{cc...c}
+\toprule[1.5pt]
+表头第1个格   & 表头第2个格   & ... & 表头第n个格  \\
+\midrule[1pt]
+表中数据(1,1) & 表中数据(1,2) & ... & 表中数据(1,n)\\
+表中数据(2,1) & 表中数据(2,2) & ... & 表中数据(2,n)\\
+...................................................\\
+表中数据(m,1) & 表中数据(m,2) & ... & 表中数据(m,n)\\
+\bottomrule[1.5pt]
+\end{tabular}
+\end{table}
+\end{verbatim}

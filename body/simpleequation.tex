@@ -1,0 +1,19 @@
+\BiChapter{数学公式的输入方法}{Input methods of equations}
+
+\BiSection{行内公式}{Inline mode equations}
+
+出现在正文一行之内的公式称为行内公式，例如~$f(x)=\int_{a}^{b}\frac{\sin{x}}{x}\mathrm{d}x$。对于非矩阵和非多行形式的行内公式，一般不会使得行距发生变化。
+
+\BiSection{行间公式}{Displaymath mode equations}
+
+位于两行之间的公式称为行间公式，每个公式都是一个单独的段落，下边的例子是一个无编号的行间单行公式
+
+\[
+\int_a^b{f\left(x\right)\mathrm{d}x}=\lim_{\left\|\Delta{x_i}\right\|\to 0}\sum_i{f\left(\xi_i\right)\Delta{x_i}}
+\]
+
+下边的例子是一个无编号的行间多行公式(\ref{lizi})
+\begin{eqnarray*}\label{lizi}
+\sin 2x&=&2\sin x\cos x\\
+\cos 2x&=&2\cos x^2-1=1-2\sin x^2=\cos x^2-\sin x^2
+\end{eqnarray*}
