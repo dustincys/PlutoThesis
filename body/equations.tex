@@ -38,7 +38,7 @@ MATLAB~是矩阵实验室（Matrix Laboratory）的简称，是美国~MathWorks~
 
 MATLAB~中提供了一个~latex~函数，它可将符号表达式转化为~\LaTeX~数学公式的形式。其语法形式为~latex(s)，其中，~s~为符号表达式，
 之后再将~latex~函数的运算结果直接粘贴到~\LaTeX~编辑器中。从~\LaTeX~数学公式中可以发现，其中可能包含如下符号组合：
-\begin{verbatim*}
+\begin{lstlisting}
 \qquad=两个空铅(quad)宽度
 \quad=一个空铅宽度
 \;=5/18空铅宽度
@@ -46,7 +46,7 @@ MATLAB~中提供了一个~latex~函数，它可将符号表达式转化为~\LaTe
 \,=3/18空铅宽度
 \!=-3/18空铅宽度
 \ =一个空格
-\end{verbatim*}
+\end{lstlisting}
 所以最好将上述符号组合从数学公式中删除，从而使数学公式显得匀称美观。
 
 对于~word~等软件的使用者来说，在我们通过~MATLAB~运算得到符号表达式形式的运算结果时，在~word~中插入运算结果需要借助于~MathType~软件，
@@ -56,7 +56,7 @@ MATLAB~中提供了一个~latex~函数，它可将符号表达式转化为~\LaTe
 
 \BiSection{数学字体}{Math fonts}
 在数学模式下，常用的数学字体命令有如下几种：
-\begin{verbatim}
+\begin{lstlisting}
 \mathnormal或无命令 用数学字体打印文本；
 \mathit             用斜体（\itshape）打印文本；
 \mathbf             用粗体（\bfseries）打印文本；
@@ -64,7 +64,7 @@ MATLAB~中提供了一个~latex~函数，它可将符号表达式转化为~\LaTe
 \mathsf             用无衬线字体（\sffamily）打印文本；
 \mathtt             用打印机字体（\ttfamily）打印文本；
 \mathcal            用书写体打印文本。
-\end{verbatim}
+\end{lstlisting}
 在学位论文撰写中，只需要用到上面提到的~\verb|\mathit|、\verb|\mathbf|~和~\verb|\mathrm|~命令。若要得到~Times New Roman~的数学字体，则需要调用~txfonts~宏包（此宏包实际上采用的是~Nimbus Roman No9 L~字体，
 它是开源系统中使用的免费字体，其字符字体与~Times New Roman~字体几乎完全相同）。表~\ref{table:fonts}~中分别列出了得到阿拉伯数字、拉丁字母和希腊字母
 各种数学字体的命令。
@@ -120,11 +120,11 @@ $\mathrm{i}$、 $\mathrm{j}$~———虚数单位 & $\pi$———圆周率\\
 \begin{table}[htbp]
 \bicaption[eqtag]{}{各种类型行间公式的标记}{Table$\!$}{Tags for several kinds of displaymath mode equations}
 \vspace{0.5em}\centering\wuhao
-\begin{tabularx}{0.85\textwidth}{cXX}
+\begin{tabularx}{0.9\textwidth}{cXX}
 \toprule
 & 无编号 & 自动编号\\\midrule
-单行公式 & \verb|\begin{displaymath}...... \end{displaymath}|~或~\verb|\[...\]| & \verb|\begin{equation} ...... \end{equation}|\\
-多行公式 & \verb|\begin{eqnarray*} ...... \end{eqnarray*}| & \verb|\begin{eqnarray} ...... \end{eqnarray}|\\
+单行公式 & \textbackslash begin\{displaymath\}...... \textbackslash end\{displaymath\}~或~\textbackslash [...\textbackslash ] & \textbackslash begin\{equation\} ...... \textbackslash end\{equation\}\\
+多行公式 & \textbackslash begin\{eqnarray*\} ...... \textbackslash end\{eqnarray*\} & \textbackslash begin\{eqnarray\} ...... \textbackslash end\{eqnarray\}\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -141,10 +141,10 @@ $\mathrm{i}$、 $\mathrm{j}$~———虚数单位 & $\pi$———圆周率\\
 \left(\sum_{k=\frac12}^{N^2}\right)
 \end{equation}
 式(\ref{nodelimiter})和式(\ref{delimiter})是在~\LaTeX~中分别输入如下代码得到的。
-\begin{verbatim}
+\begin{lstlisting}
 (\sum_{k=\frac12}^{N^2})
 \left(\sum_{k=\frac12}^{N^2}\right)
-\end{verbatim}
+\end{lstlisting}
 \verb|\left|~和~\verb|\right|~总是成对出现的，若只需在公式一侧有可自动调整大小的定界符，则只要用“.”代替另一侧那个无需打印出来的定界符即可。
 
 若想获得关于此部分内容的更多信息，可参见~\href{http://tug.ctan.org/cgi-bin/ctanPackageInformation.py?id=voss-mathmode}{Math mode}~文档的第~8~章“Brackets, braces and parentheses”。

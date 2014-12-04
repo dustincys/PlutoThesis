@@ -9,15 +9,15 @@
 v3.2.11之后，这个命令也废弃了。
 
 ctexbook 中含有默认的字体设置，texlive2014-full (ubuntu 14.04) 中字体设置在下面这个文件中：
-\begin{verbatim}
+\begin{lstlisting}
 /usr/share/texlive/texmf-dist/tex/latex/ctex/fontset/ctex-xecjk-winfonts.def
-\end{verbatim}
+\end{lstlisting}
 
 该文件中有些字体默认的设置会导致字体出错，例如无法找到[SimKai]之类。解决方法也很简单，要么在这个文件里面设置好字体；
 要么在setup/package.tex中自定义好字体。
 例如：ctex-xecjk-winfonts.def　文件设置为：
 
-\begin{verbatim}
+\begin{lstlisting}
 % ctex-xecjk-winfonts.def: Windows 的 xeCJK 字体设置，默认为六种中易字体
 % vim:ft=tex
 
@@ -31,10 +31,10 @@ ctexbook 中含有默认的字体设置，texlive2014-full (ubuntu 14.04) 中字
 \newcommand*{\heiti}{\CJKfamily{zhhei}}   % 黑体
 
 \endinput
-\end{verbatim}
+\end{lstlisting}
 
 package.tex 中字体定义为：
-\begin{verbatim}
+\begin{lstlisting}
 57 \def\atempxetex{xelatex}\ifx\atempxetex\usewhat %\def\atempxetex{xelatex} main.tex中已定义;
 58 \usepackage[xetex,
 59             bookmarksnumbered=true,
@@ -71,7 +71,7 @@ package.tex 中字体定义为：
 90 \newfontfamily\arial{Arial}                                                                                                                                               
 91 \newfontfamily\timesnewroman{Times New Roman}
 92 \fi
-\end{verbatim}
+\end{lstlisting}
 
 
 \BiSection{模板的使用方法介绍}{Introduction to the application method of the template}

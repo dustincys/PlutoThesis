@@ -1,5 +1,6 @@
 % !Mode:: "TeX:UTF-8" 
 
+\usepackage{tabularx}
 \usepackage{graphicx}
 \usepackage{CJK}
 \usepackage[a4paper,text={150true mm,224true mm},top=35.5true mm,left=30true mm,head=5true mm,headsep=2.5true mm,foot=8.5true mm]{geometry}
@@ -14,7 +15,6 @@
 \usepackage{multirow}       %使用Multirow宏包，使得表格可以合并多个row格
 \usepackage{booktabs}       % 表格，横的粗线；\specialrule{1pt}{0pt}{0pt}
 \usepackage{longtable}      %支持跨页的表格。
-\usepackage{tabularx}
 \usepackage[hang]{subfigure}%支持子图 %centerlast 设置最后一行是否居中
 \usepackage[subfigure]{ccaption} %支持双语标题
 \usepackage[sort&compress,numbers]{natbib}% 支持引用缩写的宏包
@@ -94,5 +94,10 @@
 \fi
 
 \usepackage[boxed,linesnumbered,algochapter]{algorithm2e}  % 算法的宏包，注意宏包兼容性，先后顺序为float、hyperref、algorithm(2e)，否则无法生成算法列表 
-\usepackage{tabularx}
 \usepackage{xltxtra}
+\usepackage{listings}
+\lstset{
+%basicstyle=\small\ttfamily,
+columns=flexible,
+breaklines=true
+}
