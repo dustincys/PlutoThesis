@@ -25,6 +25,7 @@ ctexbook目标是为排版中文的用户极大解决麻烦的大杀器。
 ctexbook在Ubuntu上认为用户不玩windows字体的，所以其定义文件：
 	/usr/share/texlive/texmf-dist/tex/latex/ctex/fontset/ctex-xecjk-winfonts.def
 中的所有字体样式都是跟随Windows而来。
+这使得ubuntu用户出现字体错误,如“找不到[SIMKAI.TTF]"之类。
 
 Ubuntu用户安装好Windows字体之后，需要自己载入Windows字体。
 一共分3步：
@@ -38,8 +39,10 @@ Windows 用户没有这麻烦，可以直接用默认字体。
 ## 编译方法：
 
 Windows:
-	xelatex main.tex
-Ubuntu (Ubuntu 14.04, texlive 2013, 已测):
-	make
 
+	xelatex main.tex
+
+Ubuntu (Ubuntu 14.04, texlive 2013, 已测):
+
+	make
 
