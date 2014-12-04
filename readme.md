@@ -50,3 +50,6 @@ Ubuntu (Ubuntu 14.04, texlive 2013, 已测):
 
 	make
 
+## XeLaTeX 版本的项目地址可在此下载最新版本
+
+	https://github.com/dustincys/PlutoThesis
