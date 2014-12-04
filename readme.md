@@ -20,12 +20,16 @@ Google code项目已经停滞2年，也许诸位先驱都已毕业?
 
 ctexbook目标是为排版中文的用户极大解决麻烦的大杀器。
 且看该模板中导言定义：
+
 	\documentclass[cs4size,openany,twoside,UTF8,BoldFont,normalindentfirst,SlantFont,nofonts]{ctexbook}
+
 这一串选项的定义足以说明大杀器的威力。
 ctexbook在Ubuntu上认为用户不玩windows字体的，所以其定义文件：
+
 	/usr/share/texlive/texmf-dist/tex/latex/ctex/fontset/ctex-xecjk-winfonts.def
+
 中的所有字体样式都是跟随Windows而来。
-这使得ubuntu用户出现字体错误,如“找不到[SIMKAI.TTF]"之类。
+这使得ubuntu用户出现字体错误, 如“找不到[SIMKAI.TTF]"之类。
 
 Ubuntu用户安装好Windows字体之后，需要自己载入Windows字体。
 一共分3步：
