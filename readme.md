@@ -50,6 +50,17 @@ Ubuntu (Ubuntu 14.04, texlive 2013, 已测):
 
 	make
 
-## XeLaTeX 版本的项目地址可在此下载最新版本
+## XeLaTeX 版本的项目地址（可在此下载最新版本）
 
 	https://github.com/dustincys/PlutoThesis
+
+## 稳定版本的发布地址（可在此下载稳定的版本）
+
+	https://github.com/dustincys/PlutoThesis/releases
+
+## vim snippet 模板
+
+对于使用[vim+snippet](https://github.com/SirVer/ultisnips#ultisnips)的配置狂来说，与PlutoThesis相对应的snippet配置是必不可少的。
+
+
+![ 效果图 ](https://2s66lw.bl3301.livefilestore.com/y2psZG7m5GMY0uemKTQ9sPWn_MKHduzpYd7tA33nosdPshlKq6HR4YdJITnfnB4kOeL5RYgtDN3k7YRShY4IPz2sllOkh1NGjKx6iHL_niBn82tOqLj8ZDh8o3Z8MovzT7FOGw56cLZEXWrUsPnmxa4rQ/optimised10.gif " 效果图 ")

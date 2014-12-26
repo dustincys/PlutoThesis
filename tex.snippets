@@ -1,0 +1,124 @@
+########################################
+# snippet for PlutoThesis
+########################################
+
+snippet bc "HIT:\BiChapter" b
+\BiChapter{${1: 中文章标题 }}{${2:English title of chapter}}
+$0
+endsnippet
+
+snippet bs "HIT:\BiSection" b
+\BiSection{${1: 中文节标题 }}{${2:English title of section}}
+$0
+endsnippet
+
+snippet bss "HIT:\BiSubsection" b
+\BiSubsection{${1: 中文子节标题 }}{${2:English title of subsection}}
+$0
+endsnippet
+
+snippet 1fig "HIT:插入单张图片" b
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=${1:0.4}\textwidth]{${2: 文件名 }.${3:eps}}
+\bicaption[${4: 标签名(英文) }]{}{${5: 中文标题 }}{Fig.$\!$}
+  {${6:English caption (首字母大写)}}\vspace{-1em}
+\end{figure}
+$0
+endsnippet
+
+snippet 2fig "HIT:插入两张图片" b
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{${1:0.4}\textwidth}
+\centering
+\includegraphics[width=\textwidth]{${2: 文件名 }}
+\bicaption[${3: 标签名 }]{}{${4: 中文标题 }}{Fig.$\!$}
+          {${5:English caption}}
+\end{minipage}
+\begin{minipage}{${6:$1}\textwidth}
+\centering
+\includegraphics[width=\textwidth]{${7: 文件名 }}
+\bicaption[${8: 标签名 }]{}{${9: 中文标题 }}{Fig.$\!$}
+          {${10:English caption}}
+\end{minipage}\vspace{-1em}
+\end{figure}
+$0
+endsnippet
+
+snippet subfig "HIT:插入带子图的图片" b
+\begin{figure}[htbp]
+\centering
+\subfigure{\label{${1: 第1个子图标签名 }}}\addtocounter{subfigure}{-2}
+\subfigure[${2:The 1st subfigure caption}]{\subfigure[${3: 第1个子图标题 }]
+          {\includegraphics[width=${4:0.4}\textwidth]{${5: 文件名 }}}}
+\subfigure{\label{${6: 第2个子图标签名 }}}\addtocounter{subfigure}{-2}
+\subfigure[${7:The 2nd subfigure caption}]{\subfigure[${8: 第2个子图标题 }]
+          {\includegraphics[width=${9:$4}\textwidth]{${10: 文件名 }}}}
+\bicaption[${11: 总标签名 }]{}{${12: 中文总标题 }}{Fig.$\!$}{${13:The total caption}}
+\vspace{-1em}
+\end{figure}
+$0
+endsnippet
+
+snippet tab "HIT:插入表格" b
+\begin{table}[htbp]
+\bicaption[${1: 标签名 }]{}{${2: 中文标题 }}{Table$\!$}{${3:English caption}}
+\vspace{0.5em}\centering\wuhao
+\begin{tabular$0}{cc...c}
+\toprule[1.5pt]
+表头第1个格   & 表头第2个格   & ... & 表头第n个格  \\
+\midrule[1pt]
+表中数据(1,1) & 表中数据(1,2) & ... & 表中数据(1,n)\\
+表中数据(2,1) & 表中数据(2,2) & ... & 表中数据(2,n)\\
+...................................................\\
+表中数据(m,1) & 表中数据(m,2) & ... & 表中数据(m,n)\\
+\bottomrule[1.5pt]
+\end{tabular}
+\end{table}
+endsnippet
+
+snippet ltab "HIT:插入长表格" b
+\wuhao\begin{longtable}{cc...c}
+\longbionenumcaption{}{${1: 中文标题 }\label{${2: 标签名 }}}{Table$\!$}
+		    {}{${3:English caption}}\vspace{0.5em}\\
+\toprule[1.5pt]
+$0表头第1个格 & 表头第2个格 & ... & 表头第n个格\\ \midrule[1pt]
+\endfirsthead
+\multicolumn{n}{r}{表~\thetable（续表）}\vspace{0.5em}\\
+\toprule[1.5pt]
+表头第1个格 & 表头第2个格 & ... & 表头第n个格\\ \midrule[1pt]
+\endhead
+\bottomrule[1.5pt]
+\endfoot
+表中数据(1,1) & 表中数据(1,2) & ... & 表中数据(1,n)\\
+表中数据(2,1) & 表中数据(2,2) & ... & 表中数据(2,n)\\
+...................................................\\
+表中数据(m,1) & 表中数据(m,2) & ... & 表中数据(m,n)\\
+\end{longtable}\xiaosi
+endsnippet
+
+
+snippet vill "HIT: 插入物理符号说明" b
+\begin{tabularx}{\textwidth}{@{}l@{\quad}r@{— — —}X@{}}
+式中 & symbol-1 & symbol-1的注释内容；\\
+     & symbol-2 & symbol-2的注释内容；\\
+     .............................；\\
+     & symbol-m & symbol-m的注释内容。
+\end{tabularx}\vspace{\wordsep}
+endsnippet
+
+snippet algo "HIT: 插入算法" b
+\begin{minipage}{0.9\textwidth}\centering
+\begin{algorithm}[H]
+ \AlgoBiCaption{${1: 这是一个算法的比较长的中文图题，需要换行，这里采用自动换行，如果手动换行会造成算法目录中同样出现断行 }}{${2:This is a long English caption of the algorithm, a new line  required, and this a new line}}
+  \KwIn{$0training samples, {$(d_i, d_j)_q$; $\mathbf{q}_i, \mathbf{q}_j
+      \in C$, $q\in \mathbf{Q}$} }
+ \KwOut{parameter setting
+    $\lambda^T$}
+ \For{$t$=1 to $T$} { $\lambda^{t+1}_n = \lambda^t_n +
+    \eta (f_n(q, c, d_i) - f_n(q, c, d_j))$ }
+\end{algorithm}
+\end{minipage}
+endsnippet
+
