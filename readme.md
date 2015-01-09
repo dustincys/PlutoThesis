@@ -64,3 +64,47 @@ Ubuntu (Ubuntu 14.04, texlive 2013, 已测):
 
 
 ![ 效果图 ](https://2s66lw.bl3301.livefilestore.com/y2psZG7m5GMY0uemKTQ9sPWn_MKHduzpYd7tA33nosdPshlKq6HR4YdJITnfnB4kOeL5RYgtDN3k7YRShY4IPz2sllOkh1NGjKx6iHL_niBn82tOqLj8ZDh8o3Z8MovzT7FOGw56cLZEXWrUsPnmxa4rQ/optimised10.gif " 效果图 ")
+
+
+## 目录结构
+
+	├── appendix
+	│   ├── acknowledgements.tex
+	│   ├── appa.tex
+	│   ├── authorization.tex
+	│   ├── publications.tex
+	│   └── resume.tex
+	├── body
+	│   ├── conclusion.tex
+	│   ├── equations.tex
+	│   ├── figures.tex
+	│   ├── introduction.tex
+	│   ├── others.tex
+	│   ├── simpleequation.tex
+	│   ├── simplefigure.tex
+	│   ├── simplereference.tex
+	│   ├── simpletable.tex
+	│   └── tables.tex
+	├── clean.bat
+	├── cover.tex
+	├── figures
+	│   ├── golfer.eps
+	│   ├── latex.eps
+	│   ├── list.eps
+	│   ├── pdf.eps
+	│   └── word.eps
+	├── GBT7714-2005NLang-HIT.bst
+	├── main.pdf
+	├── main.tex
+	├── Makefile
+	├── readme.md
+	├── reference.bib
+	├── setup
+	│   ├── Definition.tex
+	│   ├── format.tex
+	│   ├── package.tex
+	│   └── type.tex
+	├── tex.snippets
+	├── XeLaTeX支持说明(第１章开始).pdf
+	└── 模板更新记录.txt
+	
