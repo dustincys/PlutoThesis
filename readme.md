@@ -58,6 +58,10 @@ Ubuntu (Ubuntu 14.04, texlive 2013, 已测):
 
 	https://github.com/dustincys/PlutoThesis/releases
 
+## PlutoThesis硕博士开题报告XeLaTeX模板在这里
+
+	https://github.com/dustincys/PlutoThesisProposal
+
 ## vim snippet 模板
 
 对于使用[vim+snippet](https://github.com/SirVer/ultisnips#ultisnips)的配置狂来说，与PlutoThesis相对应的snippet配置是必不可少的。
