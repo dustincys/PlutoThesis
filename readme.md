@@ -5,6 +5,11 @@
 
 该版本是基于PlutoThesis 2013版本（google code [项目](https://code.google.com/p/plutothesis/downloads/lis://code.google.com/p/plutothesis/downloads/list)中只有2012版本）的基础上添加XeLaTeX支持而来.
 
+### 关于版本号的说明
+
+在“学术桥-LaTeX交流群（群号：38872389）”中留下2013年谭广军毕业版本，是按照日期命名的版本号（也许是因为谷歌代码登陆不了？O\(∩\_∩\)O哈哈~）。
+所以为了纪念谭大师兄所做的卓越贡献，所有版本均以时间命名。
+
 ##为什么要添加XeLaTeX？
 
 XeLaTeX对中文的支持非常完美
