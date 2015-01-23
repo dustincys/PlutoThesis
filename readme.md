@@ -57,15 +57,15 @@ Ubuntu (Ubuntu 14.04, texlive 2013, 已测):
 
 ## XeLaTeX 版本的项目地址（可在此下载最新版本）
 
-	[https://github.com/dustincys/PlutoThesis](https://github.com/dustincys/PlutoThesis)
+> [https://github.com/dustincys/PlutoThesis](https://github.com/dustincys/PlutoThesis)
 
 ## 稳定版本的发布地址（可在此下载稳定的版本）
 
-	[https://github.com/dustincys/PlutoThesis/releases](https://github.com/dustincys/PlutoThesis/releases)
+> [https://github.com/dustincys/PlutoThesis/releases](https://github.com/dustincys/PlutoThesis/releases)
 
 ## PlutoThesis硕博士开题报告XeLaTeX模板在这里
 
-	[https://github.com/dustincys/PlutoThesisProposal](https://github.com/dustincys/PlutoThesisProposal)
+> [https://github.com/dustincys/PlutoThesisProposal](https://github.com/dustincys/PlutoThesisProposal)
 
 ## vim snippet 模板
 
