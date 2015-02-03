@@ -616,3 +616,9 @@ a#go-top:hover{
 	padding-right: 15px;
 	line-height: 32px;
 }
+/* duoshuo */
+
+#ds-reset .ds-avatar{
+	box-shadow: none !important;
+	background: none !important;
+}
