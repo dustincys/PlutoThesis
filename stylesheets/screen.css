@@ -622,3 +622,7 @@ a#go-top:hover{
 	box-shadow: none !important;
 	background: none !important;
 }
+/* font size */
+body{
+	font-size: 1.2em !important;
+}
