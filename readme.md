@@ -68,45 +68,45 @@ kiss分支是用来逐渐实现PlutoThesis又傻又简单(Keep It Stupid & Simpl
 
 4. 该模板目录结构和各自文件大致功能
 
-	├── appendix （论文后面的附表，这里需要编写）
-	│   ├── acknowledgements.tex
-	│   ├── appa.tex
-	│   ├── authorization.tex
-	│   ├── publications.tex
-	│   └── resume.tex
-	├── body （论文的正文部分，正文写在这里需要编写）
-	│   ├── conclusion.tex
-	│   ├── equations.tex
-	│   ├── figures.tex
-	│   ├── introduction.tex
-	│   ├── others.tex
-	│   ├── simpleequation.tex
-	│   ├── simplefigure.tex
-	│   ├── simplereference.tex
-	│   ├── simpletable.tex
-	│   └── tables.tex
-	├── clean.bat （用于清理编译过程中的中间文件，使目录干净点）
-	├── cover.tex （这是论文中封面，摘要部分，这里需要编写）
-	├── figures （存放论文的图片的文件夹）
-	│   ├── golfer.eps
-	│   ├── latex.eps
-	│   ├── list.eps
-	│   ├── pdf.eps
-	│   └── word.eps
-	├── GBT7714-2005NLang-HIT.bst （参考文献样式文件）
-	├── main.pdf （最终生成的论文）
-	├── main.tex （论文的主文件，有需要的时候要适当修改调整这个文件）
-	├── Makefile （自动编译文件，这个文件里面定义了编译方式）
-	├── readme.md
-	├── reference.bib （用于存放参考文献，BibTeX格式，需要编写） 
-	├── setup （论文的设置部分）
-	│   ├── Definition.tex
-	│   ├── format.tex
-	│   ├── package.tex
-	│   └── type.tex
-	├── tex.snippets （是snippet 模板，用来给vim编辑器用）
-	├── XeLaTeX支持说明(第１章开始).pdf
-	└── 模板更新记录.txt
+		├── appendix （论文后面的附表，这里需要编写）
+		│   ├── acknowledgements.tex
+		│   ├── appa.tex
+		│   ├── authorization.tex
+		│   ├── publications.tex
+		│   └── resume.tex
+		├── body （论文的正文部分，正文写在这里需要编写）
+		│   ├── conclusion.tex
+		│   ├── equations.tex
+		│   ├── figures.tex
+		│   ├── introduction.tex
+		│   ├── others.tex
+		│   ├── simpleequation.tex
+		│   ├── simplefigure.tex
+		│   ├── simplereference.tex
+		│   ├── simpletable.tex
+		│   └── tables.tex
+		├── clean.bat （用于清理编译过程中的中间文件，使目录干净点）
+		├── cover.tex （这是论文中封面，摘要部分，这里需要编写）
+		├── figures （存放论文的图片的文件夹）
+		│   ├── golfer.eps
+		│   ├── latex.eps
+		│   ├── list.eps
+		│   ├── pdf.eps
+		│   └── word.eps
+		├── GBT7714-2005NLang-HIT.bst （参考文献样式文件）
+		├── main.pdf （最终生成的论文）
+		├── main.tex （论文的主文件，有需要的时候要适当修改调整这个文件）
+		├── Makefile （自动编译文件，这个文件里面定义了编译方式）
+		├── readme.md
+		├── reference.bib （用于存放参考文献，BibTeX格式，需要编写） 
+		├── setup （论文的设置部分）
+		│   ├── Definition.tex
+		│   ├── format.tex
+		│   ├── package.tex
+		│   └── type.tex
+		├── tex.snippets （是snippet 模板，用来给vim编辑器用）
+		├── XeLaTeX支持说明(第１章开始).pdf
+		└── 模板更新记录.txt
 	
 ## FAQ
 ### 为什么要添加XeLaTeX？
