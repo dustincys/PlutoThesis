@@ -1,8 +1,8 @@
 % !Mode:: "TeX:UTF-8" 
 
+\usepackage{xeCJK}
 \usepackage{tabularx}
 \usepackage{graphicx}
-\usepackage{CJK}
 \usepackage[a4paper,text={150true mm,224true mm},top=35.5true mm,left=30true mm,head=5true mm,headsep=2.5true mm,foot=8.5true mm]{geometry}
 \usepackage{titlesec}               % 控制标题的宏包
 \usepackage{titletoc}                   % 控制目录的宏包
@@ -20,42 +20,10 @@
 \usepackage[sort&compress,numbers]{natbib}% 支持引用缩写的宏包
 \usepackage{enumitem}       %使用enumitem宏包,改变列表项的格式
 \usepackage{calc}           %长度可以用+ - * / 进行计算
-%\usepackage{txfonts}
 \usepackage{fontspec}
 \usepackage[amsmath,thmmarks,hyperref]{ntheorem}% 定理类环境宏包，其中 amsmath 选项用来兼容 AMS LaTeX 的宏包
 
 % 生成有书签的pdf及其开关, 该宏包应放在所有宏包的最后, 宏包之间有冲突
-\def\atemp{dvipdfmx}\ifx\atemp\usewhat
-\usepackage[dvipdfmx,unicode,           %dvi-->pdf 生成书签
-            bookmarksnumbered=true,
-            bookmarksopen=true,
-            colorlinks=false,
-            pdfborder={0 0 1},
-            citecolor=blue,
-            linkcolor=red,
-            anchorcolor=green,
-            urlcolor=blue,
-            breaklinks=true
-            ]{hyperref}
-\fi
-
-\def\atemp{pdflatex}\ifx\atemp\usewhat
-\usepackage{cmap}                       %pdflatex编译时，可以生成可复制、粘贴的中文PDF文档
-\usepackage[pdftex,unicode,
-            %CJKbookmarks=true,
-            bookmarksnumbered=true,
-            bookmarksopen=true,
-            colorlinks=false,
-            pdfborder={0 0 1},
-            citecolor=blue,
-            linkcolor=red,
-            anchorcolor=green,
-            urlcolor=blue,
-            breaklinks=true
-            ]{hyperref}
-\fi
-
-\def\atempxetex{xelatex}\ifx\atempxetex\usewhat %\def\atempxetex{xelatex} main.tex中已定义;
 \usepackage[xetex,
             bookmarksnumbered=true,
             bookmarksopen=true,
@@ -83,15 +51,14 @@
 \setCJKsansfont{SimHei}
 \setmainfont{Times New Roman}
 \setsansfont{Arial}
-\newcommand{\hei}{\CJKfamily{hei}}% 黑体   (Windows自带simhei.ttf)
-\newcommand{\song}{\CJKfamily{song}}    % 宋体   (Windows自带simsun.ttf)
-\newcommand{\fs}{\CJKfamily{fs}}        % 仿宋体 (Windows自带simfs.ttf)
-\newcommand{\kaishu}{\CJKfamily{kai}}      % 楷体   (Windows自带simkai.ttf)
-\newcommand{\li}{\CJKfamily{li}}        % 隶书   (Windows自带simli.ttf)
-\newcommand{\xw}{\CJKfamily{xw}}        % 隶书   (Windows自带simli.ttf)
+\newcommand*{\hei}{\CJKfamily{hei}}% 黑体   (Windows自带simhei.ttf)
+\newcommand*{\song}{\CJKfamily{song}}    % 宋体   (Windows自带simsun.ttf)
+\newcommand*{\fs}{\CJKfamily{fs}}        % 仿宋体 (Windows自带simfs.ttf)
+\newcommand*{\kaishu}{\CJKfamily{kai}}      % 楷体   (Windows自带simkai.ttf)
+\newcommand*{\li}{\CJKfamily{li}}        % 隶书   (Windows自带simli.ttf)
+\newcommand*{\xw}{\CJKfamily{xw}}        % 隶书   (Windows自带simli.ttf)
 \newfontfamily\arial{Arial}
 \newfontfamily\timesnewroman{Times New Roman}
-\fi
 
 \usepackage[boxed,linesnumbered,algochapter]{algorithm2e}  % 算法的宏包，注意宏包兼容性，先后顺序为float、hyperref、algorithm(2e)，否则无法生成算法列表 
 \usepackage{xltxtra}
