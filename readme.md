@@ -1,6 +1,5 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [哈　尔　滨　工　业　大　学](#哈　尔　滨　工　业　大　学)
 - [PlutoThesis硕博士学位论文XeLaTeX模版](#plutothesis硕博士学位论文xelatex模版)
@@ -99,7 +98,7 @@ kiss分支是用来逐渐实现PlutoThesis又傻又简单(Keep It Stupid & Simpl
 	├── main.tex （论文的主文件，有需要的时候要适当修改调整这个文件）
 	├── Makefile （自动编译文件，这个文件里面定义了编译方式）
 	├── readme.md
-	├── reference.bib （用于存放参考文献，BibTeX格式，需要编写）
+	├── reference.bib （用于存放参考文献，BibTeX格式，需要编写） 
 	├── setup （论文的设置部分）
 	│   ├── Definition.tex
 	│   ├── format.tex
