@@ -22,26 +22,14 @@
 %\usepackage{txfonts}
 \usepackage{fontspec}
 \usepackage[amsmath,thmmarks,hyperref]{ntheorem}% 定理类环境宏包，其中 amsmath 选项用来兼容 AMS LaTeX 的宏包
+\usepackage{etoolbox}
+\AtBeginDocument{%
+  \apptocmd\thebibliography{\interlinepenalty=-5000 }{}{}%
+}
 
 % 生成有书签的pdf及其开关, 该宏包应放在所有宏包的最后, 宏包之间有冲突
 \def\atemp{dvipdfmx}\ifx\atemp\usewhat
 \usepackage[dvipdfmx,unicode,           %dvi-->pdf 生成书签
-            bookmarksnumbered=true,
-            bookmarksopen=true,
-            colorlinks=false,
-            pdfborder={0 0 1},
-            citecolor=blue,
-            linkcolor=red,
-            anchorcolor=green,
-            urlcolor=blue,
-            breaklinks=true
-            ]{hyperref}
-\fi
-
-\def\atemp{pdflatex}\ifx\atemp\usewhat
-\usepackage{cmap}                       %pdflatex编译时，可以生成可复制、粘贴的中文PDF文档
-\usepackage[pdftex,unicode,
-            %CJKbookmarks=true,
             bookmarksnumbered=true,
             bookmarksopen=true,
             colorlinks=false,
