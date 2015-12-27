@@ -118,6 +118,93 @@ word死忠的文件夹模式二：
 
 	make -f MakefileAYU
 
+#### 没有明确要求的格式
+
+即不在[规范](http://hitgs.hit.edu.cn/aa/fd/c3425a109309/page.htm "规范")中明确说明的论文格式，[主要包括](http://yanshuo.name/cn/2015/10/equation/)：标点符号中西混用、公式乱排，以及脚注格式、封皮格式、目录、算法混乱。
+
+其中，算法排版在江湖上主要有如下几个门派类别：
+
+- 框图型
+
+![box](http://ww4.sinaimg.cn/large/61dccbaajw1ezef1pwl6nj20ko08xdgp.jpg "box")
+
+江湖门派：
+
+	社会计算
+
+导言中：
+
+	\usepackage[boxed,linesnumbered,algochapter]{algorithm2e}
+
+正文中：
+
+	\begin{algorithm}
+	 \AlgoBiCaption{这是一个简短的算法中文图题}{This is the English caption of the algorithm}
+	\KwIn{training samples, {$(d_i, d_j)_q$; $\mathbf{q}_i, \mathbf{q}_j \in C$,
+	$q\in \mathbf{Q}$} }
+	\KwOut{parameter setting $\lambda^T$}%
+
+	\For{$t$=1 to $T$}
+	{
+	    $\lambda^{t+1}_n = \lambda^t_n + \eta (f_n(q, c, d_i) - f_n(q, c, d_j))$
+	 }
+	\end{algorithm}
+
+
+- 线条型
+
+![ruled](http://ww1.sinaimg.cn/mw690/61dccbaajw1ezef1vhqddj20kk083754.jpg "ruled")
+
+江湖门派：
+
+	自然语言
+
+导言中：
+
+	\usepackage[algoruled,linesnumbered,algochapter]{algorithm2e}
+
+正文中：
+
+	\begin{algorithm}
+	 \AlgoBiCaption{这是一个简短的算法中文图题}{This is the English caption of the algorithm}
+	\KwIn{training samples, {$(d_i, d_j)_q$; $\mathbf{q}_i, \mathbf{q}_j \in C$,
+	$q\in \mathbf{Q}$} }
+	\KwOut{parameter setting $\lambda^T$}%
+
+	\For{$t$=1 to $T$}
+	{
+	    $\lambda^{t+1}_n = \lambda^t_n + \eta (f_n(q, c, d_i) - f_n(q, c, d_j))$
+	 }
+	\end{algorithm}
+
+- 类似表格型
+
+![table](http://ww3.sinaimg.cn/mw690/61dccbaajw1ezef1v1xamj20lj09p758.jpg "table")
+
+江湖门派：
+
+	生物信息、网络安全
+
+导言中：
+
+	\usepackage[plainruled,linesnumbered,algochapter]{algorithm2e}
+
+正文中：
+
+	\foocaption{\textbf{Function}: Sampling}
+	\begin{algorithm}
+	 \AlgoBiCaption{这是一个简短的算法中文图题}{This is the English caption of the algorithm}
+	\KwIn{training samples, {$(d_i, d_j)_q$; $\mathbf{q}_i, \mathbf{q}_j \in C$,
+	$q\in \mathbf{Q}$} }
+	\KwOut{parameter setting $\lambda^T$}%
+
+	\For{$t$=1 to $T$}
+	{
+	    $\lambda^{t+1}_n = \lambda^t_n + \eta (f_n(q, c, d_i) - f_n(q, c, d_j))$
+	 }
+	\end{algorithm}
+
+
 ## 这个网站的使用说明
 
 ### 对于开发者
