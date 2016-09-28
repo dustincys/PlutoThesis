@@ -3,10 +3,12 @@
 
 - [哈　尔　滨　工　业　大　学](#哈　尔　滨　工　业　大　学)
 - [PlutoThesis硕博士学位论文XeLaTeX模版](#plutothesis硕博士学位论文xelatex模版)
-  - [版本介绍](#版本介绍)
+  - [模板介绍](#版本介绍)
+    - [关于版本](#关于版本)
     - [关于字体](#关于字体)
     - [关于查重](#关于查重)
     - [关于编译](#关于编译)
+    - [关于维护者以及捐赠](#关于维护者以及捐赠)
   - [这个网站的使用说明](#这个网站的使用说明)
     - [对于开发者](#对于开发者)
     - [对于使用者](#对于使用者)
@@ -19,7 +21,8 @@
 #哈　尔　滨　工　业　大　学  
 #PlutoThesis硕博士学位论文XeLaTeX模版
 
-##版本介绍
+##模板介绍
+###关于版本
 
 该版本是基于PlutoThesis 2013版本（google code [项目](https://code.google.com/p/plutothesis/downloads/lis://code.google.com/p/plutothesis/downloads/list)中只有2012版本）的基础上添加XeLaTeX支持而来.
 
@@ -50,6 +53,8 @@ Linux由于没有winfonts，首先需要安装Windows字体，然后再手动载
 
 根据郭大侠（HIT郭靖）的所提的意见和修改方法，添加了完美的可复制支持。
 且郭大侠亲自证实可以使用pdf查重！
+
+> 注：截至现在已经有Ｎ多人使用ＰＤＦ查重。
 
 > 这意味着什么？  
 > 这意味着word死忠可以哭晕在厕所了……
@@ -117,6 +122,101 @@ word死忠的文件夹模式二：
 编译方法是：
 
 	make -f MakefileAYU
+
+
+#### 没有明确要求的格式
+
+即不在[规范](http://hitgs.hit.edu.cn/aa/fd/c3425a109309/page.htm "规范")中明确说明的论文格式，[主要包括](http://yanshuo.name/cn/2015/10/equation/)：标点符号中西混用、公式乱排，以及脚注格式、封皮格式、目录、算法混乱。
+
+其中，算法排版在江湖上主要有如下几个门派类别：
+
+- 框图型
+
+![box](http://ww4.sinaimg.cn/large/61dccbaajw1ezef1pwl6nj20ko08xdgp.jpg "box")
+
+江湖门派：
+
+	社会计算
+
+导言中：
+
+	\usepackage[boxed,linesnumbered,algochapter]{algorithm2e}
+
+正文中：
+
+	\begin{algorithm}
+	 \AlgoBiCaption{这是一个简短的算法中文图题}{This is the English caption of the algorithm}
+	\KwIn{training samples, {$(d_i, d_j)_q$; $\mathbf{q}_i, \mathbf{q}_j \in C$,
+	$q\in \mathbf{Q}$} }
+	\KwOut{parameter setting $\lambda^T$}%
+
+	\For{$t$=1 to $T$}
+	{
+	    $\lambda^{t+1}_n = \lambda^t_n + \eta (f_n(q, c, d_i) - f_n(q, c, d_j))$
+	 }
+	\end{algorithm}
+
+
+- 线条型
+
+![ruled](http://ww1.sinaimg.cn/mw690/61dccbaajw1ezef1vhqddj20kk083754.jpg "ruled")
+
+江湖门派：
+
+	自然语言
+
+导言中：
+
+	\usepackage[algoruled,linesnumbered,algochapter]{algorithm2e}
+
+正文中：
+
+	\begin{algorithm}
+	 \AlgoBiCaption{这是一个简短的算法中文图题}{This is the English caption of the algorithm}
+	\KwIn{training samples, {$(d_i, d_j)_q$; $\mathbf{q}_i, \mathbf{q}_j \in C$,
+	$q\in \mathbf{Q}$} }
+	\KwOut{parameter setting $\lambda^T$}%
+
+	\For{$t$=1 to $T$}
+	{
+	    $\lambda^{t+1}_n = \lambda^t_n + \eta (f_n(q, c, d_i) - f_n(q, c, d_j))$
+	 }
+	\end{algorithm}
+
+- 类似表格型
+
+![table](http://ww3.sinaimg.cn/mw690/61dccbaajw1ezef1v1xamj20lj09p758.jpg "table")
+
+江湖门派：
+
+	生物信息、网络安全
+
+导言中：
+
+	\usepackage[plainruled,linesnumbered,algochapter]{algorithm2e}
+
+正文中：
+
+	\foocaption{\textbf{Function}: Sampling}
+	\begin{algorithm}
+	 \AlgoBiCaption{这是一个简短的算法中文图题}{This is the English caption of the algorithm}
+	\KwIn{training samples, {$(d_i, d_j)_q$; $\mathbf{q}_i, \mathbf{q}_j \in C$,
+	$q\in \mathbf{Q}$} }
+	\KwOut{parameter setting $\lambda^T$}%
+
+	\For{$t$=1 to $T$}
+	{
+	    $\lambda^{t+1}_n = \lambda^t_n + \eta (f_n(q, c, d_i) - f_n(q, c, d_j))$
+	 }
+	\end{algorithm}
+
+### 关于维护者以及捐赠
+
+由于维护者（就是本书呆）已成为高龄不毕业博士，课题繁忙，实在无空余时间无偿解决一些用户要求（例如后文介绍的算法格式各实验室要求不一致）。
+
+另外，各位刀客和大侠如要解囊相助，请微信扫码～～
+
+![二维码](http://ww3.sinaimg.cn/large/61dccbaajw1f11ag3tq66j20he0nn75l.jpg "二维码")
 
 ## 这个网站的使用说明
 
@@ -201,3 +301,8 @@ XeLaTeX对中文的支持非常完美，要不怎么叫做“邪恶LaTeX”呢�
 Google code项目已经停滞2年，也许诸位先驱都已毕业?  
 当年诸位先驱开发模班的时代是CJK的时代，而如今CJK逐渐被xeCJK所取代， 当年的命令作废的作废，冲突的冲突。  
 新版本的texlive无法编译陈旧的源文件了。
+
+## 附
+
+- [论文排版乱象杂谈](http://yanshuo.name/cn/2015/10/equation/)
+

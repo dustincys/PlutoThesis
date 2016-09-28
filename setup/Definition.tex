@@ -92,6 +92,9 @@
    \addcontentsline{aen}{algoen}{\protect\numberline{\thealgoen}{#2}}
    }
 
+\setlength{\algoheightruledefault}{1.5pt}
+\newcommand{\foocaption}[1]{ \def\@algocf@pre@plainruled{\hrule height1.5pt depth0pt\kern\interspacetitleruled #1 \kern\interspacealgoruled\hrule height1pt depth0pt\kern\interspacetitleruled} }
+\def\@algocf@post@ruled{\kern\interspacealgoruled\hrule height1.5pt\relax}%
 \makeatother
 
 %定义 学科 学位
