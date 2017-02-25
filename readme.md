@@ -85,44 +85,36 @@ word死忠的文件夹模式二：
 		毕业论文第3章.doc 
 		毕业论文第4章.doc 
 		毕业论文第5章.doc 
-		毕业论文完整版20150701.doc 
-		毕业论文完整版20150702.doc 
-		毕业论文完整版20150703.doc 
-		毕业论文完整版20150704.doc 
-		毕业论文完整版20150705.doc 
+		毕业论文完整版年月日.doc 
+		毕业论文完整版年月日+1.doc 
+		毕业论文完整版年月日+2.doc 
+		毕业论文完整版年月日+3.doc 
+		毕业论文完整版年月日+4.doc 
 		……
 
 
 ### 关于编译
 
-#### 那些莫名其妙的编译提示错误……
+#### 编译方法
 
-有些HIT刀客（Doctor）行走江湖过惯了快意恩仇的生活，眼里不揉沙子。
-把模板一点不动地在本地运行一下，发现了提示错误，于是有的刀客转身奔向敌营Word，有的刀客发冲冠一怒开山立派，自立门户。
+##### 普通用户看这里
 
-其实这不是错误……
+使用[latexmk](https://www.ctan.org/pkg/latexmk "latexmk")编译，[latexmk](https://www.ctan.org/pkg/latexmk "latexmk")是一只全自动LaTeX文档生成器，呆萌的操作，傲娇的效果，还没来得及安装的朋友请猛戳链接迅速下载安装！
 
-因为LaTeX最初设计用来排版英文，所以对于中文在基因上先天不足，唯有靠后天补营养。
-当bibTeX使用模板中的哈工大参考文献样式bst文件来排版参考文献时，会弹出错误提示，这个错误提示不是真正意义的错误。
-为什么呢？因为我们的目的已经达到了，已经生成好了bbl文件。
-于是这个尴尬的局面出现了：如果采用如下方法在Makefile文件里面将bibTeX错误提示屏蔽掉，
+只需执行：
 
-	bibtex main || true
+	latexmk -xelatex main
 
-那么这也会屏蔽bib文件中真正的格式错误。
-所以到底屏不屏蔽，还是留给各位刀客自己决定吧。
+##### 懒得不要不要的看这里
 
-#### 那种完美的中文引用样式……
+[Overleaf](https://www.overleaf.com/ "Overleaf") 这种运行在网页上的TeX的优点是不需要编译，直接得到pdf结果，但Overleaf有两个不足： 1， 编辑器太菜，只是普通的记事本级别；2，无法良好支持中文。
 
-要么上标，要么下标，综述是不是枯燥又无聊！
-所以一定有一种[中文引用样式](http://yanshuo.name/cn/2015/06/latex/)会使综述的时间逻辑（年份）和空间逻辑（该文献在文章最后哪一个部分）都很清晰，且含有主语（作者名）。
-用这样的引用样式写出的文献综述是不是很文学范？
+vim/Emacs 的很多TeX插件都支持[latexmk](https://www.ctan.org/pkg/latexmk "latexmk")，如vim的vimtex， Latex-studio 等。
+Emacs和vim都支持异步，回调功能，配合latexmk使用，是最佳的编写LaTeX环境。
 
-使用方法：正文中的引用方式是`\citeayu`；
-编译方法是：
+[latexmk](https://www.ctan.org/pkg/latexmk "latexmk")具有类似Overleaf的功能，只需要运行一次如下命令，[latexmk](https://www.ctan.org/pkg/latexmk "latexmk")会自动检测TeX文件的修改状况，自动编译。
 
-	make -f MakefileAYU
-
+	latexmk -pvc -xelatex main
 
 #### 没有明确要求的格式
 
