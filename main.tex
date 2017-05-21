@@ -1,37 +1,25 @@
 % !Mode:: "TeX:UTF-8"
-
-\def\usewhat{xelatex} % 定义编译方式 pdflatex, dvipdfmx, or xelatex
+\def\usewhat{xelatex}
 
 \def \xuewei{Doctor} % 定义学位 Doctor or Master
-
 \def\xueke{Engineering} % 定义学科 Engineering, Science, Management, Arts, Philosophy, Economics, Laws, Education, or History
 
 \documentclass[cs4size,openany,twoside,UTF8,normalindentfirst,nofonts]{ctexbook}
-
 \input{setup/type.tex}    % 硕博类型
 \input{setup/package.tex} % 引用的宏包
-
 \graphicspath{{figures/}} %定义所有的eps文件在 figures 子目录下
-
 \begin{document}
-
 \input{setup/Definition} % 文本格式定义
 \input{setup/format}
-
 \frontmatter
 \input{cover} % 封面
-
-% 中英目录
 \pdfbookmark[0]{目~录}{mulu}
 \tableofcontents    % 中文目录
 \clearpage{\pagestyle{empty}\cleardoublepage}
-
 \ifxueweidoctor
 \tableofengcontents % 英文目录
 \clearpage{\pagestyle{empty}\cleardoublepage}     % 清除目录后面空页的页眉和页脚
 \fi
-
-
 \mainmatter\defaultfont\sloppy\raggedbottom
 
 \include{body/introduction}
@@ -62,11 +50,8 @@
 \include{appendix/publications}    % 所发文章
 \include{appendix/Authorization}   % 承诺
 \include{appendix/acknowledgements}% 致谢
-
 \ifxueweidoctor
 \include{appendix/Resume}          % 博士学位论文有个人简介
 \fi
-
 \clearpage
-
-\end{document} 
+\end{document}

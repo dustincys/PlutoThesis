@@ -24,25 +24,9 @@
 \usepackage[amsmath,thmmarks,hyperref]{ntheorem}% 定理类环境宏包，其中 amsmath 选项用来兼容 AMS LaTeX 的宏包
 \usepackage{etoolbox}
 \AtBeginDocument{%
-  \apptocmd\thebibliography{\interlinepenalty=-5000 }{}{}%
+  \apptocmd\thebibliography{\interlinepenalty=-5000 }{}{}% 设置参考文献的空白的阈值
 }
 
-% 生成有书签的pdf及其开关, 该宏包应放在所有宏包的最后, 宏包之间有冲突
-\def\atemp{dvipdfmx}\ifx\atemp\usewhat
-\usepackage[dvipdfmx,unicode,           %dvi-->pdf 生成书签
-            bookmarksnumbered=true,
-            bookmarksopen=true,
-            colorlinks=false,
-            pdfborder={0 0 1},
-            citecolor=blue,
-            linkcolor=red,
-            anchorcolor=green,
-            urlcolor=blue,
-            breaklinks=true
-            ]{hyperref}
-\fi
-
-\def\atempxetex{xelatex}\ifx\atempxetex\usewhat %\def\atempxetex{xelatex} main.tex中已定义;
 \usepackage[xetex,
             bookmarksnumbered=true,
             bookmarksopen=true,
@@ -78,7 +62,6 @@
 \newcommand{\xw}{\CJKfamily{xw}}        % 隶书   (Windows自带simli.ttf)
 \newfontfamily\arial{Arial}
 \newfontfamily\timesnewroman{Times New Roman}
-\fi
 
 \usepackage[plainruled,linesnumbered,algochapter]{algorithm2e}  % 算法的宏包，注意宏包兼容性，先后顺序为float、hyperref、algorithm(2e)，否则无法生成算法列表
 \usepackage{xltxtra}
