@@ -1,69 +1,8 @@
 % !Mode:: "TeX:UTF-8"
-
-\def\usewhat{xelatex} % 定义编译方式 pdflatex, dvipdfmx, or xelatex
-
-\def \xuewei{Doctor} % 定义学位 Doctor or Master
-
-\def\xueke{Engineering} % 定义学科 Engineering, Science, Management, Arts, Philosophy, Economics, Laws, Education, or History
-
-\documentclass[cs4size,openany,twoside,UTF8,normalindentfirst,nofonts]{ctexbook}
-
-\input{setup/type.tex}    % 硕博类型
-\input{setup/package.tex} % 引用的宏包
-
-\graphicspath{{figures/}} %定义所有的eps文件在 figures 子目录下
+\documentclass[type=doctor]{plutothesis}
 
 \begin{document}
 
-\input{setup/Definition} % 文本格式定义
-\input{setup/format}
-
-\frontmatter
-\input{cover} % 封面
-
-% 中英目录
-\pdfbookmark[0]{目~录}{mulu}
-\tableofcontents    % 中文目录
-\clearpage{\pagestyle{empty}\cleardoublepage}
-
-\ifxueweidoctor
-\tableofengcontents % 英文目录
-\clearpage{\pagestyle{empty}\cleardoublepage}     % 清除目录后面空页的页眉和页脚
-\fi
-
-
-\mainmatter\defaultfont\sloppy\raggedbottom
-
-\include{body/introduction}
-\include{body/figures}
-\include{body/tables}
-\include{body/equations}
-\include{body/others}
-\include{body/conclusion}   % 结论
-
-%\include{body/simplefigure}
-%\include{body/simpletable}
-%\include{body/simpleequation}
-%\include{body/simplereference}
-
-
-%参考文献
-\defaultfont
-\bibliographystyle{GBT7714-2005NLang-HIT}
-\addcontentsline{toc}{chapter}{参考文献}      % 参考文献加入到中文目录
-\addcontentsline{toe}{chapter}{\bfseries  References} % 参考文献加入到英文目录
-\addtolength{\bibsep}{-0.8em}
-\nocite{*}  %若将此命令屏蔽掉，则未引用的文献不会出现在文后的参考文献列表中。
-\bibliography{reference}
-\include{appendix/appA}    % 附录
-\include{appendix/publications}    % 所发文章
-\include{appendix/Authorization}   % 承诺
-\include{appendix/acknowledgements}% 致谢
-
-\ifxueweidoctor
-\include{appendix/Resume}          % 博士学位论文有个人简介
-\fi
-
-\clearpage
+\input{body/figures.tex}
 
 \end{document} 
