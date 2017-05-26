@@ -59,32 +59,41 @@
   \fi
 \fi
 
-\RequirePackage{etoolbox}
-\RequirePackage{ifxetex}
+\RequirePackage{etoolbox}% 提供常用命令的包
+\RequirePackage{ifxetex}% 检验引擎是不是xetex
+
+\ifxetex
+\else
+        \ClassError{plutothesis}%
+                   {Please use: \MessageBreak
+                    xelatex}{}
+\fi
+
 \RequirePackage{xparse}
 
-\RequirePackage{xeCJK}
-\RequirePackage{tabularx}
-\RequirePackage{graphicx}
-\RequirePackage[a4paper,text={150true mm,224true mm},top=35.5true mm,left=30true mm,head=5true mm,headsep=2.5true mm,foot=8.5true mm]{geometry}
-\RequirePackage{titlesec}               % 控制标题的宏包
-\RequirePackage{titletoc}                   % 控制目录的宏包
-\RequirePackage{fancyhdr}                   % fancyhdr宏包 页眉和页脚的相关定义
-\RequirePackage{color}          % 支持彩色
+
 \RequirePackage{amsmath}        % AMSLaTeX宏包 用来排出更加漂亮的公式
-\RequirePackage{amssymb}
-\RequirePackage[below]{placeins}%允许上一个section的浮动图形出现在下一个section的开始部分,还提供\FloatBarrier命令,使所有未处理的浮动图形立即被处理
-\RequirePackage{flafter}       % 使得所有浮动体不能被放置在其浮动环境之前，以免浮动体在引述它的文本之前出现.
-\RequirePackage{multirow}       %使用Multirow宏包，使得表格可以合并多个row格
-\RequirePackage{booktabs}       % 表格，横的粗线；\specialrule{1pt}{0pt}{0pt}
-\RequirePackage{longtable}      %支持跨页的表格。
-\RequirePackage[hang]{subfigure}%支持子图 %centerlast 设置最后一行是否居中
-\RequirePackage[subfigure]{ccaption} %支持双语标题
-\RequirePackage[sort&compress,numbers]{natbib}% 支持引用缩写的宏包
+\RequirePackage{graphicx}
+%\RequirePackage[labelformat=simple]{subcaption} 比subfigure 更好？
+\RequirePackage{pdfpages}
+\includepdfset{fitpaper=true}
 \RequirePackage{enumitem}       %使用enumitem宏包,改变列表项的格式
-\RequirePackage{calc}           %长度可以用+ - * / 进行计算
-\RequirePackage{fontspec}
+%\RequirePackage{environ}
+%\ifthu@raggedbottom
+%  \RequirePackage[bottom,perpage,hang]{footmisc}
+%  \raggedbottom
+%\else
+%  \RequirePackage[perpage,hang]{footmisc}
+%\fi
+%\ifthu@pifootnote
+%  \RequirePackage{pifont}
+%\fi
+%\RequirePackage{CJKfntef}
 \RequirePackage[amsmath,thmmarks,hyperref]{ntheorem}% 定理类环境宏包，其中 amsmath 选项用来兼容 AMS LaTeX 的宏包
+%\RequirePackage{array}
+\RequirePackage{longtable}      %支持跨页的表格。
+\RequirePackage{booktabs}       % 表格，横的粗线；\specialrule{1pt}{0pt}{0pt}
+\RequirePackage[sort&compress,numbers]{natbib}% 支持引用缩写的宏包
 
 % 生成有书签的pdf及其开关, 该宏包应放在所有宏包的最后, 宏包之间有冲突
 \RequirePackage[xetex,
@@ -100,6 +109,50 @@
             naturalnames  %与algorithm2e宏包协调
             ]{hyperref}
 
+
+%\RequirePackage{geometry}
+%\geometry{
+%  a4paper, % 210 * 297mm
+%  hcentering,
+%  ignoreall,
+%  nomarginpar}
+%\ifthu@bachelor
+%  \geometry{
+%    left=32mm,
+%    headheight=5mm,
+%    headsep=5mm,
+%    textheight=220mm,
+%    bottom=37mm,
+%    footskip=17mm}
+%\else
+%  \geometry{
+%    left=30mm,
+%    headheight=5mm,
+%    headsep=5mm,
+%    textheight=237mm,
+%    bottom=29mm,
+%    footskip=6mm}
+%\fi
+\RequirePackage[a4paper,text={150true mm,224true mm},top=35.5true mm,left=30true mm,head=5true mm,headsep=2.5true mm,foot=8.5true mm]{geometry}
+
+\RequirePackage{fancyhdr}                   % fancyhdr宏包 页眉和页脚的相关定义
+
+
+%\RequirePackage{xeCJK} 应该可以删除
+\RequirePackage{tabularx}
+\RequirePackage{titlesec}               % 控制标题的宏包
+\RequirePackage{titletoc}                   % 控制目录的宏包
+\RequirePackage{color}          % 支持彩色
+\RequirePackage{amssymb}
+\RequirePackage[below]{placeins}%允许上一个section的浮动图形出现在下一个section的开始部分,还提供\FloatBarrier命令,使所有未处理的浮动图形立即被处理
+\RequirePackage{flafter}       % 使得所有浮动体不能被放置在其浮动环境之前，以免浮动体在引述它的文本之前出现.
+\RequirePackage{multirow}       %使用Multirow宏包，使得表格可以合并多个row格
+\RequirePackage[hang]{subfigure}%支持子图 %centerlast 设置最后一行是否居中
+\RequirePackage[subfigure]{ccaption} %支持双语标题
+\RequirePackage{calc}           %长度可以用+ - * / 进行计算
+%\RequirePackage{fontspec}
+
+
 \usepackage[boxed,linesnumbered,algochapter]{algorithm2e}  % 算法的宏包，注意宏包兼容性，先后顺序为float、hyperref、algorithm(2e)，否则无法生成算法列表 
 \usepackage{xltxtra}
 \usepackage{listings}
@@ -108,6 +161,33 @@
 columns=flexible,
 breaklines=true
 }
+
+\@tempcnta=128
+\loop \catcode\@tempcnta=13 \ifnum\@tempcnta<255 \advance \@tempcnta \@ne
+\repeat
+
+\newcommand{\xueke}{Engineering}
+
+\ifpluto@doctor
+  \newcommand{\cxuewei}{博士}
+  \newcommand{\exuewei}{Doctor}
+  \newcommand{\exueweier}{Doctoral}
+  \newcommand{\pluto@xueweishort}{博}
+\fi
+
+\ifpluto@master
+  \newcommand{\cxuewei}{硕士}
+  \newcommand{\exuewei}{Master}
+  \newcommand{\exueweier}{Master's}
+  \newcommand{\pluto@xueweishort}{硕}
+\fi
+
+
+
+
+
+
+
 
 \defaultfontfeatures{Mapping=tex-text}
 \xeCJKsetemboldenfactor{1}%只对随后定义的CJK字体有效
@@ -132,7 +212,6 @@ breaklines=true
 \newfontfamily\arial{Arial}
 \newfontfamily\timesnewroman{Times New Roman}
 
-
 \newcommand{\yihao}{\fontsize{26pt}{26pt}\selectfont}       % 一号, 1.倍行距
 \newcommand{\xiaoyi}{\fontsize{24pt}{24pt}\selectfont}      % 小一, 1.倍行距
 \newcommand{\erhao}{\fontsize{22pt}{1.25\baselineskip}\selectfont}       % 二号, 1.倍行距
@@ -151,7 +230,6 @@ breaklines=true
 \let\temp\addcontentsline
 \gdef\addcontentsline{\phantomsection\temp}
 
-\makeatletter
 \gdef\hitempty{}
 
 %重新定义BiChapter命令，可实现标题手动换行，但不影响目录
@@ -222,9 +300,8 @@ breaklines=true
    \addcontentsline{aen}{algoen}{\protect\numberline{\thealgoen}{#2}}
    }
 
-\makeatother
-
 %定义 学科 学位
+\def \xueke {Engineering}
 \def \xuekeEngineering {Engineering}
 \def \xuekeScience {Science}
 \def \xuekeManagement {Management}
@@ -280,3 +357,357 @@ breaklines=true
 \newcommand{\cxueke}{历史学}
 \newcommand{\exueke}{History}
 \fi
+
+
+\theoremstyle{plain}
+\theorembodyfont{\song\rmfamily}
+\theoremheaderfont{\hei\rmfamily}
+\newtheorem{definition}{\hei 定义}[chapter]
+\newtheorem{example}{\hei 例}[chapter]
+\newtheorem{algo}{\hei 算法}[chapter]
+\newtheorem{theorem}{\hei 定理}[chapter]
+\newtheorem{axiom}{\hei 公理}[chapter]
+\newtheorem{proposition}{\hei 命题}[chapter]
+\newtheorem{lemma}{\hei 引理}[chapter]
+\newtheorem{corollary}{\hei 推论}[chapter]
+\newtheorem{remark}{\hei 注解}[chapter]
+\newenvironment{proof}{\noindent{\hei 证明：}}{\hfill $ \square $ \vskip 4mm}
+\theoremsymbol{$\square$}
+\setlength{\theorempreskipamount}{0pt}
+\setlength{\theorempostskipamount}{-2pt}
+
+\allowdisplaybreaks[4]
+
+%\CJKcaption {gb_452} 
+%\CJKtilde
+\setlength{\parindent}{2em}
+
+\arraycolsep=1.6pt
+
+\renewcommand\contentsname{\hei 目~~~~录}
+
+\CTEXsetup[number={\arabic{chapter}}]{chapter}
+\renewcommand\chaptername{第~\thechapter~章}
+
+%\CTEXsetup[name={第,章}]{chapter}
+\setcounter{secnumdepth}{4} \setcounter{tocdepth}{2}
+
+
+\titleformat{\chapter}{\center\xiaoer\hei}{\chaptertitlename}{0.5em}{}
+\titlespacing{\chapter}{0pt}{-5.5mm}{8mm}
+\titleformat{\section}{\xiaosan\hei}{\thesection}{0.5em}{}
+\titlespacing{\section}{0pt}{4.5mm}{4.5mm}
+\titleformat{\subsection}{\sihao\hei}{\thesubsection}{0.5em}{}
+\titlespacing{\subsection}{0pt}{4mm}{4mm}
+\titleformat{\subsubsection}{\xiaosi\hei}{\thesubsubsection}{0.5em}{}
+\titlespacing{\subsubsection}{0pt}{0pt}{0pt}
+
+\titlecontents{chapter}[3.8em]{\hspace{-3.8em}\hei}{\thecontentslabel~~}{}{\titlerule*[4pt]{.}\contentspage}
+\dottedcontents{section}[32pt]{}{21pt}{0.3pc}
+\dottedcontents{subsection}[53pt]{}{30pt}{0.3pc}
+
+
+% 按工大标准, 缩小目录中各级标题之间的缩进，使它们相隔一个字符距离，也就是12pt
+\renewcommand*\l@chapter{\@dottedtocline{0}{0em}{5em}}%控制英文目录： 细点\@dottedtocline  粗点\@dottedtoclinebold
+\renewcommand*\l@section{\@dottedtocline{1}{1em}{1.8em}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{2em}{2.5em}}
+
+
+% 定义页眉和页脚
+\newcommand{\makeheadrule}{
+\rule[7pt]{\textwidth}{0.75pt} \\[-23pt]
+\rule{\textwidth}{2.25pt}}
+\renewcommand{\headrule}{
+    {\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi
+     \makeheadrule}}
+\pagestyle{fancyplain}
+
+%去掉章节标题中的数字
+%%不要注销这一行，否则页眉会变成：“第1章1  绪论”样式
+\renewcommand{\chaptermark}[1]{\markboth{\chaptertitlename~\ #1}{}}
+\fancyhf{}
+
+%在book文件类别下,\leftmark自动存录各章之章名,\rightmark记录节标题
+%% 页眉字号 工大要求 小五
+%根据单双面打印设置不同的页眉；
+
+\ifpluto@doctor
+  \fancyhead[CO]{\song \xiaowu\leftmark}
+  \fancyhead[CE]{\song \xiaowu 哈尔滨工业大学\cxueke\cxuewei 学位论文}%
+  \fancyfoot[C,C]{\xiaowu -~\thepage~-}
+\else
+  \fancyhead[CO]{\song \xiaowu 哈尔滨工业大学\cxueke\cxuewei 学位论文}
+  \fancyhead[CE]{\song \xiaowu 哈尔滨工业大学\cxueke\cxuewei 学位论文}%
+  \fancyfoot[C,C]{\xiaowu -~\thepage~-}
+\fi
+
+\renewcommand\frontmatter{\cleardoublepage
+  \@mainmatterfalse
+  \pagenumbering{Roman}}
+
+% 调整罗列环境的布局
+\setitemize{leftmargin=0em,itemsep=0em,partopsep=0em,parsep=0em,topsep=0em,itemindent=3em}
+\setenumerate{leftmargin=0em,itemsep=0em,partopsep=0em,parsep=0em,topsep=0em,itemindent=3.5em}
+
+\newcommand{\citeup}[1]{\textsuperscript{\cite{#1}}}
+
+% 定制浮动图形和表格标题样式
+\captionnamefont{\wuhao}
+\captiontitlefont{\wuhao}
+\captiondelim{~~}
+%\captionstyle{\hang}
+\hangcaption
+\renewcommand{\subcapsize}{\wuhao}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{0pt}
+
+% 自定义项目列表标签及格式 \begin{publist} 列表项 \end{publist}
+\newcounter{pubctr} %自定义新计数器
+\newenvironment{publist}{%%%%%定义新环境
+\begin{list}{[\arabic{pubctr}]} %%标签格式
+    {
+     \usecounter{pubctr}
+     \setlength{\leftmargin}{1.7em}     % 左边界 \leftmargin =\itemindent + \labelwidth + \labelsep
+     \setlength{\itemindent}{0em}     % 标号缩进量
+     \setlength{\labelsep}{0.5em}       % 标号和列表项之间的距离,默认0.5em
+     \setlength{\rightmargin}{0em}    % 右边界
+     \setlength{\topsep}{0ex}         % 列表到上下文的垂直距离
+     \setlength{\parsep}{0ex}         % 段落间距
+     \setlength{\itemsep}{0ex}        % 标签间距
+     \setlength{\listparindent}{0pt} % 段落缩进量
+    }}
+{\end{list}}%%%%%
+
+% 默认字体
+\renewcommand\normalsize{
+  \@setfontsize\normalsize{12pt}{12pt}
+  \setlength\abovedisplayskip{4pt}
+  \setlength\abovedisplayshortskip{4pt}
+  \setlength\belowdisplayskip{\abovedisplayskip}
+  \setlength\belowdisplayshortskip{\abovedisplayshortskip}
+  \let\@listi\@listI}
+  
+% 设置行距和段落间垂直距离
+\def\defaultfont{\renewcommand{\baselinestretch}{1.62}\normalsize\selectfont}
+\renewcommand{\CJKglue}{\hskip 0.56pt plus 0.08\baselineskip} 
+%加大字间距，使每行34个字，若要使得每行33个字，则将0.56pt替换为0.96pt。
+\predisplaypenalty=0  %公式之前可以换页，公式出现在页面顶部
+
+% 封面、摘要、版权、致谢格式定义
+\def\ctitle#1{\def\@ctitle{#1}}\def\@ctitle{}
+\def\cdegree#1{\def\@cdegree{#1}}\def\@cdegree{}
+\def\caffil#1{\def\@caffil{#1}}\def\@caffil{}
+\def\csubject#1{\def\@csubject{#1}}\def\@csubject{}
+\def\cauthor#1{\def\@cauthor{#1}}\def\@cauthor{}
+\def\csupervisor#1{\def\@csupervisor{#1}}\def\@csupervisor{}
+\def\cassosupervisor#1{\def\@cassosupervisor{{\hei 副 \hfill 导 \hfill 师} & #1\\}}\def\@cassosupervisor{}
+\def\ccosupervisor#1{\def\@ccosupervisor{{\hei 联 \hfill 合\hfill 导 \hfill 师} & #1\\}}\def\@ccosupervisor{}
+\def\cdate#1{\def\@cdate{#1}}\def\@cdate{}
+\long\def\cabstract#1{\long\def\@cabstract{#1}}\long\def\@cabstract{}
+\def\ckeywords#1{\def\@ckeywords{#1}}\def\@ckeywords{}
+
+\def\etitle#1{\def\@etitle{#1}}\def\@etitle{}
+\def\edegree#1{\def\@edegree{#1}}\def\@edegree{}
+\def\eaffil#1{\def\@eaffil{#1}}\def\@eaffil{}
+\def\esubject#1{\def\@esubject{#1}}\def\@esubject{}
+\def\eauthor#1{\def\@eauthor{#1}}\def\@eauthor{}
+\def\esupervisor#1{\def\@esupervisor{#1}}\def\@esupervisor{}
+\def\eassosupervisor#1{\def\@eassosupervisor{\textbf{Associate Supervisor:} & #1\\}}\def\@eassosupervisor{}
+\def\ecosupervisor#1{\def\@ecosupervisor{\textbf{Co Supervisor:} & #1\\}}\def\@ecosupervisor{}
+\def\edate#1{\def\@edate{#1}}\def\@edate{}
+\long\def\eabstract#1{\long\def\@eabstract{#1}}\long\def\@eabstract{}
+\long\def\NotationList#1{\long\def\@NotationList{#1}}\long\def\@NotationList{}
+\def\ekeywords#1{\def\@ekeywords{#1}}\def\@ekeywords{}
+\def\natclassifiedindex#1{\def\@natclassifiedindex{#1}}\def\@natclassifiedindex{}
+\def\internatclassifiedindex#1{\def\@internatclassifiedindex{#1}}\def\@internatclassifiedindex{}
+\def\statesecrets#1{\def\@statesecrets{#1}}\def\@statesecrets{}
+
+\cdegree{\cxueke\cxuewei}
+% 定义封面
+\def\makecover{
+    \begin{titlepage}
+    % 封面一
+   \vspace*{0.8cm}
+   \begin{center}
+    \centerline{\xiaoyi\song\textbf{\cxuewei 学位论文}}
+
+    \vspace{1cm}
+
+    \parbox[t][2.8cm][t]{\textwidth}{
+    \begin{center}\erhao\hei\@ctitle\end{center} }
+
+    \parbox[t][5.1cm][t]{\textwidth}{ %英文标题太长时可以采用\xiaoer
+    \begin{center}\erhao\textbf{\@etitle}\end{center} }
+
+    \parbox[t][7.4cm][t]{\textwidth}{
+    \begin{center}\xiaoer\song\textbf{\@cauthor}\end{center}}
+
+    \parbox[t][1.4cm][t]{\textwidth}{
+    \begin{center}\kaishu\xiaoer\textbf{哈尔滨工业大学}\end{center} }
+    
+    {\song\xiaoer\textbf{\@cdate}}
+
+    \end{center}
+
+    % 封二 空白页
+    \ifpluto@doctor
+      \newpage
+      ~~~\vspace{1em}
+      \thispagestyle{empty}
+    \fi
+
+    %内封
+    \newpage
+    \thispagestyle{empty}
+    \pdfbookmark[0]{\@ctitle}{ctitlepage}
+
+\begin{center}
+
+			{\song \xiaosi
+			\begin{tabular}{@{}r@{：}l@{}}
+			国内图书分类号 & \@natclassifiedindex\\
+ 			国际图书分类号 & \@internatclassifiedindex
+			\end{tabular}}\hfill
+			{\song \xiaosi
+			\begin{tabular}{@{}r@{：}l@{}}
+			学校代码 & 10213\\
+ 			密级 &  公开
+			\end{tabular}}
+    \parbox[t][3.2cm][t]{\textwidth}{\begin{center} \end{center} }
+
+    \parbox[t][2.4cm][t]{\textwidth}{\xiaoer
+    \begin{center} {\song \bfseries \@cdegree 学位论文 }\end{center} }
+
+    \parbox[t][5cm][t]{\textwidth}{\erhao
+    \begin{center} {\hei  \@ctitle}\end{center} }
+	\parbox[t][9.8cm][b]{\textwidth}
+     {\sihao
+    \begin{center} \renewcommand{\arraystretch}{1.62} \song
+    \begin{tabular}{l@{：}l}
+    {\hei \pluto@xueweishort \hfill 士\hfill 研\hfill 究\hfill 生}           & \@cauthor\\
+    {\hei 导\hfill 师}                       & \@csupervisor\\
+	\@cassosupervisor
+	\@ccosupervisor
+    {\hei 申\hfill 请\hfill 学\hfill 位} & \@cdegree\\
+    {\hei 学\hfill 科}           & \@csubject\\
+    {\hei 所\hfill 在\hfill 单\hfill 位} & \@caffil\\
+    {\hei 答\hfill 辩\hfill 日\hfill 期} & \@cdate\\
+    {\hei 授予学位单位}                     & 哈尔滨工业大学
+    \end{tabular} \renewcommand{\arraystretch}{1}
+    \end{center} }
+\end{center}
+
+%%%%%%增加一空白页
+  \ifpluto@doctor
+    \newpage
+    ~~~\vspace{1em}
+    \thispagestyle{empty}
+  \fi
+
+    % 英文封面
+    \newpage
+    \thispagestyle{empty}
+    \pdfbookmark[0]{\uppercase{\@etitle}}{etitlepage}
+
+    {
+    \xiaosi\noindent Classified Index: \@natclassifiedindex \\
+                  U.D.C:  \@internatclassifiedindex }
+    \begin{center}
+    \parbox[t][1.6cm][t]{\textwidth}{\begin{center} \end{center} }
+    \parbox[t][3.5cm][t]{\textwidth}{\xiaoer
+    \begin{center} {  Dissertation for the {\exueweier} Degree in \exueke}\end{center} } %与中文保持一致，删除in {\exueke}
+
+    \parbox[t][7cm][t]{\textwidth}{\erhao
+    \begin{center} { \bfseries \@etitle}\end{center} }
+
+%★★★★若信息内容不太长，不会引起信息内容分行时，使用tabular环境，否则使用下面的tabularx环境。
+    {\sihao\renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{@{}l@{~}l@{}}
+    \textbf{Candidate:}                     &  \@eauthor\\
+    \textbf{Supervisor:}                    &  \@esupervisor\\
+	  \@eassosupervisor
+	  \@ecosupervisor
+    \textbf{Academic Degree Applied for:}   &  \@edegree\\
+    \textbf{Specialty:}                     &  \@esubject\\
+    \textbf{Affiliation:}                   &  \@eaffil\\
+    \textbf{Date of Defence:}               &  \@edate\\
+    \textbf{Degree-Conferring-Institution:} &  Harbin Institute of Technology
+    \end{tabular}\renewcommand{\arraystretch}{1}}
+
+    %{\sihao\renewcommand{\arraystretch}{1.3}
+    %\begin{tabularx}{\textwidth}{@{}l@{~}X@{}}
+    %\textbf{Candidate:}                     &  \@eauthor\\
+    %\textbf{Supervisor:}                    &  \@esupervisor\\
+		%\@eassosupervisor
+	  %\@ecosupervisor
+    %\textbf{Academic Degree Applied for:}   &  \@edegree\\
+    %\textbf{Specialty:}                     &  \@esubject\\
+    %\textbf{Affiliation:}                   &  \@eaffil\\
+    %\textbf{Date of Defence:}               &  \@edate\\
+    %\textbf{Degree-Conferring-Institution:} &  Harbin Institute of Technology
+    %\end{tabularx}\renewcommand{\arraystretch}{1}}
+
+    \end{center}
+    \end{titlepage}
+
+%%%%%%增加一空白页
+  \ifpluto@doctor
+    \newpage
+    ~~~\vspace{1em}
+    \thispagestyle{empty}
+  \fi
+%%%%%%%%%%%%%%%%%%%   Abstract and keywords  %%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+
+\BiAppendixChapter{摘\quad 要}{Abstract (In Chinese)}
+
+\setcounter{page}{1}
+\song\defaultfont
+\@cabstract
+\vspace{\baselineskip}
+
+\hangafter=1\hangindent=51pt\noindent
+{\hei 关键词}：\@ckeywords
+
+%%%%%%%%%%%%%%%%%%%   English Abstract  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+
+\phantomsection
+\markboth{Abstract}{Abstract}
+\addcontentsline{toc}{chapter}{\xiaosi ABSTRACT}
+\addcontentsline{toe}{chapter}{\bfseries \xiaosi Abstract (In English)}  
+\addtocontents{toc}{\vspace{\baselineskip}}
+\addtocontents{toe}{\vspace{\baselineskip}}
+\chapter*{\bf Abstract}
+\@eabstract
+\vspace{\baselineskip}
+
+\hangafter=1\hangindent=60pt\noindent
+{\textbf{Keywords:}}  \@ekeywords
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 英文目录格式
+\def\@dotsep{0.75}           % 定义英文目录的点间距
+\setlength\leftmargini {0pt}
+\setlength\leftmarginii {0pt}
+\setlength\leftmarginiii {0pt}
+\setlength\leftmarginiv {0pt}
+\setlength\leftmarginv {0pt}
+\setlength\leftmarginvi {0pt}
+
+\def\engcontentsname{\bfseries Contents}
+\newcommand\tableofengcontents{
+   \pdfbookmark[0]{Contents}{econtent}
+     \@restonecolfalse
+   \chapter*{\engcontentsname  %chapter*上移一行，避免在toc中出现。
+       \@mkboth{%
+          \engcontentsname}{\engcontentsname}}
+   \@starttoc{toe}%
+   \if@restonecol\twocolumn\fi
+   }
+
+\urlstyle{same}  %论文中引用的网址的字体默认与正文中字体不一致，这里修正为一致的。
+
+\renewcommand\endtable{\vspace{-4mm}\end@float}
+
