@@ -2,6 +2,7 @@
 \ProvidesClass{plutothesis}[2017/05/23 0.0.0 Harbin Institute of Technology Thesis Template]
 \ProvidesClass{plutothesis}
 
+%%%{{{ Package
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions{
   family=pluto,
@@ -45,7 +46,7 @@
 \ProcessKeyvalOptions*
 \PassOptionsToPackage{no-math}{fontspec}
 
-\LoadClass[cs4size,openany,twoside,UTF8,normalindentfirst,nofonts]{ctexbook}
+\LoadClass[zihao=-4,openany,twoside,UTF8,scheme=plain]{ctexbook}
 
 \ifpluto@bachelor\relax\else
   \ifpluto@master\relax\else
@@ -95,21 +96,25 @@
 \RequirePackage{booktabs}       % 表格，横的粗线；\specialrule{1pt}{0pt}{0pt}
 \RequirePackage[sort&compress,numbers]{natbib}% 支持引用缩写的宏包
 
-% 生成有书签的pdf及其开关, 该宏包应放在所有宏包的最后, 宏包之间有冲突
-\RequirePackage[xetex,
-            bookmarksnumbered=true,
-            bookmarksopen=true,
-            colorlinks=false,
-            pdfborder={0 0 1},
-            citecolor=blue,
-            linkcolor=red,
-            anchorcolor=green,
-            urlcolor=blue,
-            breaklinks=true,
-            naturalnames  %与algorithm2e宏包协调
-            ]{hyperref}
-
-
+\RequirePackage{hyperref}
+\ifxetex
+  \hypersetup{%
+    CJKbookmarks=true}
+\else
+  \hypersetup{%
+    unicode=true,
+    CJKbookmarks=false}
+\fi
+\hypersetup{%
+  linktoc=all,
+  bookmarksnumbered=true,
+  bookmarksopen=true,
+  bookmarksopenlevel=1,
+  breaklinks=true,
+  colorlinks=false,
+  plainpages=false,
+  pdfborder=0 0 0}
+\urlstyle{same}
 %\RequirePackage{geometry}
 %\geometry{
 %  a4paper, % 210 * 297mm
@@ -153,50 +158,83 @@
 %\RequirePackage{fontspec}
 
 
-\usepackage[boxed,linesnumbered,algochapter]{algorithm2e}  % 算法的宏包，注意宏包兼容性，先后顺序为float、hyperref、algorithm(2e)，否则无法生成算法列表
-\usepackage{xltxtra}
-\usepackage{listings}
+\RequirePackage[boxed,linesnumbered,algochapter]{algorithm2e}  % 算法的宏包，注意宏包兼容性，先后顺序为float、hyperref、algorithm(2e)，否则无法生成算法列表
+\RequirePackage{xltxtra}
+\RequirePackage{listings}
 \lstset{
 %basicstyle=\small\ttfamily,
 columns=flexible,
 breaklines=true
 }
 
-\defaultfontfeatures{Mapping=tex-text}
-\xeCJKsetemboldenfactor{1}%只对随后定义的CJK字体有效
-\setCJKfamilyfont{hei}{SimHei}
-\xeCJKsetemboldenfactor{4}
-\setCJKfamilyfont{song}{SimSun}
-\xeCJKsetemboldenfactor{1}
-\setCJKfamilyfont{fs}{FangSong}
-\setCJKfamilyfont{kai}{KaiTi}
-\setCJKfamilyfont{li}{LiSu}
-\setCJKfamilyfont{xw}{STXinwei}
-\setCJKmainfont{SimSun}
-\setCJKsansfont{SimHei}
-\setmainfont{Times New Roman}
-\setsansfont{Arial}
-\newcommand*{\hei}{\CJKfamily{hei}}% 黑体   (Windows自带simhei.ttf)
-\newcommand*{\song}{\CJKfamily{song}}    % 宋体   (Windows自带simsun.ttf)
-\newcommand*{\fs}{\CJKfamily{fs}}        % 仿宋体 (Windows自带simfs.ttf)
-\newcommand*{\kaishu}{\CJKfamily{kai}}      % 楷体   (Windows自带simkai.ttf)
-\newcommand*{\li}{\CJKfamily{li}}        % 隶书   (Windows自带simli.ttf)
-\newcommand*{\xw}{\CJKfamily{xw}}        % 隶书   (Windows自带simli.ttf)
-\newfontfamily\arial{Arial}
-\newfontfamily\timesnewroman{Times New Roman}
+%%%}}}
 
-\newcommand{\yihao}{\fontsize{26pt}{26pt}\selectfont}       % 一号, 1.倍行距
-\newcommand{\xiaoyi}{\fontsize{24pt}{24pt}\selectfont}      % 小一, 1.倍行距
-\newcommand{\erhao}{\fontsize{22pt}{1.25\baselineskip}\selectfont}       % 二号, 1.倍行距
-\newcommand{\xiaoer}{\fontsize{18pt}{18pt}\selectfont}      % 小二, 单倍行距
-\newcommand{\sanhao}{\fontsize{16pt}{16pt}\selectfont}      % 三号, 1.倍行距
-\newcommand{\xiaosan}{\fontsize{15pt}{15pt}\selectfont}     % 小三, 1.倍行距
-\newcommand{\sihao}{\fontsize{14pt}{14pt}\selectfont}       % 四号, 1.0倍行距
-\newcommand{\xiaosi}{\fontsize{12pt}{12pt}\selectfont}      % 小四, 1.倍行距
-\newcommand{\wuhao}{\fontsize{10.5pt}{10.5pt}\selectfont}   % 五号, 单倍行距
-\newcommand{\xiaowu}{\fontsize{9pt}{9pt}\selectfont}        % 小五, 单倍行距
+%%%{{{ Font
+%\defaultfontfeatures{Mapping=tex-text}
+%\xeCJKsetemboldenfactor{1}%只对随后定义的CJK字体有效
+%\setCJKfamilyfont{hei}{SimHei}
+%\xeCJKsetemboldenfactor{4}
+%\setCJKfamilyfont{song}{SimSun}
+%\xeCJKsetemboldenfactor{1}
+%\setCJKfamilyfont{fs}{FangSong}
+%\setCJKfamilyfont{kai}{KaiTi}
+%\setCJKfamilyfont{li}{LiSu}
+%\setCJKfamilyfont{xw}{STXinwei}
+%\setCJKmainfont{SimSun}
+%\setCJKsansfont{SimHei}
+%\setmainfont{Times New Roman}
+%\setsansfont{Arial}
+%\newcommand*{\heiti}{\CJKfamily{hei}}% 黑体   (Windows自带simhei.ttf)
+%\newcommand*{\songti}{\CJKfamily{song}}    % 宋体   (Windows自带simsun.ttf)
+%\newcommand*{\fs}{\CJKfamily{fs}}        % 仿宋体 (Windows自带simfs.ttf)
+%\newcommand*{\kaishu}{\CJKfamily{kai}}      % 楷体   (Windows自带simkai.ttf)
+%\newcommand*{\li}{\CJKfamily{li}}        % 隶书   (Windows自带simli.ttf)
+%\newcommand*{\xw}{\CJKfamily{xw}}        % 隶书   (Windows自带simli.ttf)
+%\newfontfamily\arial{Arial}
+%\newfontfamily\timesnewroman{Times New Roman}
+%
+%\newcommand{\yihao}{\fontsize{26pt}{26pt}\selectfont}       % 一号, 1.倍行距
+%\newcommand{\xiaoyi}{\fontsize{24pt}{24pt}\selectfont}      % 小一, 1.倍行距
+%\newcommand{\erhao}{\fontsize{22pt}{1.25\baselineskip}\selectfont}       % 二号, 1.倍行距
+%\newcommand{\xiaoer}{\fontsize{18pt}{18pt}\selectfont}      % 小二, 单倍行距
+%\newcommand{\sanhao}{\fontsize{16pt}{16pt}\selectfont}      % 三号, 1.倍行距
+%\newcommand{\xiaosan}{\fontsize{15pt}{15pt}\selectfont}     % 小三, 1.倍行距
+%\newcommand{\sihao}{\fontsize{14pt}{14pt}\selectfont}       % 四号, 1.0倍行距
+%\newcommand{\xiaosi}{\fontsize{12pt}{12pt}\selectfont}      % 小四, 1.倍行距
+%\newcommand{\wuhao}{\fontsize{10.5pt}{10.5pt}\selectfont}   % 五号, 单倍行距
+%\newcommand{\xiaowu}{\fontsize{9pt}{9pt}\selectfont}        % 小五, 单倍行距
+%
 
+\renewcommand\normalsize{%
+  \@setfontsize\normalsize{12bp}{20bp}%
+  \abovedisplayskip=20bp \@plus 2bp \@minus 2bp
+  \abovedisplayshortskip=20bp \@plus 2bp \@minus 2bp
+  \belowdisplayskip=\abovedisplayskip
+  \belowdisplayshortskip=\abovedisplayshortskip}
+\def\pluto@def@fontsize#1#2{%
+  \expandafter\newcommand\csname #1\endcsname[1][1.3]{%
+    \fontsize{#2}{##1\dimexpr #2}\selectfont}}
+\pluto@def@fontsize{chuhao}{42bp}
+\pluto@def@fontsize{xiaochu}{36bp}
+\pluto@def@fontsize{yihao}{26bp}
+\pluto@def@fontsize{xiaoyi}{24bp}
+\pluto@def@fontsize{erhao}{22bp}
+\pluto@def@fontsize{xiaoer}{18bp}
+\pluto@def@fontsize{sanhao}{16bp}
+\pluto@def@fontsize{xiaosan}{15bp}
+\pluto@def@fontsize{sihao}{14bp}
+\pluto@def@fontsize{banxiaosi}{13bp}
+\pluto@def@fontsize{xiaosi}{12bp}
+\pluto@def@fontsize{dawu}{11bp}
+\pluto@def@fontsize{wuhao}{10.5bp}
+\pluto@def@fontsize{xiaowu}{9bp}
+\pluto@def@fontsize{liuhao}{7.5bp}
+\pluto@def@fontsize{xiaoliu}{6.5bp}
+\pluto@def@fontsize{qihao}{5.5bp}
+\pluto@def@fontsize{bahao}{5bp}
+%%%}}}
 
+%%%{{{ Structure
 
 %避免宏包 hyperref 和 arydshln 不兼容带来的目录链接失效的问题。
 \def\temp{\relax}
@@ -210,7 +248,8 @@ breaklines=true
 \def\@BiChapter[#1]#2#3{\chapter[#1]{#2}
     \addcontentsline{toe}{chapter}{\bfseries \xiaosi Chapter \thechapter\hspace{0.5em} #3}}
 \def\@@BiChapter#1#2{\chapter{#1}
-    \addcontentsline{toe}{chapter}{\bfseries \xiaosi Chapter \thechapter\hspace{0.5em}{\boldmath #2}}}
+    \addcontentsline{toe}{chapter}{\bfseries \xiaosi Chapter \thechapter\hspace{0.5em}{\boldmath #2}}
+  }
 
 \newcommand{\BiSection}[2]
 {   \section{#1}
@@ -250,7 +289,8 @@ breaklines=true
 \newfloatlist[chapter]{algoen}{aen}{\listalgoenname}{\algoenname}
 \newfixedcaption{\algoencaption}{algoen}
 \renewcommand{\thealgoen}{\thechapter-\arabic{algocf}}
-\renewcommand{\@cftmakeaentitle}{\chapter*{\listalgoenname\@mkboth{\bfseries\listalgoenname}{\bfseries\listalgoenname}}}
+\renewcommand{\@cftmakeaentitle}{\chapter*{\listalgoenname\@mkboth{\bfseries\listalgoenname}{\bfseries\listalgoenname}}
+}
 
 \renewcommand{\algorithmcfname}{算法}
 \setlength\AlCapSkip{1.2ex}
@@ -273,8 +313,9 @@ breaklines=true
    \addcontentsline{aen}{algoen}{\protect\numberline{\thealgoen}{#2}}
    }
 
+   %%%}}}
 
-
+   %%%{{{ Key for options
 % 使用key-value 设置封面选项
 \def\pluto@def@term#1{%
   \define@key{pluto}{#1}{\csname #1\endcsname{##1}}
@@ -297,7 +338,7 @@ breaklines=true
 \pluto@def@term{cdate}
 
 \pluto@def@term{etitle} %英文标题
-\pluto@def@term{edegree} %英文学位
+\pluto@def@term{exueke} %英文学科
 \pluto@def@term{eauthor} %英文作者
 \pluto@def@term{esupervisor} %英文导师
 \pluto@def@term{eassosupervisor} %英文副导师
@@ -306,6 +347,7 @@ breaklines=true
 \pluto@def@term{esubject}
 \pluto@def@term{edate}
 
+% for the other degree
 %\pluto@def@term{id}
 %\pluto@def@term{udc}
 %\pluto@def@term{catalognumber}
@@ -314,87 +356,56 @@ breaklines=true
 %\pluto@def@term{postdoctordate}
 
 
+\newcommand{\pluto@@cabstract}[1]{\long\gdef\pluto@cabstract{#1}}
+\newenvironment{cabstract}{\Collect@Body\pluto@@cabstract}{}
+\newcommand{\pluto@@eabstract}[1]{\long\gdef\pluto@eabstract{#1}}
+\newenvironment{eabstract}{\Collect@Body\pluto@@eabstract}{}
+\def\pluto@parse@keywords#1{
+  \define@key{pluto}{#1}{\csname #1\endcsname{##1}}
+  \expandafter\gdef\csname pluto@#1\endcsname{}
+  \expandafter\gdef\csname #1\endcsname##1{
+    \@for\reserved@a:=##1\do{
+      \expandafter\ifx\csname pluto@#1\endcsname\@empty\else
+        \expandafter\g@addto@macro\csname pluto@#1\endcsname{%
+          \ignorespaces\csname pluto@#1@separator\endcsname}
+      \fi
+      \expandafter\expandafter\expandafter\g@addto@macro%
+        \expandafter\csname pluto@#1\expandafter\endcsname\expandafter{\reserved@a}}}}
+\pluto@parse@keywords{ckeywords}
+\pluto@parse@keywords{ekeywords}
+
+
 \ifpluto@doctor
-\gdef\pluto@cdegree{\pluto@cxueke 博士}
-\gdef\pluto@edegree{Doctor \ of \pluto@exueke}
+\gdef\pluto@cxueweishort{博}
+\gdef\pluto@exuewei{Doctor}
+\gdef\pluto@exueweier{Doctoral}
 \fi
 \ifpluto@master
-\gdef\pluto@cdegree{\pluto@cxueke 硕士}
-\gdef\pluto@edegree{Master \ of \pluto@exueke}
+\gdef\pluto@cxueweishort{硕}
+\gdef\pluto@exuewei{Master}
+\gdef\pluto@exueweier{Master's}
 \fi
 
-%定义 学科 学位
-\def \xueke {Engineering}
-\def \xuekeEngineering {Engineering}
-\def \xuekeScience {Science}
-\def \xuekeManagement {Management}
-\def \xuekeArts {Arts}
-\def \xuekePhilosophy {Philosophy}
-\def \xuekeEconomics {Economics}
-\def \xuekeLaws {Laws}
-\def \xuekeEducation {Education}
-\def \xuekeHistory {History}
+\gdef\pluto@cxuewei{\pluto@cxueweishort 士}
+\gdef\pluto@cdegree{\pluto@cxueke\pluto@cxuewei}
+\gdef\pluto@edegree{\pluto@exuewei \ of \pluto@exueke}
 
-
-\ifx \xueke \xuekeEngineering
-\newcommand{\cxueke}{工学}
-\newcommand{\exueke}{Engineering}
-\fi
-
-\ifx \xueke \xuekeScience
-\newcommand{\cxueke}{理学}
-\newcommand{\exueke}{Science}
-\fi
-
-\ifx \xueke \xuekeManagement
-\newcommand{\cxueke}{管理学}
-\newcommand{\exueke}{Management}
-\fi
-
-\ifx \xueke \xuekeArts
-\newcommand{\cxueke}{文学}
-\newcommand{\exueke}{Arts}
-\fi
-
-\ifx \xueke \xuekePhilosophy
-\newcommand{\cxueke}{哲学}
-\newcommand{\exueke}{Philosophy}
-\fi
-
-\ifx \xueke \xuekeEconomics
-\newcommand{\cxueke}{经济学}
-\newcommand{\exueke}{Economics}
-\fi
-
-\ifx \xueke \xuekeLaws
-\newcommand{\cxueke}{法学}
-\newcommand{\exueke}{Laws}
-\fi
-
-\ifx \xueke \xuekeEducation
-\newcommand{\cxueke}{教育学}
-\newcommand{\exueke}{Education}
-\fi
-
-\ifx \xueke \xuekeHistory
-\newcommand{\cxueke}{历史学}
-\newcommand{\exueke}{History}
-\fi
-
+\def\plutosetup{\kvsetkeys{pluto}}
+%%%}}}
 
 \theoremstyle{plain}
-\theorembodyfont{\song\rmfamily}
-\theoremheaderfont{\hei\rmfamily}
-\newtheorem{definition}{\hei 定义}[chapter]
-\newtheorem{example}{\hei 例}[chapter]
-\newtheorem{algo}{\hei 算法}[chapter]
-\newtheorem{theorem}{\hei 定理}[chapter]
-\newtheorem{axiom}{\hei 公理}[chapter]
-\newtheorem{proposition}{\hei 命题}[chapter]
-\newtheorem{lemma}{\hei 引理}[chapter]
-\newtheorem{corollary}{\hei 推论}[chapter]
-\newtheorem{remark}{\hei 注解}[chapter]
-\newenvironment{proof}{\noindent{\hei 证明：}}{\hfill $ \square $ \vskip 4mm}
+\theorembodyfont{\songti\rmfamily}
+\theoremheaderfont{\heiti\rmfamily}
+\newtheorem{definition}{\heiti 定义}[chapter]
+\newtheorem{example}{\heiti 例}[chapter]
+\newtheorem{algo}{\heiti 算法}[chapter]
+\newtheorem{theorem}{\heiti 定理}[chapter]
+\newtheorem{axiom}{\heiti 公理}[chapter]
+\newtheorem{proposition}{\heiti 命题}[chapter]
+\newtheorem{lemma}{\heiti 引理}[chapter]
+\newtheorem{corollary}{\heiti 推论}[chapter]
+\newtheorem{remark}{\heiti 注解}[chapter]
+\newenvironment{proof}{\noindent{\heiti 证明：}}{\hfill $ \square $ \vskip 4mm}
 \theoremsymbol{$\square$}
 \setlength{\theorempreskipamount}{0pt}
 \setlength{\theorempostskipamount}{-2pt}
@@ -407,7 +418,7 @@ breaklines=true
 
 \arraycolsep=1.6pt
 
-\renewcommand\contentsname{\hei 目~~~~录}
+\renewcommand\contentsname{\heiti 目~~~~录}
 
 \CTEXsetup[number={\arabic{chapter}}]{chapter}
 \renewcommand\chaptername{第~\thechapter~章}
@@ -416,16 +427,16 @@ breaklines=true
 \setcounter{secnumdepth}{4} \setcounter{tocdepth}{2}
 
 
-\titleformat{\chapter}{\center\xiaoer\hei}{\chaptertitlename}{0.5em}{}
+\titleformat{\chapter}{\center\xiaoer\heiti}{\chaptertitlename}{0.5em}{}
 \titlespacing{\chapter}{0pt}{-5.5mm}{8mm}
-\titleformat{\section}{\xiaosan\hei}{\thesection}{0.5em}{}
+\titleformat{\section}{\xiaosan\heiti}{\thesection}{0.5em}{}
 \titlespacing{\section}{0pt}{4.5mm}{4.5mm}
-\titleformat{\subsection}{\sihao\hei}{\thesubsection}{0.5em}{}
+\titleformat{\subsection}{\sihao\heiti}{\thesubsection}{0.5em}{}
 \titlespacing{\subsection}{0pt}{4mm}{4mm}
-\titleformat{\subsubsection}{\xiaosi\hei}{\thesubsubsection}{0.5em}{}
+\titleformat{\subsubsection}{\xiaosi\heiti}{\thesubsubsection}{0.5em}{}
 \titlespacing{\subsubsection}{0pt}{0pt}{0pt}
 
-\titlecontents{chapter}[3.8em]{\hspace{-3.8em}\hei}{\thecontentslabel~~}{}{\titlerule*[4pt]{.}\contentspage}
+\titlecontents{chapter}[3.8em]{\hspace{-3.8em}\heiti}{\thecontentslabel~~}{}{\titlerule*[4pt]{.}\contentspage}
 \dottedcontents{section}[32pt]{}{21pt}{0.3pc}
 \dottedcontents{subsection}[53pt]{}{30pt}{0.3pc}
 
@@ -455,12 +466,12 @@ breaklines=true
 %根据单双面打印设置不同的页眉；
 
 \ifpluto@doctor
-  \fancyhead[CO]{\song \xiaowu\leftmark}
-  \fancyhead[CE]{\song \xiaowu 哈尔滨工业大学\cxueke\cxuewei 学位论文}%
+  \fancyhead[CO]{\songti \xiaowu\leftmark}
+  \fancyhead[CE]{\songti \xiaowu 哈尔滨工业大学\pluto@cdegree 学位论文}%
   \fancyfoot[C,C]{\xiaowu -~\thepage~-}
 \else
-  \fancyhead[CO]{\song \xiaowu 哈尔滨工业大学\cxueke\cxuewei 学位论文}
-  \fancyhead[CE]{\song \xiaowu 哈尔滨工业大学\cxueke\cxuewei 学位论文}%
+  \fancyhead[CO]{\songti \xiaowu 哈尔滨工业大学\pluto@cdegree 学位论文}
+  \fancyhead[CE]{\songti \xiaowu 哈尔滨工业大学\pluto@cdegree 学位论文}%
   \fancyfoot[C,C]{\xiaowu -~\thepage~-}
 \fi
 
@@ -522,23 +533,23 @@ breaklines=true
     % 封面一
    \vspace*{0.8cm}
    \begin{center}
-    \centerline{\xiaoyi\song\textbf{\cxuewei 学位论文}}
+    \centerline{\xiaoyi\songti\textbf{\pluto@cxuewei 学位论文}}
 
     \vspace{1cm}
 
     \parbox[t][2.8cm][t]{\textwidth}{
-    \begin{center}\erhao\hei\pluto@ctitle\end{center} }
+    \begin{center}\erhao\heiti\pluto@ctitle\end{center} }
 
     \parbox[t][5.1cm][t]{\textwidth}{ %英文标题太长时可以采用\xiaoer
     \begin{center}\erhao\textbf{\pluto@etitle}\end{center} }
 
     \parbox[t][7.4cm][t]{\textwidth}{
-    \begin{center}\xiaoer\song\textbf{\pluto@cauthor}\end{center}}
+    \begin{center}\xiaoer\songti\textbf{\pluto@cauthor}\end{center}}
 
     \parbox[t][1.4cm][t]{\textwidth}{
     \begin{center}\kaishu\xiaoer\textbf{哈尔滨工业大学}\end{center} }
 
-    {\song\xiaoer\textbf{\pluto@cdate}}
+    {\songti\xiaoer\textbf{\pluto@cdate}}
 
     \end{center}
 
@@ -556,12 +567,12 @@ breaklines=true
 
 \begin{center}
 
-			{\song \xiaosi
+			{\songti \xiaosi
 			\begin{tabular}{@{}r@{：}l@{}}
 			国内图书分类号 & \pluto@natclassifiedindex\\
  			国际图书分类号 & \pluto@internatclassifiedindex
 			\end{tabular}}\hfill
-			{\song \xiaosi
+			{\songti \xiaosi
 			\begin{tabular}{@{}r@{：}l@{}}
 			学校代码 & 10213\\
  			密级 & \pluto@statesecrets
@@ -569,23 +580,21 @@ breaklines=true
     \parbox[t][3.2cm][t]{\textwidth}{\begin{center} \end{center} }
 
     \parbox[t][2.4cm][t]{\textwidth}{\xiaoer
-    \begin{center} {\song \bfseries \pluto@cdegree 学位论文 }\end{center} }
+    \begin{center} {\songti \bfseries \pluto@cdegree 学位论文 }\end{center} }
 
     \parbox[t][5cm][t]{\textwidth}{\erhao
-    \begin{center} {\hei  \pluto@ctitle}\end{center} }
+    \begin{center} {\heiti  \pluto@ctitle}\end{center} }
 	\parbox[t][9.8cm][b]{\textwidth}
      {\sihao
-    \begin{center} \renewcommand{\arraystretch}{1.62} \song
+    \begin{center} \renewcommand{\arraystretch}{1.62} \songti
     \begin{tabular}{l@{：}l}
-    {\hei \pluto@xueweishort \hfill 士\hfill 研\hfill 究\hfill 生}           & \pluto@cauthor\\
-    {\hei 导\hfill 师}                       & \pluto@csupervisor\\
-	\pluto@cassosupervisor
-	\pluto@ccosupervisor
-    {\hei 申\hfill 请\hfill 学\hfill 位} & \pluto@cdegree\\
-    {\hei 学\hfill 科}           & \pluto@csubject\\
-    {\hei 所\hfill 在\hfill 单\hfill 位} & \pluto@caffil\\
-    {\hei 答\hfill 辩\hfill 日\hfill 期} & \pluto@cdate\\
-    {\hei 授予学位单位}                     & 哈尔滨工业大学
+    {\heiti \pluto@cxueweishort \hfill 士\hfill 研\hfill 究\hfill 生}           & \pluto@cauthor\\
+    {\heiti 导\hfill 师}                       & \pluto@csupervisor\\
+    {\heiti 申\hfill 请\hfill 学\hfill 位} & \pluto@cdegree\\
+    {\heiti 学\hfill 科}           & \pluto@csubject\\
+    {\heiti 所\hfill 在\hfill 单\hfill 位} & \pluto@caffil\\
+    {\heiti 答\hfill 辩\hfill 日\hfill 期} & \pluto@cdate\\
+    {\heiti 授予学位单位}                     & 哈尔滨工业大学
     \end{tabular} \renewcommand{\arraystretch}{1}
     \end{center} }
 \end{center}
@@ -608,7 +617,7 @@ breaklines=true
     \begin{center}
     \parbox[t][1.6cm][t]{\textwidth}{\begin{center} \end{center} }
     \parbox[t][3.5cm][t]{\textwidth}{\xiaoer
-    \begin{center} {  Dissertation for the {\exueweier} Degree in \exueke}\end{center} } %与中文保持一致，删除in {\exueke}
+    \begin{center} {  Dissertation for the {\pluto@exueweier} Degree in \pluto@exueke}\end{center} } %与中文保持一致，删除in {\pluto@exueke}
 
     \parbox[t][7cm][t]{\textwidth}{\erhao
     \begin{center} { \bfseries \pluto@etitle}\end{center} }
@@ -618,8 +627,6 @@ breaklines=true
     \begin{tabular}{@{}l@{~}l@{}}
     \textbf{Candidate:}                     &  \pluto@eauthor\\
     \textbf{Supervisor:}                    &  \pluto@esupervisor\\
-	  \pluto@eassosupervisor
-	  \pluto@ecosupervisor
     \textbf{Academic Degree Applied for:}   &  \pluto@edegree\\
     \textbf{Specialty:}                     &  \pluto@esubject\\
     \textbf{Affiliation:}                   &  \pluto@eaffil\\
@@ -655,12 +662,12 @@ breaklines=true
 \BiAppendixChapter{摘\quad 要}{Abstract (In Chinese)}
 
 \setcounter{page}{1}
-\song\defaultfont
-\@cabstract
+\songti\defaultfont
+  \pluto@cabstract
 \vspace{\baselineskip}
 
 \hangafter=1\hangindent=51pt\noindent
-{\hei 关键词}：\@ckeywords
+{\heiti 关键词}：
 
 %%%%%%%%%%%%%%%%%%%   English Abstract  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
@@ -672,11 +679,11 @@ breaklines=true
 \addtocontents{toc}{\vspace{\baselineskip}}
 \addtocontents{toe}{\vspace{\baselineskip}}
 \chapter*{\bf Abstract}
-\@eabstract
+\pluto@eabstract
 \vspace{\baselineskip}
 
 \hangafter=1\hangindent=60pt\noindent
-{\textbf{Keywords:}}  \@ekeywords
+{\textbf{Keywords:}} 
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
