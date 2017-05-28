@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesClass{plutothesis}[2017/05/23 0.0.0 Harbin Institute of Technology Thesis Template]
-\ProvidesClass{thuthesis}
+\ProvidesClass{plutothesis}
 
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions{
@@ -79,13 +79,13 @@
 \includepdfset{fitpaper=true}
 \RequirePackage{enumitem}       %使用enumitem宏包,改变列表项的格式
 %\RequirePackage{environ}
-%\ifthu@raggedbottom
+%\ifpluto@raggedbottom
 %  \RequirePackage[bottom,perpage,hang]{footmisc}
 %  \raggedbottom
 %\else
 %  \RequirePackage[perpage,hang]{footmisc}
 %\fi
-%\ifthu@pifootnote
+%\ifpluto@pifootnote
 %  \RequirePackage{pifont}
 %\fi
 %\RequirePackage{CJKfntef}
@@ -116,7 +116,7 @@
 %  hcentering,
 %  ignoreall,
 %  nomarginpar}
-%\ifthu@bachelor
+%\ifpluto@bachelor
 %  \geometry{
 %    left=32mm,
 %    headheight=5mm,
@@ -153,7 +153,7 @@
 %\RequirePackage{fontspec}
 
 
-\usepackage[boxed,linesnumbered,algochapter]{algorithm2e}  % 算法的宏包，注意宏包兼容性，先后顺序为float、hyperref、algorithm(2e)，否则无法生成算法列表 
+\usepackage[boxed,linesnumbered,algochapter]{algorithm2e}  % 算法的宏包，注意宏包兼容性，先后顺序为float、hyperref、algorithm(2e)，否则无法生成算法列表
 \usepackage{xltxtra}
 \usepackage{listings}
 \lstset{
@@ -161,33 +161,6 @@
 columns=flexible,
 breaklines=true
 }
-
-\@tempcnta=128
-\loop \catcode\@tempcnta=13 \ifnum\@tempcnta<255 \advance \@tempcnta \@ne
-\repeat
-
-\newcommand{\xueke}{Engineering}
-
-\ifpluto@doctor
-  \newcommand{\cxuewei}{博士}
-  \newcommand{\exuewei}{Doctor}
-  \newcommand{\exueweier}{Doctoral}
-  \newcommand{\pluto@xueweishort}{博}
-\fi
-
-\ifpluto@master
-  \newcommand{\cxuewei}{硕士}
-  \newcommand{\exuewei}{Master}
-  \newcommand{\exueweier}{Master's}
-  \newcommand{\pluto@xueweishort}{硕}
-\fi
-
-
-
-
-
-
-
 
 \defaultfontfeatures{Mapping=tex-text}
 \xeCJKsetemboldenfactor{1}%只对随后定义的CJK字体有效
@@ -300,6 +273,56 @@ breaklines=true
    \addcontentsline{aen}{algoen}{\protect\numberline{\thealgoen}{#2}}
    }
 
+
+
+% 使用key-value 设置封面选项
+\def\pluto@def@term#1{%
+  \define@key{pluto}{#1}{\csname #1\endcsname{##1}}
+  \expandafter\gdef\csname #1\endcsname##1{%
+    \expandafter\gdef\csname pluto@#1\endcsname{##1}}
+  \csname #1\endcsname{}}
+
+\pluto@def@term{statesecrets} %密级
+\pluto@def@term{natclassifiedindex}  %国内图书分类号
+\pluto@def@term{internatclassifiedindex}  %国际图书分类号
+
+\pluto@def@term{ctitle} %中文标题
+\pluto@def@term{cxueke} %中文学科
+\pluto@def@term{cauthor} %中文作者
+\pluto@def@term{csupervisor} %中文导师
+\pluto@def@term{cassosupervisor} %中文副导师
+\pluto@def@term{ccosupervisor}%中文联合导师
+\pluto@def@term{caffil}%中文院系
+\pluto@def@term{csubject}%中文专业
+\pluto@def@term{cdate}
+
+\pluto@def@term{etitle} %英文标题
+\pluto@def@term{edegree} %英文学位
+\pluto@def@term{eauthor} %英文作者
+\pluto@def@term{esupervisor} %英文导师
+\pluto@def@term{eassosupervisor} %英文副导师
+\pluto@def@term{ecosupervisor} %英文联合导师
+\pluto@def@term{eaffil}
+\pluto@def@term{esubject}
+\pluto@def@term{edate}
+
+%\pluto@def@term{id}
+%\pluto@def@term{udc}
+%\pluto@def@term{catalognumber}
+%\pluto@def@term{cfirstdiscipline}
+%\pluto@def@term{cseconddiscipline}
+%\pluto@def@term{postdoctordate}
+
+
+\ifpluto@doctor
+\gdef\pluto@cdegree{\pluto@cxueke 博士}
+\gdef\pluto@edegree{Doctor \ of \pluto@exueke}
+\fi
+\ifpluto@master
+\gdef\pluto@cdegree{\pluto@cxueke 硕士}
+\gdef\pluto@edegree{Master \ of \pluto@exueke}
+\fi
+
 %定义 学科 学位
 \def \xueke {Engineering}
 \def \xuekeEngineering {Engineering}
@@ -378,7 +401,7 @@ breaklines=true
 
 \allowdisplaybreaks[4]
 
-%\CJKcaption {gb_452} 
+%\CJKcaption {gb_452}
 %\CJKtilde
 \setlength{\parindent}{2em}
 
@@ -486,43 +509,13 @@ breaklines=true
   \setlength\belowdisplayskip{\abovedisplayskip}
   \setlength\belowdisplayshortskip{\abovedisplayshortskip}
   \let\@listi\@listI}
-  
+
 % 设置行距和段落间垂直距离
 \def\defaultfont{\renewcommand{\baselinestretch}{1.62}\normalsize\selectfont}
-\renewcommand{\CJKglue}{\hskip 0.56pt plus 0.08\baselineskip} 
+\renewcommand{\CJKglue}{\hskip 0.56pt plus 0.08\baselineskip}
 %加大字间距，使每行34个字，若要使得每行33个字，则将0.56pt替换为0.96pt。
 \predisplaypenalty=0  %公式之前可以换页，公式出现在页面顶部
 
-% 封面、摘要、版权、致谢格式定义
-\def\ctitle#1{\def\@ctitle{#1}}\def\@ctitle{}
-\def\cdegree#1{\def\@cdegree{#1}}\def\@cdegree{}
-\def\caffil#1{\def\@caffil{#1}}\def\@caffil{}
-\def\csubject#1{\def\@csubject{#1}}\def\@csubject{}
-\def\cauthor#1{\def\@cauthor{#1}}\def\@cauthor{}
-\def\csupervisor#1{\def\@csupervisor{#1}}\def\@csupervisor{}
-\def\cassosupervisor#1{\def\@cassosupervisor{{\hei 副 \hfill 导 \hfill 师} & #1\\}}\def\@cassosupervisor{}
-\def\ccosupervisor#1{\def\@ccosupervisor{{\hei 联 \hfill 合\hfill 导 \hfill 师} & #1\\}}\def\@ccosupervisor{}
-\def\cdate#1{\def\@cdate{#1}}\def\@cdate{}
-\long\def\cabstract#1{\long\def\@cabstract{#1}}\long\def\@cabstract{}
-\def\ckeywords#1{\def\@ckeywords{#1}}\def\@ckeywords{}
-
-\def\etitle#1{\def\@etitle{#1}}\def\@etitle{}
-\def\edegree#1{\def\@edegree{#1}}\def\@edegree{}
-\def\eaffil#1{\def\@eaffil{#1}}\def\@eaffil{}
-\def\esubject#1{\def\@esubject{#1}}\def\@esubject{}
-\def\eauthor#1{\def\@eauthor{#1}}\def\@eauthor{}
-\def\esupervisor#1{\def\@esupervisor{#1}}\def\@esupervisor{}
-\def\eassosupervisor#1{\def\@eassosupervisor{\textbf{Associate Supervisor:} & #1\\}}\def\@eassosupervisor{}
-\def\ecosupervisor#1{\def\@ecosupervisor{\textbf{Co Supervisor:} & #1\\}}\def\@ecosupervisor{}
-\def\edate#1{\def\@edate{#1}}\def\@edate{}
-\long\def\eabstract#1{\long\def\@eabstract{#1}}\long\def\@eabstract{}
-\long\def\NotationList#1{\long\def\@NotationList{#1}}\long\def\@NotationList{}
-\def\ekeywords#1{\def\@ekeywords{#1}}\def\@ekeywords{}
-\def\natclassifiedindex#1{\def\@natclassifiedindex{#1}}\def\@natclassifiedindex{}
-\def\internatclassifiedindex#1{\def\@internatclassifiedindex{#1}}\def\@internatclassifiedindex{}
-\def\statesecrets#1{\def\@statesecrets{#1}}\def\@statesecrets{}
-
-\cdegree{\cxueke\cxuewei}
 % 定义封面
 \def\makecover{
     \begin{titlepage}
@@ -534,18 +527,18 @@ breaklines=true
     \vspace{1cm}
 
     \parbox[t][2.8cm][t]{\textwidth}{
-    \begin{center}\erhao\hei\@ctitle\end{center} }
+    \begin{center}\erhao\hei\pluto@ctitle\end{center} }
 
     \parbox[t][5.1cm][t]{\textwidth}{ %英文标题太长时可以采用\xiaoer
-    \begin{center}\erhao\textbf{\@etitle}\end{center} }
+    \begin{center}\erhao\textbf{\pluto@etitle}\end{center} }
 
     \parbox[t][7.4cm][t]{\textwidth}{
-    \begin{center}\xiaoer\song\textbf{\@cauthor}\end{center}}
+    \begin{center}\xiaoer\song\textbf{\pluto@cauthor}\end{center}}
 
     \parbox[t][1.4cm][t]{\textwidth}{
     \begin{center}\kaishu\xiaoer\textbf{哈尔滨工业大学}\end{center} }
-    
-    {\song\xiaoer\textbf{\@cdate}}
+
+    {\song\xiaoer\textbf{\pluto@cdate}}
 
     \end{center}
 
@@ -559,39 +552,39 @@ breaklines=true
     %内封
     \newpage
     \thispagestyle{empty}
-    \pdfbookmark[0]{\@ctitle}{ctitlepage}
+    \pdfbookmark[0]{\pluto@ctitle}{ctitlepage}
 
 \begin{center}
 
 			{\song \xiaosi
 			\begin{tabular}{@{}r@{：}l@{}}
-			国内图书分类号 & \@natclassifiedindex\\
- 			国际图书分类号 & \@internatclassifiedindex
+			国内图书分类号 & \pluto@natclassifiedindex\\
+ 			国际图书分类号 & \pluto@internatclassifiedindex
 			\end{tabular}}\hfill
 			{\song \xiaosi
 			\begin{tabular}{@{}r@{：}l@{}}
 			学校代码 & 10213\\
- 			密级 &  公开
+ 			密级 & \pluto@statesecrets
 			\end{tabular}}
     \parbox[t][3.2cm][t]{\textwidth}{\begin{center} \end{center} }
 
     \parbox[t][2.4cm][t]{\textwidth}{\xiaoer
-    \begin{center} {\song \bfseries \@cdegree 学位论文 }\end{center} }
+    \begin{center} {\song \bfseries \pluto@cdegree 学位论文 }\end{center} }
 
     \parbox[t][5cm][t]{\textwidth}{\erhao
-    \begin{center} {\hei  \@ctitle}\end{center} }
+    \begin{center} {\hei  \pluto@ctitle}\end{center} }
 	\parbox[t][9.8cm][b]{\textwidth}
      {\sihao
     \begin{center} \renewcommand{\arraystretch}{1.62} \song
     \begin{tabular}{l@{：}l}
-    {\hei \pluto@xueweishort \hfill 士\hfill 研\hfill 究\hfill 生}           & \@cauthor\\
-    {\hei 导\hfill 师}                       & \@csupervisor\\
-	\@cassosupervisor
-	\@ccosupervisor
-    {\hei 申\hfill 请\hfill 学\hfill 位} & \@cdegree\\
-    {\hei 学\hfill 科}           & \@csubject\\
-    {\hei 所\hfill 在\hfill 单\hfill 位} & \@caffil\\
-    {\hei 答\hfill 辩\hfill 日\hfill 期} & \@cdate\\
+    {\hei \pluto@xueweishort \hfill 士\hfill 研\hfill 究\hfill 生}           & \pluto@cauthor\\
+    {\hei 导\hfill 师}                       & \pluto@csupervisor\\
+	\pluto@cassosupervisor
+	\pluto@ccosupervisor
+    {\hei 申\hfill 请\hfill 学\hfill 位} & \pluto@cdegree\\
+    {\hei 学\hfill 科}           & \pluto@csubject\\
+    {\hei 所\hfill 在\hfill 单\hfill 位} & \pluto@caffil\\
+    {\hei 答\hfill 辩\hfill 日\hfill 期} & \pluto@cdate\\
     {\hei 授予学位单位}                     & 哈尔滨工业大学
     \end{tabular} \renewcommand{\arraystretch}{1}
     \end{center} }
@@ -607,43 +600,43 @@ breaklines=true
     % 英文封面
     \newpage
     \thispagestyle{empty}
-    \pdfbookmark[0]{\uppercase{\@etitle}}{etitlepage}
+    \pdfbookmark[0]{\uppercase{\pluto@etitle}}{etitlepage}
 
     {
-    \xiaosi\noindent Classified Index: \@natclassifiedindex \\
-                  U.D.C:  \@internatclassifiedindex }
+    \xiaosi\noindent Classified Index: \pluto@natclassifiedindex \\
+                  U.D.C:  \pluto@internatclassifiedindex }
     \begin{center}
     \parbox[t][1.6cm][t]{\textwidth}{\begin{center} \end{center} }
     \parbox[t][3.5cm][t]{\textwidth}{\xiaoer
     \begin{center} {  Dissertation for the {\exueweier} Degree in \exueke}\end{center} } %与中文保持一致，删除in {\exueke}
 
     \parbox[t][7cm][t]{\textwidth}{\erhao
-    \begin{center} { \bfseries \@etitle}\end{center} }
+    \begin{center} { \bfseries \pluto@etitle}\end{center} }
 
 %★★★★若信息内容不太长，不会引起信息内容分行时，使用tabular环境，否则使用下面的tabularx环境。
     {\sihao\renewcommand{\arraystretch}{1.3}
     \begin{tabular}{@{}l@{~}l@{}}
-    \textbf{Candidate:}                     &  \@eauthor\\
-    \textbf{Supervisor:}                    &  \@esupervisor\\
-	  \@eassosupervisor
-	  \@ecosupervisor
-    \textbf{Academic Degree Applied for:}   &  \@edegree\\
-    \textbf{Specialty:}                     &  \@esubject\\
-    \textbf{Affiliation:}                   &  \@eaffil\\
-    \textbf{Date of Defence:}               &  \@edate\\
+    \textbf{Candidate:}                     &  \pluto@eauthor\\
+    \textbf{Supervisor:}                    &  \pluto@esupervisor\\
+	  \pluto@eassosupervisor
+	  \pluto@ecosupervisor
+    \textbf{Academic Degree Applied for:}   &  \pluto@edegree\\
+    \textbf{Specialty:}                     &  \pluto@esubject\\
+    \textbf{Affiliation:}                   &  \pluto@eaffil\\
+    \textbf{Date of Defence:}               &  \pluto@edate\\
     \textbf{Degree-Conferring-Institution:} &  Harbin Institute of Technology
     \end{tabular}\renewcommand{\arraystretch}{1}}
 
     %{\sihao\renewcommand{\arraystretch}{1.3}
     %\begin{tabularx}{\textwidth}{@{}l@{~}X@{}}
-    %\textbf{Candidate:}                     &  \@eauthor\\
-    %\textbf{Supervisor:}                    &  \@esupervisor\\
-		%\@eassosupervisor
-	  %\@ecosupervisor
-    %\textbf{Academic Degree Applied for:}   &  \@edegree\\
-    %\textbf{Specialty:}                     &  \@esubject\\
-    %\textbf{Affiliation:}                   &  \@eaffil\\
-    %\textbf{Date of Defence:}               &  \@edate\\
+    %\textbf{Candidate:}                     &  \pluto@eauthor\\
+    %\textbf{Supervisor:}                    &  \pluto@esupervisor\\
+		%\pluto@eassosupervisor
+	  %\pluto@ecosupervisor
+    %\textbf{Academic Degree Applied for:}   &  \pluto@edegree\\
+    %\textbf{Specialty:}                     &  \pluto@esubject\\
+    %\textbf{Affiliation:}                   &  \pluto@eaffil\\
+    %\textbf{Date of Defence:}               &  \pluto@edate\\
     %\textbf{Degree-Conferring-Institution:} &  Harbin Institute of Technology
     %\end{tabularx}\renewcommand{\arraystretch}{1}}
 
@@ -675,7 +668,7 @@ breaklines=true
 \phantomsection
 \markboth{Abstract}{Abstract}
 \addcontentsline{toc}{chapter}{\xiaosi ABSTRACT}
-\addcontentsline{toe}{chapter}{\bfseries \xiaosi Abstract (In English)}  
+\addcontentsline{toe}{chapter}{\bfseries \xiaosi Abstract (In English)}
 \addtocontents{toc}{\vspace{\baselineskip}}
 \addtocontents{toe}{\vspace{\baselineskip}}
 \chapter*{\bf Abstract}
