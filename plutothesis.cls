@@ -89,7 +89,7 @@
 %\ifpluto@pifootnote
 %  \RequirePackage{pifont}
 %\fi
-%\RequirePackage{CJKfntef}
+\RequirePackage{CJKfntef} % 汉字加点，分散对齐功能
 \RequirePackage[amsmath,thmmarks,hyperref]{ntheorem}% 定理类环境宏包，其中 amsmath 选项用来兼容 AMS LaTeX 的宏包
 %\RequirePackage{array}
 \RequirePackage{longtable}      %支持跨页的表格。
@@ -141,7 +141,21 @@
 \RequirePackage[a4paper,text={150true mm,224true mm},top=35.5true mm,left=30true mm,head=5true mm,headsep=2.5true mm,foot=8.5true mm]{geometry}
 
 \RequirePackage{fancyhdr}                   % fancyhdr宏包 页眉和页脚的相关定义
+\let\pluto@cleardoublepage\cleardoublepage
+\newcommand{\pluto@clearemptydoublepage}{%
+  \clearpage{\pagestyle{pluto@empty}\pluto@cleardoublepage}}
+\let\cleardoublepage\pluto@clearemptydoublepage
+\renewcommand\frontmatter{%
+  \if@openright\cleardoublepage\else\clearpage\fi
+  \@mainmatterfalse
+  \pagenumbering{Roman}
+  \pagestyle{pluto@empty}}
 
+\renewcommand\mainmatter{%
+  \if@openright\cleardoublepage\else\clearpage\fi
+  \@mainmattertrue
+  \pagenumbering{arabic}
+  \ifpluto@bachelor\pagestyle{pluto@plain}\else\pagestyle{pluto@headings}\fi}
 
 %\RequirePackage{xeCJK} 应该可以删除
 \RequirePackage{tabularx}
@@ -170,41 +184,6 @@ breaklines=true
 %%%}}}
 
 %%%{{{ Font
-%\defaultfontfeatures{Mapping=tex-text}
-%\xeCJKsetemboldenfactor{1}%只对随后定义的CJK字体有效
-%\setCJKfamilyfont{hei}{SimHei}
-%\xeCJKsetemboldenfactor{4}
-%\setCJKfamilyfont{song}{SimSun}
-%\xeCJKsetemboldenfactor{1}
-%\setCJKfamilyfont{fs}{FangSong}
-%\setCJKfamilyfont{kai}{KaiTi}
-%\setCJKfamilyfont{li}{LiSu}
-%\setCJKfamilyfont{xw}{STXinwei}
-%\setCJKmainfont{SimSun}
-%\setCJKsansfont{SimHei}
-%\setmainfont{Times New Roman}
-%\setsansfont{Arial}
-%\newcommand*{\heiti}{\CJKfamily{hei}}% 黑体   (Windows自带simhei.ttf)
-%\newcommand*{\songti}{\CJKfamily{song}}    % 宋体   (Windows自带simsun.ttf)
-%\newcommand*{\fs}{\CJKfamily{fs}}        % 仿宋体 (Windows自带simfs.ttf)
-%\newcommand*{\kaishu}{\CJKfamily{kai}}      % 楷体   (Windows自带simkai.ttf)
-%\newcommand*{\li}{\CJKfamily{li}}        % 隶书   (Windows自带simli.ttf)
-%\newcommand*{\xw}{\CJKfamily{xw}}        % 隶书   (Windows自带simli.ttf)
-%\newfontfamily\arial{Arial}
-%\newfontfamily\timesnewroman{Times New Roman}
-%
-%\newcommand{\yihao}{\fontsize{26pt}{26pt}\selectfont}       % 一号, 1.倍行距
-%\newcommand{\xiaoyi}{\fontsize{24pt}{24pt}\selectfont}      % 小一, 1.倍行距
-%\newcommand{\erhao}{\fontsize{22pt}{1.25\baselineskip}\selectfont}       % 二号, 1.倍行距
-%\newcommand{\xiaoer}{\fontsize{18pt}{18pt}\selectfont}      % 小二, 单倍行距
-%\newcommand{\sanhao}{\fontsize{16pt}{16pt}\selectfont}      % 三号, 1.倍行距
-%\newcommand{\xiaosan}{\fontsize{15pt}{15pt}\selectfont}     % 小三, 1.倍行距
-%\newcommand{\sihao}{\fontsize{14pt}{14pt}\selectfont}       % 四号, 1.0倍行距
-%\newcommand{\xiaosi}{\fontsize{12pt}{12pt}\selectfont}      % 小四, 1.倍行距
-%\newcommand{\wuhao}{\fontsize{10.5pt}{10.5pt}\selectfont}   % 五号, 单倍行距
-%\newcommand{\xiaowu}{\fontsize{9pt}{9pt}\selectfont}        % 小五, 单倍行距
-%
-
 \renewcommand\normalsize{%
   \@setfontsize\normalsize{12bp}{20bp}%
   \abovedisplayskip=20bp \@plus 2bp \@minus 2bp
@@ -233,6 +212,23 @@ breaklines=true
 \pluto@def@fontsize{qihao}{5.5bp}
 \pluto@def@fontsize{bahao}{5bp}
 %%%}}}
+
+\fancypagestyle{pluto@empty}{%
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}}
+\fancypagestyle{pluto@plain}{%
+  \fancyhead{}
+  \fancyfoot[C]{\xiaowu\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}}
+\fancypagestyle{pluto@headings}{%
+  \fancyhead{}
+  \fancyhead[C]{\wuhao\normalfont\leftmark}
+  \fancyfoot{}
+  \fancyfoot[C]{\wuhao\thepage}
+  \renewcommand{\headrulewidth}{0.4pt}
+  \renewcommand{\footrulewidth}{0pt}}
 
 %%%{{{ Structure
 
@@ -374,22 +370,6 @@ breaklines=true
 \pluto@parse@keywords{ckeywords}
 \pluto@parse@keywords{ekeywords}
 
-
-\ifpluto@doctor
-\gdef\pluto@cxueweishort{博}
-\gdef\pluto@exuewei{Doctor}
-\gdef\pluto@exueweier{Doctoral}
-\fi
-\ifpluto@master
-\gdef\pluto@cxueweishort{硕}
-\gdef\pluto@exuewei{Master}
-\gdef\pluto@exueweier{Master's}
-\fi
-
-\gdef\pluto@cxuewei{\pluto@cxueweishort 士}
-\gdef\pluto@cdegree{\pluto@cxueke\pluto@cxuewei}
-\gdef\pluto@edegree{\pluto@exuewei \ of \pluto@exueke}
-
 \def\plutosetup{\kvsetkeys{pluto}}
 %%%}}}
 
@@ -414,6 +394,7 @@ breaklines=true
 
 %\CJKcaption {gb_452}
 %\CJKtilde
+
 \setlength{\parindent}{2em}
 
 \arraycolsep=1.6pt
@@ -448,36 +429,32 @@ breaklines=true
 
 
 % 定义页眉和页脚
-\newcommand{\makeheadrule}{
-\rule[7pt]{\textwidth}{0.75pt} \\[-23pt]
-\rule{\textwidth}{2.25pt}}
-\renewcommand{\headrule}{
-    {\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi
-     \makeheadrule}}
-\pagestyle{fancyplain}
-
-%去掉章节标题中的数字
-%%不要注销这一行，否则页眉会变成：“第1章1  绪论”样式
-\renewcommand{\chaptermark}[1]{\markboth{\chaptertitlename~\ #1}{}}
-\fancyhf{}
-
-%在book文件类别下,\leftmark自动存录各章之章名,\rightmark记录节标题
-%% 页眉字号 工大要求 小五
-%根据单双面打印设置不同的页眉；
-
-\ifpluto@doctor
-  \fancyhead[CO]{\songti \xiaowu\leftmark}
-  \fancyhead[CE]{\songti \xiaowu 哈尔滨工业大学\pluto@cdegree 学位论文}%
-  \fancyfoot[C,C]{\xiaowu -~\thepage~-}
-\else
-  \fancyhead[CO]{\songti \xiaowu 哈尔滨工业大学\pluto@cdegree 学位论文}
-  \fancyhead[CE]{\songti \xiaowu 哈尔滨工业大学\pluto@cdegree 学位论文}%
-  \fancyfoot[C,C]{\xiaowu -~\thepage~-}
-\fi
-
-\renewcommand\frontmatter{\cleardoublepage
-  \@mainmatterfalse
-  \pagenumbering{Roman}}
+%%\newcommand{\makeheadrule}{
+%%\rule[7pt]{\textwidth}{0.75pt} \\[-23pt]
+%%\rule{\textwidth}{2.25pt}}
+%%\renewcommand{\headrule}{
+%%    {\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi
+%%     \makeheadrule}}
+%%\pagestyle{fancyplain}
+%%
+%%%去掉章节标题中的数字
+%%%%不要注销这一行，否则页眉会变成：“第1章1  绪论”样式
+%%\renewcommand{\chaptermark}[1]{\markboth{\chaptertitlename~\ #1}{}}
+%%\fancyhf{}
+%%
+%%%在book文件类别下,\leftmark自动存录各章之章名,\rightmark记录节标题
+%%%% 页眉字号 工大要求 小五
+%%%根据单双面打印设置不同的页眉；
+%%
+%%\ifpluto@doctor
+%%  \fancyhead[CO]{\songti \xiaowu\leftmark}
+%%  \fancyhead[CE]{\songti \xiaowu 哈尔滨工业大学\pluto@cdegree 学位论文}%
+%%  \fancyfoot[C,C]{\xiaowu -~\thepage~-}
+%%\else
+%%  \fancyhead[CO]{\songti \xiaowu 哈尔滨工业大学\pluto@cdegree 学位论文}
+%%  \fancyhead[CE]{\songti \xiaowu 哈尔滨工业大学\pluto@cdegree 学位论文}%
+%%  \fancyfoot[C,C]{\xiaowu -~\thepage~-}
+%%\fi
 
 % 调整罗列环境的布局
 \setitemize{leftmargin=0em,itemsep=0em,partopsep=0em,parsep=0em,topsep=0em,itemindent=3em}
@@ -528,162 +505,132 @@ breaklines=true
 \predisplaypenalty=0  %公式之前可以换页，公式出现在页面顶部
 
 % 定义封面
-\def\makecover{
-    \begin{titlepage}
+\def\pluto@first@titlepage{%
+  \ifpluto@postdoctor\pluto@first@titlepage@postdoctor\else\pluto@first@titlepage@other\fi}
+
+\newcommand{\pluto@first@titlepage@other}{
     % 封面一
    \vspace*{0.8cm}
    \begin{center}
     \centerline{\xiaoyi\songti\textbf{\pluto@cxuewei 学位论文}}
-
     \vspace{1cm}
-
     \parbox[t][2.8cm][t]{\textwidth}{
     \begin{center}\erhao\heiti\pluto@ctitle\end{center} }
-
     \parbox[t][5.1cm][t]{\textwidth}{ %英文标题太长时可以采用\xiaoer
     \begin{center}\erhao\textbf{\pluto@etitle}\end{center} }
-
     \parbox[t][7.4cm][t]{\textwidth}{
     \begin{center}\xiaoer\songti\textbf{\pluto@cauthor}\end{center}}
-
     \parbox[t][1.4cm][t]{\textwidth}{
     \begin{center}\kaishu\xiaoer\textbf{哈尔滨工业大学}\end{center} }
-
     {\songti\xiaoer\textbf{\pluto@cdate}}
-
     \end{center}
+}
 
-    % 封二 空白页
-    \ifpluto@doctor
-      \newpage
-      ~~~\vspace{1em}
-      \thispagestyle{empty}
-    \fi
-
-    %内封
-    \newpage
-    \thispagestyle{empty}
-    \pdfbookmark[0]{\pluto@ctitle}{ctitlepage}
-
-\begin{center}
-
-			{\songti \xiaosi
-			\begin{tabular}{@{}r@{：}l@{}}
-			国内图书分类号 & \pluto@natclassifiedindex\\
- 			国际图书分类号 & \pluto@internatclassifiedindex
-			\end{tabular}}\hfill
-			{\songti \xiaosi
-			\begin{tabular}{@{}r@{：}l@{}}
-			学校代码 & 10213\\
- 			密级 & \pluto@statesecrets
-			\end{tabular}}
-    \parbox[t][3.2cm][t]{\textwidth}{\begin{center} \end{center} }
-
+\def\pluto@second@titlepage{%
+  \ifpluto@postdoctor\pluto@second@titlepage@postdoctor\else\pluto@second@titlepage@other\fi}
+%内封
+\newcommand{\pluto@second@titlepage@other}{
+  \begin{center}
+    {\songti \xiaosi
+      \begin{tabular}{@{}r@{：}l@{}}
+	国内图书分类号 & \pluto@natclassifiedindex\\
+	国际图书分类号 & \pluto@internatclassifiedindex
+    \end{tabular}}\hfill
+    {\songti \xiaosi
+      \begin{tabular}{@{}r@{：}l@{}}
+	学校代码 & 10213\\
+	密级 & \pluto@statesecrets
+    \end{tabular}}
+  \parbox[t][3.2cm][t]{\textwidth}{\begin{center} \end{center} }
     \parbox[t][2.4cm][t]{\textwidth}{\xiaoer
-    \begin{center} {\songti \bfseries \pluto@cdegree 学位论文 }\end{center} }
+  \begin{center} {\songti \bfseries \pluto@cdegree 学位论文 }\end{center} }
 
     \parbox[t][5cm][t]{\textwidth}{\erhao
-    \begin{center} {\heiti  \pluto@ctitle}\end{center} }
-	\parbox[t][9.8cm][b]{\textwidth}
-     {\sihao
-    \begin{center} \renewcommand{\arraystretch}{1.62} \songti
-    \begin{tabular}{l@{：}l}
-    {\heiti \pluto@cxueweishort \hfill 士\hfill 研\hfill 究\hfill 生}           & \pluto@cauthor\\
-    {\heiti 导\hfill 师}                       & \pluto@csupervisor\\
-    {\heiti 申\hfill 请\hfill 学\hfill 位} & \pluto@cdegree\\
-    {\heiti 学\hfill 科}           & \pluto@csubject\\
-    {\heiti 所\hfill 在\hfill 单\hfill 位} & \pluto@caffil\\
-    {\heiti 答\hfill 辩\hfill 日\hfill 期} & \pluto@cdate\\
-    {\heiti 授予学位单位}                     & 哈尔滨工业大学
-    \end{tabular} \renewcommand{\arraystretch}{1}
+  \begin{center} {\heiti  \pluto@ctitle}\end{center} }
+    \parbox[t][9.8cm][b]{\textwidth}
+    {\sihao
+      \begin{center} \renewcommand{\arraystretch}{1.62} \songti
+	\begin{tabular}{l@{：}l}
+	  {\heiti \pluto@cxueweishort \hfill 士\hfill 研\hfill 究\hfill 生}           & \pluto@cauthor\\
+	  {\heiti 导\hfill 师}                       & \pluto@csupervisor\\
+	  {\heiti 申\hfill 请\hfill 学\hfill 位} & \pluto@cdegree\\
+	  {\heiti 学\hfill 科}           & \pluto@csubject\\
+	  {\heiti 所\hfill 在\hfill 单\hfill 位} & \pluto@caffil\\
+	  {\heiti 答\hfill 辩\hfill 日\hfill 期} & \pluto@cdate\\
+	  {\heiti 授予学位单位}                     & 哈尔滨工业大学
+	\end{tabular} \renewcommand{\arraystretch}{1}
     \end{center} }
-\end{center}
+  \end{center}
+}
 
-%%%%%%增加一空白页
-  \ifpluto@doctor
-    \newpage
-    ~~~\vspace{1em}
-    \thispagestyle{empty}
-  \fi
+% 英文封面
 
-    % 英文封面
-    \newpage
-    \thispagestyle{empty}
-    \pdfbookmark[0]{\uppercase{\pluto@etitle}}{etitlepage}
-
-    {
+\newcommand{\pluto@engcover}{
+  {
     \xiaosi\noindent Classified Index: \pluto@natclassifiedindex \\
-                  U.D.C:  \pluto@internatclassifiedindex }
-    \begin{center}
-    \parbox[t][1.6cm][t]{\textwidth}{\begin{center} \end{center} }
+  U.D.C:  \pluto@internatclassifiedindex }
+  \begin{center}
+  \parbox[t][1.6cm][t]{\textwidth}{\begin{center} \end{center} }
     \parbox[t][3.5cm][t]{\textwidth}{\xiaoer
-    \begin{center} {  Dissertation for the {\pluto@exueweier} Degree in \pluto@exueke}\end{center} } %与中文保持一致，删除in {\pluto@exueke}
+  \begin{center} {  Dissertation for the {\pluto@exueweier} Degree in \pluto@exueke}\end{center} } %与中文保持一致，删除in {\pluto@exueke}
 
     \parbox[t][7cm][t]{\textwidth}{\erhao
-    \begin{center} { \bfseries \pluto@etitle}\end{center} }
+  \begin{center} { \bfseries \pluto@etitle}\end{center} }
 
-%★★★★若信息内容不太长，不会引起信息内容分行时，使用tabular环境，否则使用下面的tabularx环境。
+    %★★★★若信息内容不太长，不会引起信息内容分行时，使用tabular环境，否则使用下面的tabularx环境。
     {\sihao\renewcommand{\arraystretch}{1.3}
-    \begin{tabular}{@{}l@{~}l@{}}
-    \textbf{Candidate:}                     &  \pluto@eauthor\\
-    \textbf{Supervisor:}                    &  \pluto@esupervisor\\
-    \textbf{Academic Degree Applied for:}   &  \pluto@edegree\\
-    \textbf{Specialty:}                     &  \pluto@esubject\\
-    \textbf{Affiliation:}                   &  \pluto@eaffil\\
-    \textbf{Date of Defence:}               &  \pluto@edate\\
-    \textbf{Degree-Conferring-Institution:} &  Harbin Institute of Technology
+      \begin{tabular}{@{}l@{~}l@{}}
+	\textbf{Candidate:}                     &  \pluto@eauthor\\
+	\textbf{Supervisor:}                    &  \pluto@esupervisor\\
+	\textbf{Academic Degree Applied for:}   &  \pluto@edegree\\
+	\textbf{Specialty:}                     &  \pluto@esubject\\
+	\textbf{Affiliation:}                   &  \pluto@eaffil\\
+	\textbf{Date of Defence:}               &  \pluto@edate\\
+	\textbf{Degree-Conferring-Institution:} &  Harbin Institute of Technology
     \end{tabular}\renewcommand{\arraystretch}{1}}
+  \end{center}
+}
 
-    %{\sihao\renewcommand{\arraystretch}{1.3}
-    %\begin{tabularx}{\textwidth}{@{}l@{~}X@{}}
-    %\textbf{Candidate:}                     &  \pluto@eauthor\\
-    %\textbf{Supervisor:}                    &  \pluto@esupervisor\\
-		%\pluto@eassosupervisor
-	  %\pluto@ecosupervisor
-    %\textbf{Academic Degree Applied for:}   &  \pluto@edegree\\
-    %\textbf{Specialty:}                     &  \pluto@esubject\\
-    %\textbf{Affiliation:}                   &  \pluto@eaffil\\
-    %\textbf{Date of Defence:}               &  \pluto@edate\\
-    %\textbf{Degree-Conferring-Institution:} &  Harbin Institute of Technology
-    %\end{tabularx}\renewcommand{\arraystretch}{1}}
+\def\makecover{
+  \phantomsection
+  \pdfbookmark[-1]{\pluto@ctitle}{ctitle}
+  \normalsize%
+  \begin{titlepage}
+    \pluto@first@titlepage
+    \cleardoublepage
+    \pluto@second@titlepage
+    \cleardoublepage
+    \pluto@engcover
+    \cleardoublepage
+  \end{titlepage}
 
-    \end{center}
-    \end{titlepage}
+  %%%%%%%%%%%%%%%%%%%   Abstract and keywords  %%%%%%%%%%%%%%%%%%%%%%%
+  \BiAppendixChapter{摘\quad 要}{Abstract (In Chinese)}
 
-%%%%%%增加一空白页
-  \ifpluto@doctor
-    \newpage
-    ~~~\vspace{1em}
-    \thispagestyle{empty}
-  \fi
-%%%%%%%%%%%%%%%%%%%   Abstract and keywords  %%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
-
-\BiAppendixChapter{摘\quad 要}{Abstract (In Chinese)}
-
-\setcounter{page}{1}
-\songti\defaultfont
+  \setcounter{page}{1}
+  \songti\defaultfont
   \pluto@cabstract
-\vspace{\baselineskip}
+  \vspace{\baselineskip}
 
-\hangafter=1\hangindent=51pt\noindent
-{\heiti 关键词}：
+  \hangafter=1\hangindent=51pt\noindent
+  {\heiti 关键词}：
 
-%%%%%%%%%%%%%%%%%%%   English Abstract  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
+  %%%%%%%%%%%%%%%%%%%   English Abstract  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \clearpage
 
-\phantomsection
-\markboth{Abstract}{Abstract}
-\addcontentsline{toc}{chapter}{\xiaosi ABSTRACT}
-\addcontentsline{toe}{chapter}{\bfseries \xiaosi Abstract (In English)}
-\addtocontents{toc}{\vspace{\baselineskip}}
-\addtocontents{toe}{\vspace{\baselineskip}}
-\chapter*{\bf Abstract}
-\pluto@eabstract
-\vspace{\baselineskip}
+  \phantomsection
+  \markboth{Abstract}{Abstract}
+  \addcontentsline{toc}{chapter}{\xiaosi ABSTRACT}
+  \addcontentsline{toe}{chapter}{\bfseries \xiaosi Abstract (In English)}
+  \addtocontents{toc}{\vspace{\baselineskip}}
+  \addtocontents{toe}{\vspace{\baselineskip}}
+  \chapter*{\bf Abstract}
+  \pluto@eabstract
+  \vspace{\baselineskip}
 
-\hangafter=1\hangindent=60pt\noindent
-{\textbf{Keywords:}} 
+  \hangafter=1\hangindent=60pt\noindent
+  {\textbf{Keywords:}} 
+
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -711,3 +658,6 @@ breaklines=true
 
 \renewcommand\endtable{\vspace{-4mm}\end@float}
 
+\AtEndOfClass{\input{plutothesis.cfg}}
+\AtEndOfClass{\sloppy}
+\endinput
