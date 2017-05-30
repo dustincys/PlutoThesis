@@ -4,11 +4,11 @@
 \graphicspath{{figures/}}
 
 \begin{document}
-
 \frontmatter
 \input{cover} % 封面
 
 \makecover
+
 \pdfbookmark[0]{目~录}{mulu}
 \tableofcontents    % 中文目录
 \clearpage{\pagestyle{empty}\cleardoublepage}
@@ -30,10 +30,10 @@
 \renewcommand{\appendixname}{附录~\Alph{chapter}}
 \renewcommand{\theequation}{\Alph{chapter}-\arabic{equation}}
 \renewcommand{\thetable}{\Alph{chapter}-\arabic{table}}
-\include{appendix/appA}    % 附录
-\include{appendix/publications}    % 所发文章
-\include{appendix/Authorization}   % 承诺
-\include{appendix/acknowledgements}% 致谢
+%\include{appendix/appA}    % 附录
+%\include{appendix/publications}    % 所发文章
+%\include{appendix/Authorization}   % 承诺
+%\include{appendix/acknowledgements}% 致谢
 %\ifxueweidoctor
 \include{appendix/Resume}          % 博士学位论文有个人简介
 %\fi
@@ -53,7 +53,6 @@
 \begin{document}
 \input{setup/Definition} % 文本格式定义
 \input{setup/format}
-\frontmatter
 \input{cover} % 封面
 \pdfbookmark[0]{目~录}{mulu}
 \tableofcontents    % 中文目录

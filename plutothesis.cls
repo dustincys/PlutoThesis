@@ -74,6 +74,11 @@
 
 
 \RequirePackage{amsmath}        % AMSLaTeX宏包 用来排出更加漂亮的公式
+
+\RequirePackage[defaultsups]{newtxtext}
+\RequirePackage{newtxmath}
+\RequirePackage{courier}
+
 \RequirePackage{graphicx}
 %\RequirePackage[labelformat=simple]{subcaption} 比subfigure 更好？
 \RequirePackage{pdfpages}
@@ -505,6 +510,12 @@ breaklines=true
 \predisplaypenalty=0  %公式之前可以换页，公式出现在页面顶部
 
 % 定义封面
+\newlength{\pluto@title@width}
+\newcommand{\pluto@put@title}[2][\pluto@title@width]{%
+  \begin{CJKfilltwosides}[b]{#1}#2\end{CJKfilltwosides}}
+
+
+
 \def\pluto@first@titlepage{%
   \ifpluto@postdoctor\pluto@first@titlepage@postdoctor\else\pluto@first@titlepage@other\fi}
 
@@ -512,16 +523,16 @@ breaklines=true
     % 封面一
    \vspace*{0.8cm}
    \begin{center}
-    \centerline{\xiaoyi\songti\textbf{\pluto@cxuewei 学位论文}}
+   \begin{center}\xiaoyi[1]\songti\textbf{\pluto@cxuewei\pluto@thesisname}\end{center}
     \vspace{1cm}
     \parbox[t][2.8cm][t]{\textwidth}{
     \begin{center}\erhao\heiti\pluto@ctitle\end{center} }
     \parbox[t][5.1cm][t]{\textwidth}{ %英文标题太长时可以采用\xiaoer
-    \begin{center}\erhao\textbf{\pluto@etitle}\end{center} }
+  \begin{center}\erhao\textbf{\MakeUppercase{\pluto@etitle}}\end{center} }
     \parbox[t][7.4cm][t]{\textwidth}{
     \begin{center}\xiaoer\songti\textbf{\pluto@cauthor}\end{center}}
     \parbox[t][1.4cm][t]{\textwidth}{
-    \begin{center}\kaishu\xiaoer\textbf{哈尔滨工业大学}\end{center} }
+    \begin{center}\kaishu\xiaoer\textbf{\pluto@cschoolname}\end{center} }
     {\songti\xiaoer\textbf{\pluto@cdate}}
     \end{center}
 }
@@ -533,31 +544,37 @@ breaklines=true
   \begin{center}
     {\songti \xiaosi
       \begin{tabular}{@{}r@{：}l@{}}
-	国内图书分类号 & \pluto@natclassifiedindex\\
-	国际图书分类号 & \pluto@internatclassifiedindex
+	\pluto@natclassifiedindextitle & \pluto@natclassifiedindex\\
+	\pluto@internatclassifiedindextitle & \pluto@internatclassifiedindex
     \end{tabular}}\hfill
     {\songti \xiaosi
       \begin{tabular}{@{}r@{：}l@{}}
-	学校代码 & 10213\\
-	密级 & \pluto@statesecrets
+	\pluto@schoolidtitle & \pluto@schoolid\\
+	\pluto@secretlevel & \pluto@statesecrets
     \end{tabular}}
   \parbox[t][3.2cm][t]{\textwidth}{\begin{center} \end{center} }
     \parbox[t][2.4cm][t]{\textwidth}{\xiaoer
-  \begin{center} {\songti \bfseries \pluto@cdegree 学位论文 }\end{center} }
-
+  \begin{center} {\songti \bfseries \pluto@cdegree \pluto@thesisname }\end{center} }
     \parbox[t][5cm][t]{\textwidth}{\erhao
   \begin{center} {\heiti  \pluto@ctitle}\end{center} }
     \parbox[t][9.8cm][b]{\textwidth}
     {\sihao
+      \setlength{\pluto@title@width}{6em}
       \begin{center} \renewcommand{\arraystretch}{1.62} \songti
-	\begin{tabular}{l@{：}l}
-	  {\heiti \pluto@cxueweishort \hfill 士\hfill 研\hfill 究\hfill 生}           & \pluto@cauthor\\
-	  {\heiti 导\hfill 师}                       & \pluto@csupervisor\\
-	  {\heiti 申\hfill 请\hfill 学\hfill 位} & \pluto@cdegree\\
-	  {\heiti 学\hfill 科}           & \pluto@csubject\\
-	  {\heiti 所\hfill 在\hfill 单\hfill 位} & \pluto@caffil\\
-	  {\heiti 答\hfill 辩\hfill 日\hfill 期} & \pluto@cdate\\
-	  {\heiti 授予学位单位}                     & 哈尔滨工业大学
+	\begin{tabular}{l@{\pluto@title@csep}l}
+	  {\heiti \pluto@put@title{\pluto@cauthortitle}}	&	\pluto@cauthor\\
+	  {\heiti \pluto@put@title{\pluto@csupervisortitle}}	&	\pluto@csupervisor\\
+        \ifx\pluto@cassosupervisor\@empty\else%
+	  {\heiti \pluto@put@title{\pluto@cassosupervisortitle}}&	\pluto@cassosupervisor\\
+        \fi
+        \ifx\pluto@ccosupervisor\@empty\else%
+	  {\heiti \pluto@put@title{\pluto@ccosupervisortitle}}	&	\pluto@ccosupervisor\\
+        \fi
+	  {\heiti \pluto@put@title{\pluto@cdegreetitle}}	&	\pluto@cdegree\\
+	  {\heiti \pluto@put@title{\pluto@csubjecttitle}}	&	\pluto@csubject\\
+	  {\heiti \pluto@put@title{\pluto@caffiltitle}}		&	\pluto@caffil\\
+	  {\heiti \pluto@put@title{\pluto@cdatetitle}}		&	\pluto@cdate\\
+	  {\heiti \pluto@put@title{\pluto@cschoolnametitle}}	&	\pluto@cschoolname
 	\end{tabular} \renewcommand{\arraystretch}{1}
     \end{center} }
   \end{center}
@@ -580,13 +597,19 @@ breaklines=true
     %★★★★若信息内容不太长，不会引起信息内容分行时，使用tabular环境，否则使用下面的tabularx环境。
     {\sihao\renewcommand{\arraystretch}{1.3}
       \begin{tabular}{@{}l@{~}l@{}}
-	\textbf{Candidate:}                     &  \pluto@eauthor\\
-	\textbf{Supervisor:}                    &  \pluto@esupervisor\\
-	\textbf{Academic Degree Applied for:}   &  \pluto@edegree\\
-	\textbf{Specialty:}                     &  \pluto@esubject\\
-	\textbf{Affiliation:}                   &  \pluto@eaffil\\
-	\textbf{Date of Defence:}               &  \pluto@edate\\
-	\textbf{Degree-Conferring-Institution:} &  Harbin Institute of Technology
+	\textbf{\pluto@eauthortitle\pluto@title@esep}		&	\pluto@eauthor\\
+	\textbf{\pluto@esupervisortitle\pluto@title@esep}	&	\pluto@esupervisor\\
+      \ifx\pluto@eassosupervisor\@empty\else%
+	\textbf{\pluto@eassosupervisortitle\pluto@title@esep}	&	\pluto@eassosupervisor\\
+      \fi
+      \ifx\pluto@ecosupervisor\@empty\else%
+	\textbf{\pluto@ecosupervisortitle\pluto@title@esep}	&	\pluto@ecosupervisor\\
+      \fi
+	\textbf{\pluto@edegreetitle\pluto@title@esep}		&	\pluto@edegree\\
+	\textbf{\pluto@esubjecttitle\pluto@title@esep}		&	\pluto@esubject\\
+	\textbf{\pluto@eaffiltitle\pluto@title@esep}		&	\pluto@eaffil\\
+	\textbf{\pluto@edatetitle\pluto@title@esep}		&	\pluto@edate\\
+	\textbf{\pluto@eschoolnametitle\pluto@title@esep}	&	\pluto@eschoolname
     \end{tabular}\renewcommand{\arraystretch}{1}}
   \end{center}
 }
