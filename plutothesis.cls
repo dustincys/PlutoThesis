@@ -196,17 +196,11 @@ breaklines=true
 %%%}}}
 
 %%%{{{ Font
-
+%按照窝工之要求
 \renewcommand\normalsize{%
-  \@setfontsize\normalsize{12bp}{20bp}%
-  \abovedisplayskip=20bp \@plus 2bp \@minus 2bp
-  \abovedisplayshortskip=20bp \@plus 2bp \@minus 2bp
-  \belowdisplayskip=\abovedisplayskip
-  \belowdisplayshortskip=\abovedisplayshortskip}
-\renewcommand\normalsize{%
-  \@setfontsize\normalsize{12bp}{20bp}%
-  \abovedisplayskip=20bp \@plus 2bp \@minus 2bp
-  \abovedisplayshortskip=20bp \@plus 2bp \@minus 2bp
+  \@setfontsize\normalsize{12bp}{12bp}%
+  \abovedisplayskip=4pt
+  \abovedisplayshortskip=4pt
   \belowdisplayskip=\abovedisplayskip
   \belowdisplayshortskip=\abovedisplayshortskip}
 \def\pluto@def@fontsize#1#2{%
