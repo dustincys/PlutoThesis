@@ -120,49 +120,57 @@
   plainpages=false,
   pdfborder=0 0 0}
 \urlstyle{same}
-%\RequirePackage{geometry}
-%\geometry{
-%  a4paper, % 210 * 297mm
-%  hcentering,
-%  ignoreall,
-%  nomarginpar}
-%\ifpluto@bachelor
-%  \geometry{
-%    left=32mm,
-%    headheight=5mm,
-%    headsep=5mm,
-%    textheight=220mm,
-%    bottom=37mm,
-%    footskip=17mm}
-%\else
-%  \geometry{
-%    left=30mm,
-%    headheight=5mm,
-%    headsep=5mm,
-%    textheight=237mm,
-%    bottom=29mm,
-%    footskip=6mm}
-%\fi
-\RequirePackage[a4paper,text={150true mm,224true mm},top=35.5true mm,left=30true mm,head=5true mm,headsep=2.5true mm,foot=8.5true mm]{geometry}
+\RequirePackage[showframe]{geometry}
+\geometry{
+  a4paper, % 210 * 297mm
+  hcentering,
+  ignoreall,
+nomarginpar}
+\ifpluto@bachelor
+\geometry{
+  left=32mm,
+  headheight=5mm,
+  headsep=5mm,
+  textheight=220mm,
+  bottom=37mm,
+footskip=17mm}
+\else
+\geometry{%根据PlutoThesis 原版定义而来
+  text={150true mm,224true mm},
+  top=35.5true mm,
+  left=30true mm,
+  head=5true mm,
+  headsep=2.5true mm,
+  foot=8.5true mm
+}
+\fi
+\RequirePackage{layout}
 
 \RequirePackage{fancyhdr}                   % fancyhdr宏包 页眉和页脚的相关定义
 \let\pluto@cleardoublepage\cleardoublepage
 \newcommand{\pluto@clearemptydoublepage}{%
-  \clearpage{\pagestyle{pluto@empty}\pluto@cleardoublepage}}
+  \clearpage{\pagestyle{pluto@empty}\pluto@cleardoublepage}
+}
 \let\cleardoublepage\pluto@clearemptydoublepage
+
 \renewcommand\frontmatter{%
   \if@openright\cleardoublepage\else\clearpage\fi
   \@mainmatterfalse
   \pagenumbering{Roman}
-  \pagestyle{pluto@empty}}
+  \pagestyle{pluto@empty}
+}
 
 \renewcommand\mainmatter{%
   \if@openright\cleardoublepage\else\clearpage\fi
   \@mainmattertrue
   \pagenumbering{arabic}
-  \ifpluto@bachelor\pagestyle{pluto@plain}\else\pagestyle{pluto@headings}\fi}
+  \ifpluto@bachelor\pagestyle{pluto@plain}\else\pagestyle{pluto@headings}\fi
+}
 
-%\RequirePackage{xeCJK} 应该可以删除
+\renewcommand\backmatter{%
+  \if@openright\cleardoublepage\else\clearpage\fi
+  \@mainmattertrue}
+
 \RequirePackage{tabularx}
 \RequirePackage{titlesec}               % 控制标题的宏包
 \RequirePackage{titletoc}                   % 控制目录的宏包
@@ -174,7 +182,6 @@
 \RequirePackage[hang]{subfigure}%支持子图 %centerlast 设置最后一行是否居中
 \RequirePackage[subfigure]{ccaption} %支持双语标题
 \RequirePackage{calc}           %长度可以用+ - * / 进行计算
-%\RequirePackage{fontspec}
 
 
 \RequirePackage[boxed,linesnumbered,algochapter]{algorithm2e}  % 算法的宏包，注意宏包兼容性，先后顺序为float、hyperref、algorithm(2e)，否则无法生成算法列表
@@ -189,6 +196,13 @@ breaklines=true
 %%%}}}
 
 %%%{{{ Font
+
+\renewcommand\normalsize{%
+  \@setfontsize\normalsize{12bp}{20bp}%
+  \abovedisplayskip=20bp \@plus 2bp \@minus 2bp
+  \abovedisplayshortskip=20bp \@plus 2bp \@minus 2bp
+  \belowdisplayskip=\abovedisplayskip
+  \belowdisplayshortskip=\abovedisplayshortskip}
 \renewcommand\normalsize{%
   \@setfontsize\normalsize{12bp}{20bp}%
   \abovedisplayskip=20bp \@plus 2bp \@minus 2bp
@@ -218,22 +232,51 @@ breaklines=true
 \pluto@def@fontsize{bahao}{5bp}
 %%%}}}
 
+%%{{{ header footer
 \fancypagestyle{pluto@empty}{%
   \fancyhf{}
-  \renewcommand{\headrulewidth}{0pt}
-  \renewcommand{\footrulewidth}{0pt}}
+  \renewcommand{\headrulewidth}{1pt}
+  \renewcommand{\footrulewidth}{1pt}
+}
+
 \fancypagestyle{pluto@plain}{%
   \fancyhead{}
   \fancyfoot[C]{\xiaowu\thepage}
   \renewcommand{\headrulewidth}{0pt}
-  \renewcommand{\footrulewidth}{0pt}}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
 \fancypagestyle{pluto@headings}{%
-  \fancyhead{}
-  \fancyhead[C]{\wuhao\normalfont\leftmark}
-  \fancyfoot{}
-  \fancyfoot[C]{\wuhao\thepage}
-  \renewcommand{\headrulewidth}{0.4pt}
-  \renewcommand{\footrulewidth}{0pt}}
+  \fancyhf{}
+  \ifpluto@doctor
+  \fancyhead[CO]{\songti\xiaowu\leftmark}
+  \fancyhead[CE]{\songti\xiaowu\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}%
+  \else
+  \fancyhead[CO]{\songti\xiaowu\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}
+  \fancyhead[CE]{\songti\xiaowu\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}%
+  \fi
+  \fancyfoot[C,C]{\xiaowu -~\thepage~-}
+  \renewcommand{\headrule}{
+    \vskip -2pt
+    \hrule\@height2.25pt\@width\headwidth
+    \vskip 2pt% 2pt between lines
+    \hrule\@height.75pt\@width\headwidth% lower line with .5pt line width
+    \vskip-2.25pt
+    \vskip-.75pt
+  }
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+\AtBeginDocument{%
+  \pagestyle{pluto@empty}
+  \renewcommand{\chaptermark}[1]{\@mkboth{\CTEXthechapter\hskip\ccwd#1}{}}}
+
+\ctexset{%
+  punct=quanjiao,
+  space=auto,
+  autoindent=true}
+\setlist{nosep}
+%%%}}}
 
 %%%{{{ Structure
 
@@ -314,7 +357,7 @@ breaklines=true
    \addcontentsline{aen}{algoen}{\protect\numberline{\thealgoen}{#2}}
    }
 
-   %%%}}}
+  %%%}}}
 
    %%%{{{ Key for options
 % 使用key-value 设置封面选项
@@ -396,22 +439,9 @@ breaklines=true
 \setlength{\theorempostskipamount}{-2pt}
 
 \allowdisplaybreaks[4]
-
-%\CJKcaption {gb_452}
-%\CJKtilde
-
 \setlength{\parindent}{2em}
-
 \arraycolsep=1.6pt
-
-\renewcommand\contentsname{\heiti 目~~~~录}
-
-\CTEXsetup[number={\arabic{chapter}}]{chapter}
-\renewcommand\chaptername{第~\thechapter~章}
-
-%\CTEXsetup[name={第,章}]{chapter}
 \setcounter{secnumdepth}{4} \setcounter{tocdepth}{2}
-
 
 \titleformat{\chapter}{\center\xiaoer\heiti}{\chaptertitlename}{0.5em}{}
 \titlespacing{\chapter}{0pt}{-5.5mm}{8mm}
@@ -431,35 +461,6 @@ breaklines=true
 \renewcommand*\l@chapter{\@dottedtocline{0}{0em}{5em}}%控制英文目录： 细点\@dottedtocline  粗点\@dottedtoclinebold
 \renewcommand*\l@section{\@dottedtocline{1}{1em}{1.8em}}
 \renewcommand*\l@subsection{\@dottedtocline{2}{2em}{2.5em}}
-
-
-% 定义页眉和页脚
-%%\newcommand{\makeheadrule}{
-%%\rule[7pt]{\textwidth}{0.75pt} \\[-23pt]
-%%\rule{\textwidth}{2.25pt}}
-%%\renewcommand{\headrule}{
-%%    {\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi
-%%     \makeheadrule}}
-%%\pagestyle{fancyplain}
-%%
-%%%去掉章节标题中的数字
-%%%%不要注销这一行，否则页眉会变成：“第1章1  绪论”样式
-%%\renewcommand{\chaptermark}[1]{\markboth{\chaptertitlename~\ #1}{}}
-%%\fancyhf{}
-%%
-%%%在book文件类别下,\leftmark自动存录各章之章名,\rightmark记录节标题
-%%%% 页眉字号 工大要求 小五
-%%%根据单双面打印设置不同的页眉；
-%%
-%%\ifpluto@doctor
-%%  \fancyhead[CO]{\songti \xiaowu\leftmark}
-%%  \fancyhead[CE]{\songti \xiaowu 哈尔滨工业大学\pluto@cdegree 学位论文}%
-%%  \fancyfoot[C,C]{\xiaowu -~\thepage~-}
-%%\else
-%%  \fancyhead[CO]{\songti \xiaowu 哈尔滨工业大学\pluto@cdegree 学位论文}
-%%  \fancyhead[CE]{\songti \xiaowu 哈尔滨工业大学\pluto@cdegree 学位论文}%
-%%  \fancyfoot[C,C]{\xiaowu -~\thepage~-}
-%%\fi
 
 % 调整罗列环境的布局
 \setitemize{leftmargin=0em,itemsep=0em,partopsep=0em,parsep=0em,topsep=0em,itemindent=3em}
@@ -495,13 +496,13 @@ breaklines=true
 {\end{list}}%%%%%
 
 % 默认字体
-\renewcommand\normalsize{
-  \@setfontsize\normalsize{12pt}{12pt}
-  \setlength\abovedisplayskip{4pt}
-  \setlength\abovedisplayshortskip{4pt}
-  \setlength\belowdisplayskip{\abovedisplayskip}
-  \setlength\belowdisplayshortskip{\abovedisplayshortskip}
-  \let\@listi\@listI}
+%\renewcommand\normalsize{
+%  \@setfontsize\normalsize{12pt}{12pt}
+%  \setlength\abovedisplayskip{4pt}
+%  \setlength\abovedisplayshortskip{4pt}
+%  \setlength\belowdisplayskip{\abovedisplayskip}
+%  \setlength\belowdisplayshortskip{\abovedisplayshortskip}
+%  \let\@listi\@listI}
 
 % 设置行距和段落间垂直距离
 \def\defaultfont{\renewcommand{\baselinestretch}{1.62}\normalsize\selectfont}
@@ -523,7 +524,7 @@ breaklines=true
     % 封面一
    \vspace*{0.8cm}
    \begin{center}
-   \begin{center}\xiaoyi[1]\songti\textbf{\pluto@cxuewei\pluto@thesisname}\end{center}
+   \begin{center}\xiaoyi[1]\songti\textbf{\pluto@cxuewei\pluto@cthesisname}\end{center}
     \vspace{1cm}
     \parbox[t][2.8cm][t]{\textwidth}{
     \begin{center}\erhao\heiti\pluto@ctitle\end{center} }
@@ -554,7 +555,7 @@ breaklines=true
     \end{tabular}}
   \parbox[t][3.2cm][t]{\textwidth}{\begin{center} \end{center} }
     \parbox[t][2.4cm][t]{\textwidth}{\xiaoer
-  \begin{center} {\songti \bfseries \pluto@cdegree \pluto@thesisname }\end{center} }
+  \begin{center} {\songti \bfseries \pluto@cdegree \pluto@cthesisname }\end{center} }
     \parbox[t][5cm][t]{\textwidth}{\erhao
   \begin{center} {\heiti  \pluto@ctitle}\end{center} }
     \parbox[t][9.8cm][b]{\textwidth}
@@ -652,7 +653,7 @@ breaklines=true
   \vspace{\baselineskip}
 
   \hangafter=1\hangindent=60pt\noindent
-  {\textbf{Keywords:}} 
+  {\textbf{Keywords:}}
 
 }
 
