@@ -84,16 +84,18 @@
 \RequirePackage{pdfpages}
 \includepdfset{fitpaper=true}
 \RequirePackage{enumitem}       %使用enumitem宏包,改变列表项的格式
-%\RequirePackage{environ}
-%\ifpluto@raggedbottom
-%  \RequirePackage[bottom,perpage,hang]{footmisc}
-%  \raggedbottom
-%\else
-%  \RequirePackage[perpage,hang]{footmisc}
-%\fi
-%\ifpluto@pifootnote
-%  \RequirePackage{pifont}
-%\fi
+
+\RequirePackage{environ}
+\ifpluto@raggedbottom
+  \RequirePackage[bottom,perpage,hang]{footmisc}
+  \raggedbottom
+\else
+  \RequirePackage[perpage,hang]{footmisc}
+\fi
+\ifpluto@pifootnote
+  \RequirePackage{pifont}
+\fi
+
 \RequirePackage{CJKfntef} % 汉字加点，分散对齐功能
 \RequirePackage[amsmath,thmmarks,hyperref]{ntheorem}% 定理类环境宏包，其中 amsmath 选项用来兼容 AMS LaTeX 的宏包
 %\RequirePackage{array}
@@ -203,9 +205,16 @@ breaklines=true
   \abovedisplayshortskip=4pt
   \belowdisplayskip=\abovedisplayskip
   \belowdisplayshortskip=\abovedisplayshortskip}
+
+% 设置行距和段落间垂直距离
+\renewcommand{\CJKglue}{\hskip 0.56pt plus 0.08\baselineskip}
+%加大字间距，使每行34个字，若要使得每行33个字，则将0.56pt替换为0.96pt。
+\predisplaypenalty=0  %公式之前可以换页，公式出现在页面顶部
+
 \def\pluto@def@fontsize#1#2{%
   \expandafter\newcommand\csname #1\endcsname[1][1.3]{%
     \fontsize{#2}{##1\dimexpr #2}\selectfont}}
+
 \pluto@def@fontsize{chuhao}{42bp}
 \pluto@def@fontsize{xiaochu}{36bp}
 \pluto@def@fontsize{yihao}{26bp}
@@ -229,8 +238,8 @@ breaklines=true
 %%{{{ header footer
 \fancypagestyle{pluto@empty}{%
   \fancyhf{}
-  \renewcommand{\headrulewidth}{1pt}
-  \renewcommand{\footrulewidth}{1pt}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
 }
 
 \fancypagestyle{pluto@plain}{%
@@ -251,12 +260,11 @@ breaklines=true
   \fi
   \fancyfoot[C,C]{\xiaowu -~\thepage~-}
   \renewcommand{\headrule}{
-    \vskip -2pt
     \hrule\@height2.25pt\@width\headwidth
-    \vskip 2pt% 2pt between lines
-    \hrule\@height.75pt\@width\headwidth% lower line with .5pt line width
+    \vskip 1pt
+    \hrule\@height.75pt\@width\headwidth
     \vskip-2.25pt
-    \vskip-.75pt
+    \vskip-1.75pt
   }
   \renewcommand{\footrulewidth}{0pt}
 }
@@ -264,12 +272,42 @@ breaklines=true
 \AtBeginDocument{%
   \pagestyle{pluto@empty}
   \renewcommand{\chaptermark}[1]{\@mkboth{\CTEXthechapter\hskip\ccwd#1}{}}}
+%%%}}}
 
+%%%{{{段落
 \ctexset{%
   punct=quanjiao,
   space=auto,
   autoindent=true}
 \setlist{nosep}
+%%%}}}
+
+%%%{{{脚注
+\def\pluto@textcircled#1{%
+  \ifnum\value{#1} >9
+    \ClassError{plutothesis}%
+      {Too many footnotes in this page.}{Keep footnote less than 10.}
+  \fi
+  \ifpluto@pifootnote%
+    \ding{\the\numexpr\value{#1}+171\relax}%
+  \else%
+    \textcircled{\xiaoliu\arabic{#1}}%
+  \fi}
+\renewcommand{\thefootnote}{\pluto@textcircled{footnote}}
+\renewcommand{\thempfootnote}{\pluto@textcircled{mpfootnote}}
+\def\footnoterule{\vskip-3\p@\hrule\@width0.3\textwidth\@height0.4\p@\vskip2.6\p@}
+\let\pluto@footnotesize\footnotesize
+\renewcommand\footnotesize{\pluto@footnotesize\xiaowu[1.5]}
+\footnotemargin1.5em\relax
+\let\pluto@makefnmark\@makefnmark
+\def\pluto@@makefnmark{\hbox{{\normalfont\@thefnmark}}}
+\pretocmd{\@makefntext}{\let\@makefnmark\pluto@@makefnmark}{}{}
+\apptocmd{\@makefntext}{\let\@makefnmark\pluto@makefnmark}{}{}
+%%%}}}
+
+%%%{{{ 数学公式
+\allowdisplaybreaks[4]
+\renewcommand\theequation{\ifnum \c@chapter>\z@ \thechapter-\fi\@arabic\c@equation}
 %%%}}}
 
 %%%{{{ Structure
@@ -279,7 +317,6 @@ breaklines=true
 \let\temp\addcontentsline
 \gdef\addcontentsline{\phantomsection\temp}
 
-\gdef\hitempty{}
 
 %重新定义BiChapter命令，可实现标题手动换行，但不影响目录
 \def\BiChapter{\relax\@ifnextchar [{\@BiChapter}{\@@BiChapter}}
@@ -287,18 +324,15 @@ breaklines=true
     \addcontentsline{toe}{chapter}{\bfseries \xiaosi Chapter \thechapter\hspace{0.5em} #3}}
 \def\@@BiChapter#1#2{\chapter{#1}
     \addcontentsline{toe}{chapter}{\bfseries \xiaosi Chapter \thechapter\hspace{0.5em}{\boldmath #2}}
-  }
-
+}
 \newcommand{\BiSection}[2]
 {   \section{#1}
     \addcontentsline{toe}{section}{\protect\numberline{\csname thesection\endcsname}#2}
 }
-
 \newcommand{\BiSubsection}[2]
 {    \subsection{#1}
     \addcontentsline{toe}{subsection}{\protect\numberline{\csname thesubsection\endcsname}#2}
 }
-
 \newcommand{\BiSubsubsection}[2]
 {    \subsubsection{#1}
     \addcontentsline{toe}{subsubsection}{\protect\numberline{\csname thesubsubsection\endcsname}#2}
@@ -310,7 +344,6 @@ breaklines=true
 \addcontentsline{toc}{chapter}{\xiaosi #1}
 \addcontentsline{toe}{chapter}{\bfseries \xiaosi #2}  \chapter*{#1}
 }
-
 \newcommand{\BiAppChapter}[2]    % 该附录命令适用于有章节的完整附录
 {\phantomsection
  \chapter{#1}
@@ -418,16 +451,6 @@ breaklines=true
 \theoremstyle{plain}
 \theorembodyfont{\songti\rmfamily}
 \theoremheaderfont{\heiti\rmfamily}
-\newtheorem{definition}{\heiti 定义}[chapter]
-\newtheorem{example}{\heiti 例}[chapter]
-\newtheorem{algo}{\heiti 算法}[chapter]
-\newtheorem{theorem}{\heiti 定理}[chapter]
-\newtheorem{axiom}{\heiti 公理}[chapter]
-\newtheorem{proposition}{\heiti 命题}[chapter]
-\newtheorem{lemma}{\heiti 引理}[chapter]
-\newtheorem{corollary}{\heiti 推论}[chapter]
-\newtheorem{remark}{\heiti 注解}[chapter]
-\newenvironment{proof}{\noindent{\heiti 证明：}}{\hfill $ \square $ \vskip 4mm}
 \theoremsymbol{$\square$}
 \setlength{\theorempreskipamount}{0pt}
 \setlength{\theorempostskipamount}{-2pt}
@@ -437,14 +460,62 @@ breaklines=true
 \arraycolsep=1.6pt
 \setcounter{secnumdepth}{4} \setcounter{tocdepth}{2}
 
-\titleformat{\chapter}{\center\xiaoer\heiti}{\chaptertitlename}{0.5em}{}
-\titlespacing{\chapter}{0pt}{-5.5mm}{8mm}
-\titleformat{\section}{\xiaosan\heiti}{\thesection}{0.5em}{}
-\titlespacing{\section}{0pt}{4.5mm}{4.5mm}
-\titleformat{\subsection}{\sihao\heiti}{\thesubsection}{0.5em}{}
-\titlespacing{\subsection}{0pt}{4mm}{4mm}
-\titleformat{\subsubsection}{\xiaosi\heiti}{\thesubsubsection}{0.5em}{}
-\titlespacing{\subsubsection}{0pt}{0pt}{0pt}
+%\titleformat{\chapter}{\center\xiaoer\heiti}{\chaptertitlename}{0.5em}{}
+%\titlespacing{\chapter}{0pt}{-5.5mm}{8mm}
+%\titleformat{\section}{\xiaosan\heiti}{\thesection}{0.5em}{}
+%\titlespacing{\section}{0pt}{4.5mm}{4.5mm}
+%\titleformat{\subsection}{\sihao\heiti}{\thesubsection}{0.5em}{}
+%\titlespacing{\subsection}{0pt}{4mm}{4mm}
+%\titleformat{\subsubsection}{\xiaosi\heiti}{\thesubsubsection}{0.5em}{}
+%\titlespacing{\subsubsection}{0pt}{0pt}{0pt}
+
+\def\pluto@title@font{%
+  \ifpluto@arialtitle\sffamily\else\heiti\fi}
+
+\newcommand\pluto@chapter@titleformat[1]{%
+  \ifpluto@bachelor #1\else%
+    \ifthenelse%
+      {\equal{#1}{\eabstractname}}%
+      {\bfseries #1}%
+      {#1}%
+  \fi}
+
+\ctexset{%
+  chapter={
+    afterindent=true,
+    pagestyle={pluto@headings},
+    beforeskip={1mm},
+    aftername=\enskip,
+    afterskip={8mm},
+    format={\centering\pluto@title@font\xiaoer},
+    nameformat=\relax,
+    numberformat=\relax,
+    titleformat=\pluto@chapter@titleformat,
+  },
+  section={
+    afterindent=true,
+    beforeskip={4.5mm},
+    afterskip={4.5mm},
+    format={\pluto@title@font\xiaosan},
+    aftername=\enskip,
+  },
+  subsection={
+    afterindent=true,
+    beforeskip={0mm},
+    afterskip={0mm},
+    format={\pluto@title@font\sihao},
+    aftername=\enskip,
+  },
+  subsubsection={
+    afterindent=true,
+    beforeskip={0mm},
+    afterskip={0mm},
+    format={\pluto@title@font\xiaosi[1.667]},
+    aftername=\enskip,
+  },
+  paragraph/afterindent=true,
+  subparagraph/afterindent=true
+}
 
 \titlecontents{chapter}[3.8em]{\hspace{-3.8em}\heiti}{\thecontentslabel~~}{}{\titlerule*[4pt]{.}\contentspage}
 \dottedcontents{section}[32pt]{}{21pt}{0.3pc}
@@ -489,20 +560,6 @@ breaklines=true
     }}
 {\end{list}}%%%%%
 
-% 默认字体
-%\renewcommand\normalsize{
-%  \@setfontsize\normalsize{12pt}{12pt}
-%  \setlength\abovedisplayskip{4pt}
-%  \setlength\abovedisplayshortskip{4pt}
-%  \setlength\belowdisplayskip{\abovedisplayskip}
-%  \setlength\belowdisplayshortskip{\abovedisplayshortskip}
-%  \let\@listi\@listI}
-
-% 设置行距和段落间垂直距离
-\def\defaultfont{\renewcommand{\baselinestretch}{1.62}\normalsize\selectfont}
-\renewcommand{\CJKglue}{\hskip 0.56pt plus 0.08\baselineskip}
-%加大字间距，使每行34个字，若要使得每行33个字，则将0.56pt替换为0.96pt。
-\predisplaypenalty=0  %公式之前可以换页，公式出现在页面顶部
 
 % 定义封面
 \newlength{\pluto@title@width}
@@ -626,7 +683,7 @@ breaklines=true
   \BiAppendixChapter{摘\quad 要}{Abstract (In Chinese)}
 
   \setcounter{page}{1}
-  \songti\defaultfont
+  \songti\xiaosi[1.6]%\defaultfont
   \pluto@cabstract
   \vspace{\baselineskip}
 
