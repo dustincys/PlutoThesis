@@ -252,19 +252,19 @@ breaklines=true
 \fancypagestyle{pluto@headings}{%
   \fancyhf{}
   \ifpluto@doctor
-  \fancyhead[CO]{\songti\xiaowu\leftmark}
-  \fancyhead[CE]{\songti\xiaowu\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}%
+  \fancyhead[CO]{\songti\xiaowu[1]\leftmark}
+  \fancyhead[CE]{\songti\xiaowu[1]\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}%
   \else
-  \fancyhead[CO]{\songti\xiaowu\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}
-  \fancyhead[CE]{\songti\xiaowu\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}%
+  \fancyhead[CO]{\songti\xiaowu[1]\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}
+  \fancyhead[CE]{\songti\xiaowu[1]\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}%
   \fi
   \fancyfoot[C,C]{\xiaowu -~\thepage~-}
   \renewcommand{\headrule}{
+    \vskip 2pt
     \hrule\@height2.25pt\@width\headwidth
-    \vskip 1pt
+    \vskip 0.75pt
     \hrule\@height.75pt\@width\headwidth
-    \vskip-2.25pt
-    \vskip-1.75pt
+    \vfill
   }
   \renewcommand{\footrulewidth}{0pt}
 }
