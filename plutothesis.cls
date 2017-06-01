@@ -197,9 +197,20 @@ breaklines=true
 %%%}}}
 
 %%%{{{ Font
-%按照窝工之要求
+% 1bp = 1.00374pt
+% 1mm = 2.84526pt
+%按照窝工之要求, 行距在3mm～4mm之间，换算之后为20.50398～23.33863bp
+% 换算公式为：
+%((3 * 2.84526) / (12 * 1.00374) + 1) * 12 bp
+%((4 * 2.84526) / (12 * 1.00374) + 1) * 12 bp
+%所以改为默认21bp
+%注意，原PlutoThesis 的1.67倍行距，是20.04bp, 小于规定最小值0.46398bp
+%这里设置为glue， 可能会不美观
+%或者直接设置为21bp更好。
+%此处应该给出一个设置选项
 \renewcommand\normalsize{%
-  \@setfontsize\normalsize{12bp}{12bp}%
+  \@setfontsize\normalsize{12bp}{21bp plus 2.33863bp minus 0.49602bp}%
+%  \@setfontsize\normalsize{12bp}{21bp}
   \abovedisplayskip=4pt
   \abovedisplayshortskip=4pt
   \belowdisplayskip=\abovedisplayskip
@@ -483,38 +494,66 @@ breaklines=true
   \fi
 }
 
+% 窝工规定章标题行间距要10mm
+% 1bp = 1.00374pt
+% 1mm = 2.84526pt
+% 小二号字体 18bp
+% 所以行间距倍数为 (10 × 2.84526) / (18 × 1.00374) = 1.57481，注意，实际上是一行字的上下各占一半的行间距。
+% 以上没问题
+% 按照窝工硕博论文规范的规定： 章标题要段前空一行，段后空0.8行 （最好是给距离mm, bp, 给出一行……）
+% 这就有了歧义： 空这一行，是什么格式？是标题的格式么？那么
+% 默认情况下，已经空了一半的行间距，需要做的是，要再空出一行加一半行距。
+% 为18 * (1 + 0.57481/2) = 23.17329bp
+
+% 只可能是空一行正文（完全没可能是空一行section）
+% 如果正文中是glue
+% \@setfontsize\normalsize{12bp}{21bp plus 2.33863bp minus 0.49602bp}%
+% 那么应该设置为正文的文字距离加上其一半的行距
+% 正文文字距离12bp
+% 完整行距 9bp plus 2.33863bp minus 0.49602bp
+% 一半行距 4.5bp plus 2.33863bp / 2 minus 0.49602bp / 2
+% 最后结果 16.5bp plus 1.169315bp minus 0.24801 bp
+% 这个结果很难看, 所以规定应该是空行格式为章标题格式
+
 \ctexset{%
   chapter={
     afterindent=true,
     pagestyle={pluto@headings},
-    beforeskip={1mm},
+    beforeskip={23.17329bp},
     aftername=\enskip,
     afterskip={8mm},
-    format={\centering\pluto@title@font\xiaoer},
+    format={\centering\pluto@title@font\xiaoer[1.57481]},
     nameformat=\relax,
     numberformat=\relax,
     titleformat=\pluto@chapter@titleformat,
+    fixskip=true,
   },
   section={
     afterindent=true,
     beforeskip={4.5mm},
     afterskip={4.5mm},
-    format={\pluto@title@font\xiaosan},
+    % 7mm -- 8mm  1.323 -- 1.512
+    format={\pluto@title@font\xiaosan[1.323]},
     aftername=\enskip,
+    fixskip=false,
   },
   subsection={
     afterindent=true,
     beforeskip={0mm},
     afterskip={0mm},
+    % 6mm -- 7mm  1.323 -- 1.512
     format={\pluto@title@font\sihao},
     aftername=\enskip,
+    fixskip=false,
   },
   subsubsection={
     afterindent=true,
     beforeskip={0mm},
     afterskip={0mm},
-    format={\pluto@title@font\xiaosi[1.667]},
+    % 正文行距 6mm -- 7mm  1.323 -- 1.512
+    format={\pluto@title@font\normalsize},
     aftername=\enskip,
+    fixskip=false,
   },
   paragraph/afterindent=true,
   subparagraph/afterindent=true
@@ -672,7 +711,7 @@ breaklines=true
 \def\makecover{
   \phantomsection
   \pdfbookmark[-1]{\pluto@ctitle}{ctitle}
-  \normalsize%
+  \xiaosi[1]%
   \begin{titlepage}
     \pluto@first@titlepage
     \cleardoublepage
@@ -686,7 +725,7 @@ breaklines=true
   \BiAppendixChapter{摘\quad 要}{Abstract (In Chinese)}
 
   \setcounter{page}{1}
-  \songti\xiaosi[1.6]%\defaultfont
+  \songti\normalsize%\defaultfont
   \pluto@cabstract
   \vspace{\baselineskip}
 
