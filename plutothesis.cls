@@ -252,26 +252,28 @@ breaklines=true
 \fancypagestyle{pluto@headings}{%
   \fancyhf{}
   \ifpluto@doctor
-  \fancyhead[CO]{\songti\xiaowu[1]\leftmark}
-  \fancyhead[CE]{\songti\xiaowu[1]\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}%
+  \fancyhead[CO]{\songti\xiaowu[0]\leftmark}
+  \fancyhead[CE]{\songti\xiaowu[0]\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}%
   \else
-  \fancyhead[CO]{\songti\xiaowu[1]\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}
-  \fancyhead[CE]{\songti\xiaowu[1]\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}%
+  \fancyhead[CO]{\songti\xiaowu[0]\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}
+  \fancyhead[CE]{\songti\xiaowu[0]\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}%
   \fi
   \fancyfoot[C,C]{\xiaowu -~\thepage~-}
+  % 此处可能和word模板不一致
+  % 页眉中小五汉字，0行距时，占用9pt，页眉高度为14pt, 所以以下数字之和要保持等于5pt
+  % 根据PlutoThesis模板中rule宽度定义为2.25， 0.75， 保持粗线和细线之间的间距为细线宽度。
   \renewcommand{\headrule}{
-    \vskip 2pt
+    \vskip 1.25pt
     \hrule\@height2.25pt\@width\headwidth
     \vskip 0.75pt
     \hrule\@height.75pt\@width\headwidth
-    \vfill
   }
   \renewcommand{\footrulewidth}{0pt}
 }
 
 \AtBeginDocument{%
   \pagestyle{pluto@empty}
-  \renewcommand{\chaptermark}[1]{\@mkboth{\CTEXthechapter\hskip\ccwd#1}{}}}
+  \renewcommand{\chaptermark}[1]{\@mkboth{\CTEXthechapter\enskip#1}{}}}
 %%%}}}
 
 %%%{{{段落
