@@ -174,7 +174,6 @@ footskip=17mm}
   \@mainmattertrue}
 
 \RequirePackage{tabularx}
-\RequirePackage{titlesec}               % 控制标题的宏包
 \RequirePackage{titletoc}                   % 控制目录的宏包
 \RequirePackage{color}          % 支持彩色
 \RequirePackage{amssymb}
@@ -262,6 +261,7 @@ breaklines=true
   % 此处可能和word模板不一致
   % 页眉中小五汉字，0行距时，占用9pt，页眉高度为14pt, 所以以下数字之和要保持等于5pt
   % 根据PlutoThesis模板中rule宽度定义为2.25， 0.75， 保持粗线和细线之间的间距为细线宽度。
+  % 如果页眉是多行的情况，rule向下溢出
   \renewcommand{\headrule}{
     \vskip 1.25pt
     \hrule\@height2.25pt\@width\headwidth
@@ -474,13 +474,14 @@ breaklines=true
 \def\pluto@title@font{%
   \ifpluto@arialtitle\sffamily\else\heiti\fi}
 
-\newcommand\pluto@chapter@titleformat[1]{%
-  \ifpluto@bachelor #1\else%
+\newcommand\pluto@chapter@titleformat[1]{%开启悬挂缩进选项
+  \ifpluto@bachelor \hangindent=3\ccwd \hangafter=1 #1\else%
     \ifthenelse%
       {\equal{#1}{\eabstractname}}%
       {\bfseries #1}%
-      {#1}%
-  \fi}
+      {\settowidth{\hangindent}{\chaptername\enskip} \hangafter=1 #1}%
+  \fi
+}
 
 \ctexset{%
   chapter={
