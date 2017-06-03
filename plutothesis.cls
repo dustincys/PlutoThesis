@@ -280,7 +280,7 @@ breaklines=true
   \fancyhead[C]{\songti\xiaowu[0]\pluto@cschoolname\pluto@cdegree\pluto@cthesisname}
   \fi
   \ifpluto@bachelor
-  \fancyhead[C]{\songti\xiaowu[0]\pluto@cschoolname\pluto@bachelor@cthesisname}%
+  \fancyhead[C]{\songti\xiaowu[0]\pluto@cschoolname\pluto@bachelor@cxuewei\pluto@bachelor@cthesisname}%
   \fi
   \fi
   \fancyfoot[C,C]{\xiaowu -~\thepage~-}
@@ -635,8 +635,62 @@ breaklines=true
 
 
 \def\pluto@first@titlepage{%
-  \ifpluto@postdoctor\pluto@first@titlepage@postdoctor\else\pluto@first@titlepage@other\fi}
+  \ifpluto@bachelor\pluto@first@titlepage@bachelor\else\pluto@first@titlepage@other\fi}
+\def\pluto@second@titlepage{%
+  \ifpluto@bachelor\pluto@second@titlepage@bachelor\else\pluto@second@titlepage@other\fi}
 
+\newcommand{\pluto@first@titlepage@bachelor}{
+  \vspace*{0.8cm}
+  \begin{center}
+    \parbox[t][3.4cm][t]{\textwidth}{
+  \begin{center}\erhao\heiti\pluto@ctitle\end{center} }
+    \parbox[t][9.4cm][t]{\textwidth}{
+  \begin{center}\xiaoer\songti\textbf{\pluto@cauthor}\end{center}}
+    {\heiti\xiaosi
+      \begin{tabular*}{6.768cm}{rc}
+	\pluto@put@title{\pluto@bachelor@caffiltitle}\pluto@title@csep & \pluto@caffil\\[14pt]
+	\pluto@put@title{\pluto@bachelor@cstudentidtitle}\pluto@title@csep & \pluto@cstudentid
+    \end{tabular*}
+      \begin{tabular*}{6.768cm}{rc}
+	\pluto@put@title{\pluto@bachelor@cmajortitle}\pluto@title@csep & \pluto@csubject\\[14pt]
+	\pluto@put@title{\pluto@bachelor@csupervisortitle}\pluto@title@csep &  \pluto@csupervisor
+    \end{tabular*}}
+    \vspace*{3.0cm}
+    {\songti\xiaosi\textbf{\pluto@cdate}}
+  \end{center}
+}
+\newcommand{\pluto@second@titlepage@bachelor}{
+  \ifxetex
+\xeCJKsetemboldenfactor{2}%只对随后定义的CJK字体有效
+\setCJKfamilyfont{xinwei}{STXinwei}
+\newcommand*{\xinwei}{\CJKfamily{xinwei}}
+\else
+\relax
+\fi
+  \vspace*{0.6cm}
+   	\includegraphics[scale=0.38]{logo.jpg}
+    \vspace*{0.75cm}
+  \begin{center}
+    {\chuhao[0]\xinwei\textbf{\pluto@bachelor@cthesisname}}
+    \vspace*{1.7cm}
+    \parbox[t][14.2cm][b]{\textwidth}
+    {\heiti\xiaosan
+      \begin{center} \renewcommand{\arraystretch}{2.5} \heiti
+	\begin{tabular}{l@{\ \  }c}
+
+	  {\xiaoer  \pluto@bachelor@cthesistitle} & \underline{\makebox[6.1cm]{\xiaoer \pluto@ctitleone}}\\
+	          			 &  \underline{\makebox[6.1cm]{\xiaoer \pluto@ctitletwo}}\\
+	          				& \\
+	  {\pluto@bachelor@cmajortitle}                  & \underline{\makebox[6.1cm]{\@csubject}}\\
+	  {\pluto@bachelor@cstudentidtitle}                  & \underline{\makebox[6.1cm]{\@cstuid}}\\
+	  {\pluto@bachelor@cstudenttitle}                  & \underline{\makebox[6.1cm]{\@cauthor}}\\
+	  {\pluto@bachelor@csupervisortitle} & \underline{\makebox[6.1cm]{\@csupervisor}}\\
+	  {\pluto@cdatetitle} & \underline{\makebox[6.1cm]{\@cdate}}
+	\end{tabular} \renewcommand{\arraystretch}{1}
+    \end{center}
+  }
+  \end{center}
+}
 \newcommand{\pluto@first@titlepage@other}{
     % 封面一
    \vspace*{0.8cm}
@@ -655,8 +709,6 @@ breaklines=true
     \end{center}
 }
 
-\def\pluto@second@titlepage{%
-  \ifpluto@postdoctor\pluto@second@titlepage@postdoctor\else\pluto@second@titlepage@other\fi}
 %内封
 \newcommand{\pluto@second@titlepage@other}{
   \begin{center}
@@ -741,8 +793,12 @@ breaklines=true
     \cleardoublepage
     \pluto@second@titlepage
     \cleardoublepage
+    \ifpluto@bachelor
+    \relax
+    \else
     \pluto@engcover
     \cleardoublepage
+    \fi
   \end{titlepage}
 
   %%%%%%%%%%%%%%%%%%%   Abstract and keywords  %%%%%%%%%%%%%%%%%%%%%%%
