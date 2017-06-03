@@ -205,6 +205,9 @@ columns=flexible,
 breaklines=true
 }
 
+
+\RequirePackage{needspace}
+
 %%%}}}
 
 %%%{{{ Font
@@ -221,7 +224,7 @@ breaklines=true
 %此处应该给出一个设置选项
 
 \renewcommand\normalsize{%
-  \@setfontsize\normalsize{12bp}{\ifpluto@glue 20.50398bp \@plus 2.83465bp \@minus 0bp\else \ifpluto@bachelor 15bp \else 21bp\fi\fi}%
+  \@setfontsize\normalsize{12bp}{\ifpluto@glue 20.50398bp \@plus 2.83465bp \@minus 0bp\else \ifpluto@bachelor 27bp \else 21bp\fi\fi}%
   \abovedisplayskip=4pt
   \abovedisplayshortskip=4pt
   \belowdisplayskip=\abovedisplayskip
@@ -516,93 +519,26 @@ breaklines=true
 % 这就有了歧义： 空这一行，是什么格式？是标题的格式么？那么
 % 为18 * (1 + 0.57481) = 23.17329bp
 % 按照word的操作习惯规定应该是空行格式为章标题格式
-% 本科规范中的格式是1.25倍行距？？？
+% 本科规范中的格式是1.25倍行距
+% word中的1.25倍行距是单倍行距的1.25倍。单倍行距是的固定值是某一个大于字体磅数的正数，这个正数对于不同的字体不一样，有一定的随机性，且此处规定与后文中的10mm间距矛盾，
+% 由于这个行距是某一个不固定值，且本科生规范中含有了与硕博规范中一样的弹性区间规定（章节标题间距是固定值），所以这里不用单独设置这个1.25倍行距了。
 
-\ifpluto@bachelor
-\ifpluto@glue
-\ctexset{%
-  chapter={
-    afterindent=true,
-    pagestyle={pluto@headings},
-    beforeskip={28.34658bp},%一个空行 1.57481 × 18
-    afterskip={24.74658bp},%0.8应该不计算间距 0.8 × 18 + 0.57481×18
-    aftername=\enskip,
-    format={\centering\pluto@title@font\xiaoer[1.57481]},
-    nameformat=\relax,
-    numberformat=\relax,
-    titleformat=\pluto@chapter@titleformat,
-    fixskip=true, % 添加这一行去除默认间距
-  },
-  section={
-    afterindent=true,
-    beforeskip={13.5bp \@plus 1.677267bp \@minus 1.157391bp},%上下空0.5行
-    afterskip={13.5bp \@plus 1.677267bp \@minus 1.157391bp},
-    format={\pluto@title@font\fontsize{15bp}{21bp \@plus 1.677267bp \@minus 1.157391bp}\selectfont},
-    aftername=\enskip,
-    fixskip=true,
-  },
-  subsection={
-    afterindent=true,
-    beforeskip={11bp \@plus 1.842609bp \@minus 0.9920497bp},
-    afterskip={11bp \@plus 2.33863bp \@minus 0.49602bp},
-    format={\pluto@title@font\fontsize{14bp}{18bp \@plus 1.842609bp \@minus 0.9920497bp}\selectfont},
-    aftername=\enskip,
-    fixskip=true,
-  },
-  subsubsection={
-    afterindent=true,
-    beforeskip={8.50398bp \@plus 2.83465bp \@minus 0bp},
-    afterskip={8.50398bp \@plus 2.83465bp \@minus 0bp},
-    format={\pluto@title@font\normalsize},
-    aftername=\enskip,
-    fixskip=true,
-  },
-  paragraph/afterindent=true,
-  subparagraph/afterindent=true
-}
-\else
-\ctexset{%
-  chapter={
-    afterindent=true,
-    pagestyle={pluto@headings},
-    beforeskip={22.5bp},%一个空行 1.57481 × 18
-    afterskip={18.9bp},%0.8应该不计算间距 0.8 × 18 + 0.57481×18
-    aftername=\enskip,
-    format={\centering\pluto@title@font\xiaoer[1.25]},
-    nameformat=\relax,
-    numberformat=\relax,
-    titleformat=\pluto@chapter@titleformat,
-    fixskip=true, % 添加这一行去除默认间距
-  },
-  section={
-    afterindent=true,
-    beforeskip={11.25bp},%上下空0.5行
-    afterskip={11.25bp},
-    format={\pluto@title@font\xiaosan[1.25]},
-    aftername=\enskip,
-    fixskip=true,
-  },
-  subsection={
-    afterindent=true,
-    beforeskip={10.5bp},
-    afterskip={10.5bp},
-    format={\pluto@title@font\sihao[1.25]},
-    aftername=\enskip,
-    fixskip=true,
-  },
-  subsubsection={
-    afterindent=true,
-    beforeskip={3bp},
-    afterskip={3bp},
-    format={\pluto@title@font\normalsize},
-    aftername=\enskip,
-    fixskip=true,
-  },
-  paragraph/afterindent=true,
-  subparagraph/afterindent=true
-}
-\fi
-\else
+% 这个值默认是两行，即章节标题之后至少两行，才可以分页
+% 确保每一个章节提款标题之后保留一行就可以分页。
+% 这样确保剩余空白不过大，且不会出现标题出现在页底的情况
+\renewcommand\@afterheading{%
+  \@nobreaktrue
+  \everypar{%
+    \if@nobreak
+      \@nobreakfalse
+      \clubpenalty 1
+      \if@afterindent \else
+        {\setbox\z@\lastbox}%
+      \fi
+    \else
+      \clubpenalty 1
+      \everypar{}%
+    \fi}}
 \ctexset{%
   chapter={
     afterindent=true,
@@ -623,6 +559,7 @@ breaklines=true
     format={\pluto@title@font\ifpluto@glue\fontsize{15bp}{21bp \@plus 1.677267bp \@minus 1.157391bp}\else\fontsize{15bp}{21bp}\fi\selectfont},
     aftername=\enskip,
     fixskip=true,
+    break={},
   },
   subsection={
     afterindent=true,
@@ -631,20 +568,20 @@ breaklines=true
     format={\pluto@title@font\ifpluto@glue\fontsize{14bp}{18bp \@plus 1.842609bp \@minus 0.9920497bp}\else\fontsize{14bp}{18bp}\fi\selectfont},
     aftername=\enskip,
     fixskip=true,
+    break={},
   },
   subsubsection={
     afterindent=true,
-    beforeskip={\ifpluto@glue 8.50398bp \@plus 2.83465bp \@minus 0bp \else 9bp \fi},
-    afterskip={\ifpluto@glue 8.50398bp \@plus 2.83465bp \@minus 0bp \else 9bp \fi},
+    %beforeskip={\ifpluto@glue 8.50398bp \@plus 2.83465bp \@minus 0bp \else 9bp \fi},
+    %afterskip={\ifpluto@glue 8.50398bp \@plus 2.83465bp \@minus 0bp \else 9bp \fi},
     format={\pluto@title@font\normalsize},
     aftername=\enskip,
     fixskip=true,
+    break={},
   },
   paragraph/afterindent=true,
   subparagraph/afterindent=true
 }
-\fi
-
 
 \titlecontents{chapter}[3.8em]{\hspace{-3.8em}\heiti}{\thecontentslabel~~}{}{\titlerule*[4pt]{.}\contentspage}
 \dottedcontents{section}[32pt]{}{21pt}{0.3pc}
