@@ -299,7 +299,7 @@ breaklines=true
 
 \AtBeginDocument{%
   \pagestyle{pluto@empty}
-  \renewcommand{\chaptermark}[1]{\@mkboth{\CTEXthechapter\enskip#1}{}}}
+  \renewcommand{\chaptermark}[1]{\@mkboth{\CTEXthechapter\enspace#1}{}}}
 %%%}}}
 
 %%%{{{段落
@@ -436,6 +436,9 @@ breaklines=true
 \pluto@def@term{csubject}%中文专业
 \pluto@def@term{cdate}
 
+\pluto@def@term{cstudentid}%
+
+
 \pluto@def@term{etitle} %英文标题
 \pluto@def@term{exueke} %英文学科
 \pluto@def@term{eauthor} %英文作者
@@ -501,11 +504,12 @@ breaklines=true
   \ifpluto@arialtitle\sffamily\else\heiti\fi}
 
 \newcommand\pluto@chapter@titleformat[1]{%开启悬挂缩进选项
-  \ifpluto@bachelor \hangindent=3\ccwd \hangafter=1 #1\else%
+  \ifpluto@bachelor {#1}\else%
     \ifthenelse%
       {\equal{#1}{\eabstractname}}%
       {\bfseries #1}%
-      {\settowidth{\hangindent}{\chaptername\enskip}\hangafter=1#1}%
+      %实现章标题的居中加悬挂缩进，注意，此处一定是\CTEX@chaptername\CTEX@chapter@aftername, 否则是英文标题长度
+      {\settowidth{\hangindent}{\CTEX@chaptername\CTEX@chapter@aftername}\hangafter=1#1}%
   \fi
 }
 
@@ -539,13 +543,15 @@ breaklines=true
       \clubpenalty 1
       \everypar{}%
     \fi}}
+
+
 \ctexset{%
   chapter={
     afterindent=true,
     pagestyle={pluto@headings},
     beforeskip={28.34658bp},%一个空行 1.57481 × 18
     afterskip={24.74658bp},%0.8应该不计算间距 0.8 × 18 + 0.57481×18
-    aftername=\enskip,
+    aftername=\enspace,
     format={\centering\pluto@title@font\xiaoer[1.57481]},
     nameformat=\relax,
     numberformat=\relax,
@@ -557,7 +563,7 @@ breaklines=true
     beforeskip={\ifpluto@glue 13.5bp \@plus 1.677267bp \@minus 1.157391bp \else 13.5bp \fi},%上下空0.5行
     afterskip={\ifpluto@glue 13.5bp \@plus 1.677267bp \@minus 1.157391bp  \else 13.5bp \fi},
     format={\pluto@title@font\ifpluto@glue\fontsize{15bp}{21bp \@plus 1.677267bp \@minus 1.157391bp}\else\fontsize{15bp}{21bp}\fi\selectfont},
-    aftername=\enskip,
+    aftername=\enspace,
     fixskip=true,
     break={},
   },
@@ -566,16 +572,16 @@ breaklines=true
     beforeskip={\ifpluto@glue 11bp \@plus 1.842609bp \@minus 0.9920497bp \else 11bp \fi},
     afterskip={\ifpluto@glue 11bp \@plus 2.33863bp \@minus 0.49602bp \else 11bp \fi},
     format={\pluto@title@font\ifpluto@glue\fontsize{14bp}{18bp \@plus 1.842609bp \@minus 0.9920497bp}\else\fontsize{14bp}{18bp}\fi\selectfont},
-    aftername=\enskip,
+    aftername=\enspace,
     fixskip=true,
     break={},
   },
   subsubsection={
     afterindent=true,
-    %beforeskip={\ifpluto@glue 8.50398bp \@plus 2.83465bp \@minus 0bp \else 9bp \fi},
-    %afterskip={\ifpluto@glue 8.50398bp \@plus 2.83465bp \@minus 0bp \else 9bp \fi},
+    beforeskip={\ifpluto@glue 8.50398bp \@plus 2.83465bp \@minus 0bp \else 9bp \fi},
+    afterskip={\ifpluto@glue 8.50398bp \@plus 2.83465bp \@minus 0bp \else 9bp \fi},
     format={\pluto@title@font\normalsize},
-    aftername=\enskip,
+    aftername=\enspace,
     fixskip=true,
     break={},
   },
