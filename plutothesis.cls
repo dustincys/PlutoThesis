@@ -56,6 +56,7 @@
 \PassOptionsToClass{twoside}{book}
 \fi
 
+\PassOptionsToPackage{AutoFakeBold=2}{xeCJK}
 
 \LoadClass[zihao=-4,openany,UTF8,scheme=plain]{ctexbook}
 
@@ -205,8 +206,6 @@ columns=flexible,
 breaklines=true
 }
 
-
-\RequirePackage{needspace}
 
 %%%}}}
 
@@ -437,6 +436,8 @@ breaklines=true
 \pluto@def@term{cdate}
 
 \pluto@def@term{cstudentid}%
+\pluto@def@term{ctitleone}%
+\pluto@def@term{ctitletwo}%
 
 
 \pluto@def@term{etitle} %英文标题
@@ -491,15 +492,6 @@ breaklines=true
 \arraycolsep=1.6pt
 \setcounter{secnumdepth}{4} \setcounter{tocdepth}{2}
 
-%\titleformat{\chapter}{\center\xiaoer\heiti}{\chaptertitlename}{0.5em}{}
-%\titlespacing{\chapter}{0pt}{-5.5mm}{8mm}
-%\titleformat{\section}{\xiaosan\heiti}{\thesection}{0.5em}{}
-%\titlespacing{\section}{0pt}{4.5mm}{4.5mm}
-%\titleformat{\subsection}{\sihao\heiti}{\thesubsection}{0.5em}{}
-%\titlespacing{\subsection}{0pt}{4mm}{4mm}
-%\titleformat{\subsubsection}{\xiaosi\heiti}{\thesubsubsection}{0.5em}{}
-%\titlespacing{\subsubsection}{0pt}{0pt}{0pt}
-
 \def\pluto@title@font{%
   \ifpluto@arialtitle\sffamily\else\heiti\fi}
 
@@ -552,7 +544,7 @@ breaklines=true
     beforeskip={28.34658bp},%一个空行 1.57481 × 18
     afterskip={24.74658bp},%0.8应该不计算间距 0.8 × 18 + 0.57481×18
     aftername=\enspace,
-    format={\centering\pluto@title@font\xiaoer[1.57481]},
+    format={\centering\pluto@title@font\xiaoer[1.57481]},%\center 会影响之后全局
     nameformat=\relax,
     numberformat=\relax,
     titleformat=\pluto@chapter@titleformat,
@@ -639,7 +631,6 @@ breaklines=true
   \begin{CJKfilltwosides}[b]{#1}#2\end{CJKfilltwosides}}
 
 
-
 \def\pluto@first@titlepage{%
   \ifpluto@bachelor\pluto@first@titlepage@bachelor\else\pluto@first@titlepage@other\fi}
 \def\pluto@second@titlepage{%
@@ -649,70 +640,68 @@ breaklines=true
   \vspace*{0.8cm}
   \begin{center}
     \parbox[t][3.4cm][t]{\textwidth}{
-  \begin{center}\erhao\heiti\pluto@ctitle\end{center} }
+  \begin{center}\erhao[0]\heiti\pluto@ctitle\end{center} }
     \parbox[t][9.4cm][t]{\textwidth}{
-  \begin{center}\xiaoer\songti\textbf{\pluto@cauthor}\end{center}}
-    {\heiti\xiaosi
-      \begin{tabular*}{6.768cm}{rc}
-	\pluto@put@title{\pluto@bachelor@caffiltitle}\pluto@title@csep & \pluto@caffil\\[14pt]
-	\pluto@put@title{\pluto@bachelor@cstudentidtitle}\pluto@title@csep & \pluto@cstudentid
-    \end{tabular*}
-      \begin{tabular*}{6.768cm}{rc}
-	\pluto@put@title{\pluto@bachelor@cmajortitle}\pluto@title@csep & \pluto@csubject\\[14pt]
-	\pluto@put@title{\pluto@bachelor@csupervisortitle}\pluto@title@csep &  \pluto@csupervisor
-    \end{tabular*}}
-    \vspace*{3.0cm}
-    {\songti\xiaosi\textbf{\pluto@cdate}}
+    \begin{center}\xiaoer[0]\songti{\bfseries \pluto@cauthor}\end{center}
+  }
+  \begin{center}
+    \setlength{\pluto@title@width}{4em}
+    \heiti\xiaosi
+      \begin{tabular}{rc}
+	{\pluto@put@title{\pluto@bachelor@caffiltitle}\pluto@title@csep} & \pluto@caffil\\[14pt]
+	{\pluto@put@title{\pluto@bachelor@cstudentidtitle}\pluto@title@csep} & \pluto@cstudentid
+    \end{tabular}
+      \begin{tabular}{rc}
+	{\pluto@put@title{\pluto@bachelor@cmajortitle}\pluto@title@csep} & \pluto@csubject\\[14pt]
+	{\pluto@put@title{\pluto@bachelor@csupervisortitle}\pluto@title@csep} &  \pluto@csupervisor
+      \end{tabular}
+    \end{center}
+    \vspace{3.0cm}
+    {\xiaosi[0]\songti\textbf{\pluto@cdate}}
   \end{center}
 }
 \newcommand{\pluto@second@titlepage@bachelor}{
-  \ifxetex
-\xeCJKsetemboldenfactor{2}%只对随后定义的CJK字体有效
-\setCJKfamilyfont{xinwei}{STXinwei}
-\newcommand*{\xinwei}{\CJKfamily{xinwei}}
-\else
-\relax
-\fi
   \vspace*{0.6cm}
-   	\includegraphics[scale=0.38]{logo.jpg}
-    \vspace*{0.75cm}
+  \centering\includegraphics[scale=0.38]{logo.pdf}
+  \vspace{1.5cm}
   \begin{center}
-    {\chuhao[0]\xinwei\textbf{\pluto@bachelor@cthesisname}}
-    \vspace*{1.7cm}
+    \centering\includegraphics[scale=0.25]{bthesistitle.pdf}
+    \vfill
     \parbox[t][14.2cm][b]{\textwidth}
     {\heiti\xiaosan
       \begin{center} \renewcommand{\arraystretch}{2.5} \heiti
+	\setlength{\pluto@title@width}{5.5em}
 	\begin{tabular}{l@{\ \  }c}
 
-	  {\xiaoer  \pluto@bachelor@cthesistitle} & \underline{\makebox[6.1cm]{\xiaoer \pluto@ctitleone}}\\
-	          			 &  \underline{\makebox[6.1cm]{\xiaoer \pluto@ctitletwo}}\\
-	          				& \\
-	  {\pluto@bachelor@cmajortitle}                  & \underline{\makebox[6.1cm]{\@csubject}}\\
-	  {\pluto@bachelor@cstudentidtitle}                  & \underline{\makebox[6.1cm]{\@cstuid}}\\
-	  {\pluto@bachelor@cstudenttitle}                  & \underline{\makebox[6.1cm]{\@cauthor}}\\
-	  {\pluto@bachelor@csupervisortitle} & \underline{\makebox[6.1cm]{\@csupervisor}}\\
-	  {\pluto@cdatetitle} & \underline{\makebox[6.1cm]{\@cdate}}
+	  {\xiaoer  \pluto@put@title{\pluto@bachelor@cthesistitle}} & \underline{\makebox[6.1cm]{\xiaoer \pluto@ctitleone}}\\
+								     &  \underline{\makebox[6.1cm]{\xiaoer \pluto@ctitletwo}}\\
+									    & \\
+	  {\pluto@put@title{\pluto@bachelor@cmajortitle}}                  & \underline{\makebox[6.1cm]{\pluto@csubject}}\\
+	  {\pluto@put@title{\pluto@bachelor@cstudentidtitle}}                  & \underline{\makebox[6.1cm]{\pluto@cstudentid}}\\
+	  {\pluto@put@title{\pluto@bachelor@cstudenttitle}}                  & \underline{\makebox[6.1cm]{\pluto@cauthor}}\\
+	  {\pluto@put@title{\pluto@bachelor@csupervisortitle}} & \underline{\makebox[6.1cm]{\pluto@csupervisor}}\\
+	  {\pluto@put@title{\pluto@cdatetitle}} & \underline{\makebox[6.1cm]{\pluto@cdate}}
 	\end{tabular} \renewcommand{\arraystretch}{1}
-    \end{center}
-  }
+      \end{center}
+    }
   \end{center}
 }
 \newcommand{\pluto@first@titlepage@other}{
-    % 封面一
-   \vspace*{0.8cm}
-   \begin{center}
-   \begin{center}\xiaoyi[1]\songti\textbf{\pluto@cxuewei\pluto@cthesisname}\end{center}
+  % 封面一
+  \vspace*{0.8cm}
+  \begin{center}
+  \begin{center}\xiaoyi[1]\songti\textbf{\pluto@cxuewei\pluto@cthesisname}\end{center}
     \vspace{1cm}
     \parbox[t][2.8cm][t]{\textwidth}{
-    \begin{center}\erhao\heiti\pluto@ctitle\end{center} }
+  \begin{center}\erhao\heiti\pluto@ctitle\end{center} }
     \parbox[t][5.1cm][t]{\textwidth}{ %英文标题太长时可以采用\xiaoer
   \begin{center}\erhao\textbf{\MakeUppercase{\pluto@etitle}}\end{center} }
     \parbox[t][7.4cm][t]{\textwidth}{
-    \begin{center}\xiaoer\songti\textbf{\pluto@cauthor}\end{center}}
+  \begin{center}\xiaoer\songti\textbf{\pluto@cauthor}\end{center}}
     \parbox[t][1.4cm][t]{\textwidth}{
-    \begin{center}\kaishu\xiaoer\textbf{\pluto@cschoolname}\end{center} }
+  \begin{center}\kaishu\xiaoer\textbf{\pluto@cschoolname}\end{center} }
     {\songti\xiaoer\textbf{\pluto@cdate}}
-    \end{center}
+  \end{center}
 }
 
 %内封
