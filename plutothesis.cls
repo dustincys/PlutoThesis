@@ -223,7 +223,7 @@ breaklines=true
 %此处应该给出一个设置选项
 
 \renewcommand\normalsize{%
-  \@setfontsize\normalsize{12bp}{\ifpluto@glue 20.50398bp \@plus 2.83465bp \@minus 0bp\else \ifpluto@bachelor 27bp \else 21bp\fi\fi}%
+  \@setfontsize\normalsize{12bp}{\ifpluto@glue 20.50398bp \@plus 2.83465bp \@minus 0bp\else 21bp\fi}%
   \abovedisplayskip=4pt
   \abovedisplayshortskip=4pt
   \belowdisplayskip=\abovedisplayskip
@@ -344,39 +344,6 @@ breaklines=true
 \let\temp\addcontentsline
 \gdef\addcontentsline{\phantomsection\temp}
 
-
-%重新定义BiChapter命令，可实现标题手动换行，但不影响目录
-\def\BiChapter{\relax\@ifnextchar [{\@BiChapter}{\@@BiChapter}}
-\def\@BiChapter[#1]#2#3{\chapter[#1]{#2}
-    \addcontentsline{toe}{chapter}{\bfseries \xiaosi Chapter \thechapter\hspace{0.5em} #3}}
-\def\@@BiChapter#1#2{\chapter{#1}
-    \addcontentsline{toe}{chapter}{\bfseries \xiaosi Chapter \thechapter\hspace{0.5em}{\boldmath #2}}
-}
-\newcommand{\BiSection}[2]
-{   \section{#1}
-    \addcontentsline{toe}{section}{\protect\numberline{\csname thesection\endcsname}#2}
-}
-\newcommand{\BiSubsection}[2]
-{    \subsection{#1}
-    \addcontentsline{toe}{subsection}{\protect\numberline{\csname thesubsection\endcsname}#2}
-}
-\newcommand{\BiSubsubsection}[2]
-{    \subsubsection{#1}
-    \addcontentsline{toe}{subsubsection}{\protect\numberline{\csname thesubsubsection\endcsname}#2}
-}
-
-\newcommand{\BiAppendixChapter}[2] % 该附录命令适用于发表文章，简历等
-{\phantomsection
-\markboth{#1}{#1}
-\addcontentsline{toc}{chapter}{\xiaosi #1}
-\addcontentsline{toe}{chapter}{\bfseries \xiaosi #2}  \chapter*{#1}
-}
-\newcommand{\BiAppChapter}[2]    % 该附录命令适用于有章节的完整附录
-{\phantomsection
- \chapter{#1}
- \addcontentsline{toe}{chapter}{\bfseries \xiaosi Appendix \thechapter~~#2}
-}
-
 \renewcommand{\thefigure}{\arabic{chapter}-\arabic{figure}}%使图编号为 7-1 的格式 %\protect{~}
 \renewcommand{\thesubfigure}{\alph{subfigure})}%使子图编号为 a)的格式
 \renewcommand{\p@subfigure}{\thefigure~} %使子图引用为 7-1 a) 的格式，母图编号和子图编号之间用~加一个空格
@@ -496,13 +463,11 @@ breaklines=true
   \ifpluto@arialtitle\sffamily\else\heiti\fi}
 
 \newcommand\pluto@chapter@titleformat[1]{%开启悬挂缩进选项
-  \ifpluto@bachelor {#1}\else%
     \ifthenelse%
-      {\equal{#1}{\eabstractname}}%
+      {\equal{#1}{\eabstractcname}}%
       {\bfseries #1}%
       %实现章标题的居中加悬挂缩进，注意，此处一定是\CTEX@chaptername\CTEX@chapter@aftername, 否则是英文标题长度
       {\settowidth{\hangindent}{\CTEX@chaptername\CTEX@chapter@aftername}\hangafter=1#1}%
-  \fi
 }
 
 % 窝工规定章标题行间距要10mm
@@ -580,6 +545,88 @@ breaklines=true
   paragraph/afterindent=true,
   subparagraph/afterindent=true
 }
+
+\newcommand{\BiAppendixChapter}[2] % 该附录命令适用于发表文章，简历等
+{\phantomsection
+\markboth{#1}{#1}
+\addcontentsline{toc}{chapter}{\xiaosi #1}
+\addcontentsline{toe}{chapter}{\bfseries \xiaosi #2}  \chapter*{#1}
+}
+
+\newcommand{\BiAppChapter}[2]    % 该附录命令适用于有章节的完整附录
+{\phantomsection
+ \chapter{#1}
+ \addcontentsline{toe}{chapter}{\bfseries \xiaosi Appendix \thechapter~~#2}
+}
+
+\NewDocumentCommand\cechapter{s m o}{
+  % s: 星号，表示在目录中出不出现序号
+  % m: 必须要有的选项，中文章节名称也即目录中名称，页眉中名称，书签中的名称
+  % o: 可选内容，没有就默认是正文章节，如果有，则是英文目录中显示的内容。
+  \if@openright\cleardoublepage\else\clearpage\fi\phantomsection%
+  \IfBooleanTF{#1}{%带有星号的操作
+    \chapter*{#2}
+    \IfValueT{#3}{%
+      \addcontentsline{toe}{chapter}{\bfseries #3}
+    }
+    }{% 没有星号的操作
+    \chapter{#2}
+    \IfValueT{#3}{%
+    \addcontentsline{toe}{chapter}{\bfseries Chapter \thechapter\hspace{0.5em} #3}
+    }
+  }
+}
+\NewDocumentCommand\cesection{s m o}{
+  % s: 星号，表示在目录中出不出现序号
+  % m: 必须要有的选项，中文章节名称也即目录中名称，页眉中名称，书签中的名称
+  % o: 可选内容，没有就默认是正文章节，如果有，则是英文目录中显示的内容。
+  \IfBooleanTF{#1}{%带有星号的操作
+    \section*{#2}
+    \IfValueT{#3}{%
+      \addcontentsline{toe}{section}{#3}
+    }
+    }{% 没有星号的操作
+    \section{#2}
+    \IfValueT{#3}{%
+    \addcontentsline{toe}{section}{\protect\numberline{\csname thesection\endcsname} #3}
+    }
+  }
+}
+
+\NewDocumentCommand\cesubsection{s m o}{
+  % s: 星号，表示在目录中出不出现序号
+  % m: 必须要有的选项，中文章节名称也即目录中名称，页眉中名称，书签中的名称
+  % o: 可选内容，没有就默认是正文章节，如果有，则是英文目录中显示的内容。
+  \IfBooleanTF{#1}{%带有星号的操作
+    \subsection*{#2}
+    \IfValueT{#3}{%
+      \addcontentsline{toe}{subsection}{#3}
+    }
+    }{% 没有星号的操作
+    \subsection{#2}
+    \IfValueT{#3}{%
+      \addcontentsline{toe}{subsection}{\protect\numberline{\csname thesubsection\endcsname} #3}
+    }
+  }
+}
+
+\NewDocumentCommand\cesubsubsection{s m o}{
+  % s: 星号，表示在目录中出不出现序号
+  % m: 必须要有的选项，中文章节名称也即目录中名称，页眉中名称，书签中的名称
+  % o: 可选内容，没有就默认是正文章节，如果有，则是英文目录中显示的内容。
+  \IfBooleanTF{#1}{%带有星号的操作
+    \subsubsection*{#2}
+    \IfValueT{#3}{%
+      \addcontentsline{toe}{subsubsection}{#3}
+    }
+    }{% 没有星号的操作
+    \subsubsection{#2}
+    \IfValueT{#3}{%
+      \addcontentsline{toe}{subsubsection}{\protect\numberline{\csname thesubsubsection\endcsname}#3}
+    }
+  }
+}
+
 
 \titlecontents{chapter}[3.8em]{\hspace{-3.8em}\heiti}{\thecontentslabel~~}{}{\titlerule*[4pt]{.}\contentspage}
 \dottedcontents{section}[32pt]{}{21pt}{0.3pc}
@@ -795,36 +842,97 @@ breaklines=true
     \cleardoublepage
     \fi
   \end{titlepage}
+  \normalsize
+  \pluto@makeabstract}
 
-  %%%%%%%%%%%%%%%%%%%   Abstract and keywords  %%%%%%%%%%%%%%%%%%%%%%%
-  \BiAppendixChapter{摘\quad 要}{Abstract (In Chinese)}
+\newbox\pluto@kw
+\newcommand\pluto@put@keywords[2]{%
+  \begingroup
+    \setbox\pluto@kw=\hbox{#1}
+    \ifpluto@bachelor\indent\else\noindent\hangindent\wd\pluto@kw\hangafter1\fi%
+    \box\pluto@kw#2\par
+  \endgroup}
 
-  \setcounter{page}{1}
-  \songti\normalsize%\defaultfont
-  \pluto@cabstract
-  \vspace{\baselineskip}
-
-  \hangafter=1\hangindent=51pt\noindent
-  {\heiti 关键词}：
-
-  %%%%%%%%%%%%%%%%%%%   English Abstract  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\pluto@makeabstract}{%
+  \ifpluto@doctor
+  \cleardoublepage
+  \cechapter*{\cabstractcname}[\cabstractename]
+  \else
   \clearpage
-
-  \phantomsection
-  \markboth{Abstract}{Abstract}
-  \addcontentsline{toc}{chapter}{\xiaosi ABSTRACT}
-  \addcontentsline{toe}{chapter}{\bfseries \xiaosi Abstract (In English)}
+  \cechapter*{\cabstractcname}
+  \fi
+  \pagestyle{pluto@headings}
+  \pagenumbering{Roman}
+  \pluto@cabstract
+  \vskip12bp
+  \pluto@put@keywords{\heiti\pluto@ckeywords@title}{\pluto@ckeywords}
+  \ifpluto@doctor
+  \cechapter*{\eabstractcname}[\eabstractename]
+  \else
+  \cechapter*{\eabstractcname}
+  \fi
   \addtocontents{toc}{\vspace{\baselineskip}}
   \addtocontents{toe}{\vspace{\baselineskip}}
-  \chapter*{\bf Abstract}
   \pluto@eabstract
-  \vspace{\baselineskip}
+  \vskip12bp
+  \pluto@put@keywords{%
+    \textbf{\ifpluto@bachelor Keywords:\else Key words:\fi\enskip}}{\pluto@ekeywords}}
 
-  \hangafter=1\hangindent=60pt\noindent
-  {\textbf{Keywords:}}
-
+\newenvironment{denotation}[1][2.5cm]{%
+  \pluto@chapter*[]{\pluto@denotation@name} % no tocline
+  \vskip-30bp\xiaosi[1.6]\begin{pluto@denotation}[labelwidth=#1]
+}{%
+  \end{pluto@denotation}
 }
-
+\newlist{pluto@denotation}{description}{1}
+\setlist[pluto@denotation]{%
+  nosep,
+  font=\normalfont,
+  align=left,
+  leftmargin=!, % sum of the following 3 lengths
+  labelindent=0pt,
+  labelwidth=2.5cm,
+  labelsep*=0.5cm,
+  itemindent=0pt,
+}
+\NewDocumentEnvironment{acknowledgement}{o}{%
+    \pluto@chapter*{\pluto@ackname}
+  }
+  {
+    \ifpluto@postdoctor\relax\else%
+      \IfNoValueTF{#1}{%
+        \pluto@chapter*{\pluto@declarename}
+        \par{\xiaosi\parindent2em\pluto@declaretext}\vskip2cm
+        {\xiaosi\hfill\pluto@signature\pluto@underline[2.5cm]\relax%
+         \pluto@backdate\pluto@underline[2.5cm]\relax}%
+      }{%
+        \includepdf[pagecommand={\thispagestyle{pluto@empty}%
+          \phantomsection\addcontentsline{toc}{chapter}{\pluto@declarename}%
+        }]{#1}%
+      }%
+    \fi
+  }
+\let\ack\acknowledgement
+\let\endack\endacknowledgement
+\def\pluto@starttoc#1{% #1: float type, prepend type name in \listof*** entry.
+  \let\oldnumberline\numberline
+  \def\numberline##1{\oldnumberline{\csname #1name\endcsname\hskip.4em ##1}}
+  \@starttoc{\csname ext@#1\endcsname}
+  \let\numberline\oldnumberline}
+\def\pluto@listof#1{% #1: float type
+  \@ifstar
+    {\pluto@chapter*[]{\csname list#1name\endcsname}\pluto@starttoc{#1}}
+    {\pluto@chapter*{\csname list#1name\endcsname}\pluto@starttoc{#1}}}
+\renewcommand\listoffigures{\pluto@listof{figure}}
+\renewcommand*\l@figure{\addvspace{6bp}\@dottedtocline{1}{0em}{4em}}
+\renewcommand\listoftables{\pluto@listof{table}}
+\let\l@table\l@figure
+\def\ext@equation{loe}
+\def\equcaption#1{%
+  \addcontentsline{\ext@equation}{equation}%
+                  {\protect\numberline{#1}}}
+\newcommand\listofequations{\pluto@listof{equation}}
+\let\l@equation\l@figure
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 英文目录格式
 \def\@dotsep{0.75}           % 定义英文目录的点间距
