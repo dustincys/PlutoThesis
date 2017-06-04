@@ -546,6 +546,21 @@ breaklines=true
   subparagraph/afterindent=true
 }
 
+
+\NewDocumentCommand{\pluto@appendix@chapter}{s m o}{%
+  \IfBooleanTF{#1}%
+  {
+    \phantomsection
+    \markboth{#2}{#2}
+    \addcontentsline{toc}{chapter}{\xiaosi #2}
+    \IfValueT{#3}{%
+      \addcontentsline{toe}{chapter}{\bfseries \xiaosi #3}
+    }
+    \pluto@chapter*{#2}
+  }
+  {}
+}
+
 \newcommand{\BiAppendixChapter}[2] % 该附录命令适用于发表文章，简历等
 {\phantomsection
 \markboth{#1}{#1}
@@ -559,74 +574,85 @@ breaklines=true
  \addcontentsline{toe}{chapter}{\bfseries \xiaosi Appendix \thechapter~~#2}
 }
 
-\NewDocumentCommand\cechapter{s m o}{
-  % s: 星号，表示在目录中出不出现序号
-  % m: 必须要有的选项，中文章节名称也即目录中名称，页眉中名称，书签中的名称
-  % o: 可选内容，没有就默认是正文章节，如果有，则是英文目录中显示的内容。
+% s: 星号，表示在目录中出不出现序号
+% m: 必须要有的选项，中文章节名称也即目录中名称，页眉中名称，书签中的名称
+% o: 可选内容，没有就默认是正文章节，如果有，则是英文目录中显示的内容。
+\let\pluto@chapter\chapter
+\RenewDocumentCommand{\chapter}{s o m o}{%
   \if@openright\cleardoublepage\else\clearpage\fi\phantomsection%
-  \IfBooleanTF{#1}{%带有星号的操作
-    \chapter*{#2}
-    \IfValueT{#3}{%
-      \addcontentsline{toe}{chapter}{\bfseries #3}
+  \IfBooleanTF{#1}%
+  {%	if \chapter*
+    \pluto@chapter*{#3}%
+    \IfValueT{#4}{%
+      \addcontentsline{toe}{chapter}{\bfseries #4}
     }
-    }{% 没有星号的操作
-    \chapter{#2}
-    \IfValueT{#3}{%
-    \addcontentsline{toe}{chapter}{\bfseries Chapter \thechapter\hspace{0.5em} #3}
-    }
-  }
-}
-\NewDocumentCommand\cesection{s m o}{
-  % s: 星号，表示在目录中出不出现序号
-  % m: 必须要有的选项，中文章节名称也即目录中名称，页眉中名称，书签中的名称
-  % o: 可选内容，没有就默认是正文章节，如果有，则是英文目录中显示的内容。
-  \IfBooleanTF{#1}{%带有星号的操作
-    \section*{#2}
-    \IfValueT{#3}{%
-      \addcontentsline{toe}{section}{#3}
-    }
-    }{% 没有星号的操作
-    \section{#2}
-    \IfValueT{#3}{%
-    \addcontentsline{toe}{section}{\protect\numberline{\csname thesection\endcsname} #3}
+  }%
+  {%	if \chapter
+    \IfNoValueTF{#2}%
+    {\pluto@chapter{#3}}%
+    {\pluto@chapter[#2]{#3}}%
+    \IfValueT{#4}{%
+    \addcontentsline{toe}{chapter}{\bfseries\relax Chapter \thechapter\hspace{0.5em} #4}
     }
   }
 }
 
-\NewDocumentCommand\cesubsection{s m o}{
-  % s: 星号，表示在目录中出不出现序号
-  % m: 必须要有的选项，中文章节名称也即目录中名称，页眉中名称，书签中的名称
-  % o: 可选内容，没有就默认是正文章节，如果有，则是英文目录中显示的内容。
-  \IfBooleanTF{#1}{%带有星号的操作
-    \subsection*{#2}
-    \IfValueT{#3}{%
-      \addcontentsline{toe}{subsection}{#3}
+\let\pluto@section\section
+\RenewDocumentCommand\section{s o m o}{
+  \IfBooleanTF{#1}%
+  {%	if \section*
+    \pluto@section*{#3}%
+    \IfValueT{#4}{%
+      \addcontentsline{toe}{section}{#4}
     }
-    }{% 没有星号的操作
-    \subsection{#2}
-    \IfValueT{#3}{%
-      \addcontentsline{toe}{subsection}{\protect\numberline{\csname thesubsection\endcsname} #3}
-    }
-  }
-}
-
-\NewDocumentCommand\cesubsubsection{s m o}{
-  % s: 星号，表示在目录中出不出现序号
-  % m: 必须要有的选项，中文章节名称也即目录中名称，页眉中名称，书签中的名称
-  % o: 可选内容，没有就默认是正文章节，如果有，则是英文目录中显示的内容。
-  \IfBooleanTF{#1}{%带有星号的操作
-    \subsubsection*{#2}
-    \IfValueT{#3}{%
-      \addcontentsline{toe}{subsubsection}{#3}
-    }
-    }{% 没有星号的操作
-    \subsubsection{#2}
-    \IfValueT{#3}{%
-      \addcontentsline{toe}{subsubsection}{\protect\numberline{\csname thesubsubsection\endcsname}#3}
+  }%
+  {%	if \section
+    \IfNoValueTF{#2}%
+    {\pluto@section{#3}}%
+    {\pluto@section[#2]{#3}}%
+    \IfValueT{#4}{%
+    \addcontentsline{toe}{section}{\protect\numberline{\csname thesection\endcsname} #4}
     }
   }
 }
 
+\let\pluto@subsection\subsection
+\RenewDocumentCommand\subsection{s o m o}{
+  \IfBooleanTF{#1}%
+  {%	if \subsection*
+    \pluto@subsection*{#3}%
+    \IfValueT{#4}{%
+      \addcontentsline{toe}{subsection}{#4}
+    }
+  }%
+  {%	if \subsection
+    \IfNoValueTF{#2}%
+    {\pluto@subsection{#3}}%
+    {\pluto@subsection[#2]{#3}}%
+    \IfValueT{#4}{%
+    \addcontentsline{toe}{subsection}{\protect\numberline{\csname thesubsection\endcsname} #4}
+    }
+  }
+}
+
+\let\pluto@subsubsection\subsubsection
+\RenewDocumentCommand\subsubsection{s o m o}{
+  \IfBooleanTF{#1}%
+  {%	if \subsubsection*
+    \pluto@subsubsection*{#3}%
+    \IfValueT{#4}{%
+      \addcontentsline{toe}{subsubsection}{#4}
+    }
+  }%
+  {%	if \subsubsection
+    \IfNoValueTF{#2}%
+    {\pluto@subsubsection{#3}}%
+    {\pluto@subsubsection[#2]{#3}}%
+    \IfValueT{#4}{%
+    \addcontentsline{toe}{subsubsection}{\protect\numberline{\csname thesubsubsection\endcsname} #4}
+    }
+  }
+}
 
 \titlecontents{chapter}[3.8em]{\hspace{-3.8em}\heiti}{\thecontentslabel~~}{}{\titlerule*[4pt]{.}\contentspage}
 \dottedcontents{section}[32pt]{}{21pt}{0.3pc}
@@ -856,10 +882,10 @@ breaklines=true
 \newcommand{\pluto@makeabstract}{%
   \ifpluto@doctor
   \cleardoublepage
-  \cechapter*{\cabstractcname}[\cabstractename]
+  \pluto@appendix@chapter*{\cabstractcname}{\cabstractename}
   \else
   \clearpage
-  \cechapter*{\cabstractcname}
+  \pluto@appendix@chapter*{\cabstractcname}
   \fi
   \pagestyle{pluto@headings}
   \pagenumbering{Roman}
@@ -867,9 +893,9 @@ breaklines=true
   \vskip12bp
   \pluto@put@keywords{\heiti\pluto@ckeywords@title}{\pluto@ckeywords}
   \ifpluto@doctor
-  \cechapter*{\eabstractcname}[\eabstractename]
+  \pluto@appendix@chapter*{\eabstractcname}{\eabstractename}
   \else
-  \cechapter*{\eabstractcname}
+  \pluto@appendix@chapter*{\eabstractcname}
   \fi
   \addtocontents{toc}{\vspace{\baselineskip}}
   \addtocontents{toe}{\vspace{\baselineskip}}
