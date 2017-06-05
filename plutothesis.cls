@@ -186,7 +186,6 @@ footskip=17mm}
   \@mainmattertrue}
 
 \RequirePackage{tabularx}
-\RequirePackage{titletoc}                   % 控制目录的宏包
 \RequirePackage{color}          % 支持彩色
 \RequirePackage{amssymb}
 \RequirePackage[below]{placeins}%允许上一个section的浮动图形出现在下一个section的开始部分,还提供\FloatBarrier命令,使所有未处理的浮动图形立即被处理
@@ -195,6 +194,9 @@ footskip=17mm}
 \RequirePackage[hang]{subfigure}%支持子图 %centerlast 设置最后一行是否居中
 \RequirePackage[subfigure]{ccaption} %支持双语标题
 \RequirePackage{calc}           %长度可以用+ - * / 进行计算
+
+
+\RequirePackage{varwidth}
 
 
 \RequirePackage[boxed,linesnumbered,algochapter]{algorithm2e}  % 算法的宏包，注意宏包兼容性，先后顺序为float、hyperref、algorithm(2e)，否则无法生成算法列表
@@ -459,6 +461,9 @@ breaklines=true
 \arraycolsep=1.6pt
 \setcounter{secnumdepth}{4} \setcounter{tocdepth}{2}
 
+
+
+
 \def\pluto@title@font{%
   \ifpluto@arialtitle\sffamily\else\heiti\fi}
 
@@ -468,7 +473,41 @@ breaklines=true
       {\bfseries #1}%
       %实现章标题的居中加悬挂缩进，注意，此处一定是\CTEX@chaptername\CTEX@chapter@aftername, 否则是英文标题长度
       {\settowidth{\hangindent}{\CTEX@chaptername\CTEX@chapter@aftername}\hangafter=1#1}%
+      %{\begin{varwidth}[t]{\pluto@chapter@indentboxwidth}#1\end{varwidth}}
 }
+
+
+
+%\def\@chapter[#1]#2{%
+% \ifnum \c@secnumdepth >\m@ne
+% \if@mainmatter
+% \ifodd \CTEX@chapter@numbering
+% \CTEX@ifnametrue
+% \refstepcounter{chapter}%
+% \typeout{\CTEXthechapter}%
+% \else
+% \CTEX@ifnamefalse
+% \CTEX@makeanchor{\Hy@chapapp*}%
+% \fi
+% \else
+% \CTEX@ifnamefalse
+% \CTEX@makeanchor@chapter{\Hy@chapapp*}%
+% \fi
+% \else
+% \CTEX@ifnamefalse
+% \CTEX@makeanchor@chapter{\Hy@chapapp*}%
+% \fi
+% \CTEX@addtocline{chapter}{#1}%
+% \chaptermark{#1}%
+% \CTEX@addloflotskip{chapter}%
+% \if@twocolumn
+% \@topnewpage[\@makechapterhead{#2}]%
+% \else
+% \@makechapterhead{#2}%
+% \@afterheading
+% \fi}
+
+
 
 % 窝工规定章标题行间距要10mm
 % 1bp = 1.00374pt
@@ -514,6 +553,7 @@ breaklines=true
     numberformat=\relax,
     titleformat=\pluto@chapter@titleformat,
     fixskip=true, % 添加这一行去除默认间距
+    %hang=true,
   },
   section={
     afterindent=true,
@@ -548,31 +588,25 @@ breaklines=true
 
 
 \NewDocumentCommand{\pluto@appendix@chapter}{s m o}{%
-  \IfBooleanTF{#1}%
+  \IfBooleanT{#1}%
   {
     \phantomsection
     \markboth{#2}{#2}
-    \addcontentsline{toc}{chapter}{\xiaosi #2}
+    \addcontentsline{toc}{chapter}{\ifpluto@arialtitle\sffamily\heiti\else\heiti\fi #2}
     \IfValueT{#3}{%
-      \addcontentsline{toe}{chapter}{\bfseries \xiaosi #3}
+      \addcontentsline{toe}{chapter}{\bfseries #3}
     }
     \pluto@chapter*{#2}
   }
-  {}
 }
-
-\newcommand{\BiAppendixChapter}[2] % 该附录命令适用于发表文章，简历等
-{\phantomsection
-\markboth{#1}{#1}
-\addcontentsline{toc}{chapter}{\xiaosi #1}
-\addcontentsline{toe}{chapter}{\bfseries \xiaosi #2}  \chapter*{#1}
-}
+ % 该附录命令适用于发表文章，简历等
 
 \newcommand{\BiAppChapter}[2]    % 该附录命令适用于有章节的完整附录
 {\phantomsection
  \chapter{#1}
  \addcontentsline{toe}{chapter}{\bfseries \xiaosi Appendix \thechapter~~#2}
 }
+
 
 % s: 星号，表示在目录中出不出现序号
 % m: 必须要有的选项，中文章节名称也即目录中名称，页眉中名称，书签中的名称
@@ -654,15 +688,6 @@ breaklines=true
   }
 }
 
-\titlecontents{chapter}[3.8em]{\hspace{-3.8em}\heiti}{\thecontentslabel~~}{}{\titlerule*[4pt]{.}\contentspage}
-\dottedcontents{section}[32pt]{}{21pt}{0.3pc}
-\dottedcontents{subsection}[53pt]{}{30pt}{0.3pc}
-
-
-% 按工大标准, 缩小目录中各级标题之间的缩进，使它们相隔一个字符距离，也就是12pt
-\renewcommand*\l@chapter{\@dottedtocline{0}{0em}{5em}}%控制英文目录： 细点\@dottedtocline  粗点\@dottedtoclinebold
-\renewcommand*\l@section{\@dottedtocline{1}{1em}{1.8em}}
-\renewcommand*\l@subsection{\@dottedtocline{2}{2em}{2.5em}}
 
 % 调整罗列环境的布局
 \setitemize{leftmargin=0em,itemsep=0em,partopsep=0em,parsep=0em,topsep=0em,itemindent=3em}
@@ -882,7 +907,7 @@ breaklines=true
 \newcommand{\pluto@makeabstract}{%
   \ifpluto@doctor
   \cleardoublepage
-  \pluto@appendix@chapter*{\cabstractcname}{\cabstractename}
+  \pluto@appendix@chapter*{\cabstractcname}[\cabstractename]
   \else
   \clearpage
   \pluto@appendix@chapter*{\cabstractcname}
@@ -892,8 +917,9 @@ breaklines=true
   \pluto@cabstract
   \vskip12bp
   \pluto@put@keywords{\heiti\pluto@ckeywords@title}{\pluto@ckeywords}
+  \clearpage
   \ifpluto@doctor
-  \pluto@appendix@chapter*{\eabstractcname}{\eabstractename}
+  \pluto@appendix@chapter*{\eabstractcname}[\eabstractename]
   \else
   \pluto@appendix@chapter*{\eabstractcname}
   \fi
@@ -960,6 +986,38 @@ breaklines=true
 \newcommand\listofequations{\pluto@listof{equation}}
 \let\l@equation\l@figure
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%中文目录格式
+
+\renewcommand\tableofcontents{%
+\pluto@chapter*{\contentsname}\normalsize\@starttoc{toc}}
+\ifpluto@arialtoc
+  \def\pluto@toc@font{\sffamily}
+\fi
+\def\@pnumwidth{4em}%规定中的提前悬挂
+\def\@tocrmarg{\@pnumwidth}
+\def\@dotsep{1}
+\patchcmd{\@dottedtocline}{#4}{\csname pluto@toc@font\endcsname #4}{}{}
+\patchcmd{\@dottedtocline}{\hb@xt@\@pnumwidth}{\hbox}{}{}
+
+\renewcommand*\l@chapter[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    %\vskip 4bp \@plus\p@
+    \setlength\@tempdima{4em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      % numberline is called here, and it uses \@tempdima
+      {\ifpluto@bachelor\sffamily\else\csname pluto@toc@font\endcsname\fi\heiti #1}
+      \leaders\hbox{$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill
+      \nobreak{\normalfont\normalcolor #2}\par
+      \penalty\@highpenalty
+    \endgroup
+  \fi}
+
 % 英文目录格式
 \def\@dotsep{0.75}           % 定义英文目录的点间距
 \setlength\leftmargini {0pt}
@@ -981,7 +1039,6 @@ breaklines=true
    }
 
 \urlstyle{same}  %论文中引用的网址的字体默认与正文中字体不一致，这里修正为一致的。
-
 \renewcommand\endtable{\vspace{-4mm}\end@float}
 
 \AtEndOfClass{\input{plutothesis.cfg}}
