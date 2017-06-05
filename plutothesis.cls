@@ -918,42 +918,6 @@ breaklines=true
   \pluto@put@keywords{%
     \textbf{\ifpluto@bachelor Keywords:\else Key words:\fi\enskip}}{\pluto@ekeywords}}
 
-\newenvironment{denotation}[1][2.5cm]{%
-  \pluto@chapter*[]{\pluto@denotation@name} % no tocline
-  \vskip-30bp\xiaosi[1.6]\begin{pluto@denotation}[labelwidth=#1]
-}{%
-  \end{pluto@denotation}
-}
-\newlist{pluto@denotation}{description}{1}
-\setlist[pluto@denotation]{%
-  nosep,
-  font=\normalfont,
-  align=left,
-  leftmargin=!, % sum of the following 3 lengths
-  labelindent=0pt,
-  labelwidth=2.5cm,
-  labelsep*=0.5cm,
-  itemindent=0pt,
-}
-\NewDocumentEnvironment{acknowledgement}{o}{%
-    \pluto@chapter*{\pluto@ackname}
-  }
-  {
-    \ifpluto@postdoctor\relax\else%
-      \IfNoValueTF{#1}{%
-        \pluto@chapter*{\pluto@declarename}
-        \par{\xiaosi\parindent2em\pluto@declaretext}\vskip2cm
-        {\xiaosi\hfill\pluto@signature\pluto@underline[2.5cm]\relax%
-         \pluto@backdate\pluto@underline[2.5cm]\relax}%
-      }{%
-        \includepdf[pagecommand={\thispagestyle{pluto@empty}%
-          \phantomsection\addcontentsline{toc}{chapter}{\pluto@declarename}%
-        }]{#1}%
-      }%
-    \fi
-  }
-\let\ack\acknowledgement
-\let\endack\endacknowledgement
 \def\pluto@starttoc#1{% #1: float type, prepend type name in \listof*** entry.
   \let\oldnumberline\numberline
   \def\numberline##1{\oldnumberline{\csname #1name\endcsname\hskip.4em ##1}}
@@ -1028,9 +992,30 @@ breaklines=true
 
 \urlstyle{same}  %论文中引用的网址的字体默认与正文中字体不一致，这里修正为一致的。
 
-\newenvironment{conclusion}{%
+\newenvironment{conclusions}{%
   \ifpluto@doctor\cleardoublepage\else\clearpage\fi
   \pluto@appendix@chapter*{\pluto@conclusion@ctitle}[\pluto@conclusion@etitle]}{}
+\newenvironment{acknowledgements}{%
+  \ifpluto@doctor\cleardoublepage\else\clearpage\fi
+  \pluto@appendix@chapter*{\pluto@acknowledgement@ctitle}[\pluto@acknowledgement@etitle]}{}
+\newenvironment{resume}{%
+  \ifpluto@doctor\cleardoublepage\else\clearpage\fi
+  \pluto@appendix@chapter*{\pluto@resume@ctitle}[\pluto@resume@etitle]}{}
+\newenvironment{authorization}{%
+  \clearpage
+  \pluto@appendix@chapter*{\pluto@authorization@ctitle}[\pluto@authorization@etitle]
+  \xiaosi[1.6]\vspace{\baselineskip}
+\begin{center}\xiaosan\heiti\pluto@declarename\end{center}
+\par\pluto@declaretext
+\vspace{\baselineskip}
+\par\hspace{6em}\pluto@authorsig：\hfill \pluto@frontdate\pluto@datefill
+\vspace{2\baselineskip}
+\begin{center}\xiaosan\heiti\pluto@authorizationtitle\end{center}
+\par\pluto@authorizationtext
+\vspace{2\baselineskip}
+\par\hspace{6em}\pluto@authorsig\hfill\pluto@frontdate\pluto@datefill
+\vspace{2\baselineskip}
+\par\hspace{6em}\pluto@teachersig\hfill\pluto@frontdate\pluto@datefill}{}
 
 \newcommand\bibstyle@numerical{\bibpunct{[}{]}{,}{s}{,}{\textsuperscript{,}}}
 \newcommand\bibstyle@authoryear{\bibpunct{(}{)}{;}{a}{,}{,}}
