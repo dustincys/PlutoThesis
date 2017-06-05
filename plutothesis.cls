@@ -179,6 +179,8 @@ footskip=17mm}
   \@mainmattertrue
   \pagenumbering{arabic}
   \ifpluto@bachelor\pagestyle{pluto@plain}\else\pagestyle{pluto@headings}\fi
+  \addtocontents{toc}{\vspace{\baselineskip}}
+  \addtocontents{toe}{\vspace{\baselineskip}}
 }
 
 \renewcommand\backmatter{%
@@ -911,12 +913,29 @@ breaklines=true
   \pluto@put@keywords{\heiti\pluto@ckeywords@title}{\pluto@ckeywords}
   \clearpage
   \pluto@appendix@chapter*{\eabstractcname}[\eabstractename]
-  \addtocontents{toc}{\vspace{\baselineskip}}
-  \addtocontents{toe}{\vspace{\baselineskip}}
   \pluto@eabstract
   \vskip12bp
   \pluto@put@keywords{%
     \textbf{\ifpluto@bachelor Keywords:\else Key words:\fi\enskip}}{\pluto@ekeywords}}
+
+\newenvironment{denotation}[1][2.5cm]{%
+  \clearpage
+  \pluto@appendix@chapter*{\pluto@denotation@cname}[\pluto@denotation@ename]
+  \vskip-30bp\xiaosi[1.6]\begin{pluto@denotation}[labelwidth=#1]
+    }{%
+  \end{pluto@denotation}
+}
+\newlist{pluto@denotation}{description}{1}
+\setlist[pluto@denotation]{%
+  nosep,
+  font=\normalfont,
+  align=left,
+  leftmargin=!, % sum of the following 3 lengths
+  labelindent=0pt,
+  labelwidth=2.5cm,
+  labelsep*=0.5cm,
+  itemindent=0pt,
+}
 
 \def\pluto@starttoc#1{% #1: float type, prepend type name in \listof*** entry.
   \let\oldnumberline\numberline
@@ -940,6 +959,8 @@ breaklines=true
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %中文目录格式
 
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
 \renewcommand\tableofcontents{%
 \pluto@chapter*{\contentsname}\normalsize\@starttoc{toc}}
 \ifpluto@arialtoc
