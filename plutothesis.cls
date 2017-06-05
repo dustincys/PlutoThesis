@@ -193,7 +193,6 @@ footskip=17mm}
 \RequirePackage{multirow}       %使用Multirow宏包，使得表格可以合并多个row格
 \RequirePackage[hang]{subfigure}%支持子图 %centerlast 设置最后一行是否居中
 \RequirePackage[subfigure]{ccaption} %支持双语标题
-\RequirePackage{calc}           %长度可以用+ - * / 进行计算
 
 
 \RequirePackage{varwidth}
@@ -593,9 +592,7 @@ breaklines=true
     \phantomsection
     \markboth{#2}{#2}
     \addcontentsline{toc}{chapter}{\ifpluto@arialtitle\sffamily\heiti\else\heiti\fi #2}
-    \IfValueT{#3}{%
-      \addcontentsline{toe}{chapter}{\bfseries #3}
-    }
+    \IfValueT{#3}{\addcontentsline{toe}{chapter}{\bfseries #3}}
     \pluto@chapter*{#2}
   }
 }
@@ -905,24 +902,15 @@ breaklines=true
   \endgroup}
 
 \newcommand{\pluto@makeabstract}{%
-  \ifpluto@doctor
-  \cleardoublepage
+  \ifpluto@doctor\cleardoublepage\else\clearpage\fi
   \pluto@appendix@chapter*{\cabstractcname}[\cabstractename]
-  \else
-  \clearpage
-  \pluto@appendix@chapter*{\cabstractcname}
-  \fi
   \pagestyle{pluto@headings}
   \pagenumbering{Roman}
   \pluto@cabstract
   \vskip12bp
   \pluto@put@keywords{\heiti\pluto@ckeywords@title}{\pluto@ckeywords}
   \clearpage
-  \ifpluto@doctor
   \pluto@appendix@chapter*{\eabstractcname}[\eabstractename]
-  \else
-  \pluto@appendix@chapter*{\eabstractcname}
-  \fi
   \addtocontents{toc}{\vspace{\baselineskip}}
   \addtocontents{toe}{\vspace{\baselineskip}}
   \pluto@eabstract
@@ -1039,7 +1027,70 @@ breaklines=true
    }
 
 \urlstyle{same}  %论文中引用的网址的字体默认与正文中字体不一致，这里修正为一致的。
-\renewcommand\endtable{\vspace{-4mm}\end@float}
+
+\newenvironment{conclusion}{%
+  \ifpluto@doctor\cleardoublepage\else\clearpage\fi
+  \pluto@appendix@chapter*{\pluto@conclusion@ctitle}[\pluto@conclusion@etitle]}{}
+
+\newcommand\bibstyle@numerical{\bibpunct{[}{]}{,}{s}{,}{\textsuperscript{,}}}
+\newcommand\bibstyle@authoryear{\bibpunct{(}{)}{;}{a}{,}{,}}
+\newcommand\bibstyle@inline{\bibpunct{[}{]}{,}{n}{,}{,}}
+\citestyle{numerical}
+\DeclareRobustCommand\inlinecite{\@inlinecite}
+\def\@inlinecite#1{\begingroup\let\@cite\NAT@citenum\citep{#1}\endgroup}
+\let\onlinecite\inlinecite
+\renewenvironment{thebibliography}[1]{%
+  \pluto@appendix@chapter*{\bibname}[\pluto@bibname@etitle]
+  \normalsize
+  \list{\@biblabel{\@arabic\c@enumiv}}%
+  {\renewcommand{\makelabel}[1]{##1\hfill}
+    \settowidth{\labelwidth}{\@biblabel{#1}}
+    \setlength{\labelsep}{0.5em}
+    \setlength{\itemindent}{0pt}
+    \setlength{\leftmargin}{\labelsep+\labelwidth}
+    \addtolength{\itemsep}{-0.8em}
+    \usecounter{enumiv}%
+    \let\p@enumiv\@empty
+  \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+  \sloppy\frenchspacing
+  \clubpenalty4000
+  \@clubpenalty \clubpenalty
+  \widowpenalty4000%
+  \interlinepenalty4000%
+\sfcode`\.\@m}
+{\def\@noitemerr
+  {\@latex@warning{Empty `thebibliography' environment}}%
+\endlist\frenchspacing}
+\patchcmd\NAT@citexnum{%
+  \@ifnum{\NAT@ctype=\z@}{%
+    \if*#2*\else\NAT@cmt#2\fi
+  }{}%
+  \NAT@mbox{\NAT@@close}%
+}{%
+  \NAT@mbox{\NAT@@close}%
+  \@ifnum{\NAT@ctype=\z@}{%
+    \if*#2*\else\textsuperscript{#2}\fi
+  }{}%
+}{}{}
+\renewcommand\NAT@citesuper[3]{\ifNAT@swa
+  \if*#2*\else#2\NAT@spacechar\fi
+\unskip\kern\p@\textsuperscript{\NAT@@open#1\NAT@@close\if*#3*\else#3\fi}%
+   \else #1\fi\endgroup}
+\patchcmd{\NAT@citex}{%
+  \if*#2*\else\NAT@cmt#2\fi
+  \if\relax\NAT@date\relax\else\NAT@@close\fi
+}{%
+  \if\relax\NAT@date\relax\else\NAT@@close\fi
+  \if*#2*\else\textsuperscript{#2}\fi
+}{}{}
+\renewcommand\NAT@cite%
+    [3]{\ifNAT@swa\NAT@@open\if*#2*\else#2\NAT@spacechar\fi
+        #1\NAT@@close\if*#3*\else\textsuperscript{#3}\fi\else#1\fi\endgroup}
+
+
+
+
+
 
 \AtEndOfClass{\input{plutothesis.cfg}}
 \AtEndOfClass{\sloppy}
