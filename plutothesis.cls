@@ -852,10 +852,8 @@ breaklines=true
   \parbox[t][1.6cm][t]{\textwidth}{\begin{center} \end{center} }
     \parbox[t][3.5cm][t]{\textwidth}{\xiaoer
   \begin{center} {  Dissertation for the {\pluto@exueweier} Degree in \pluto@exueke}\end{center} } %与中文保持一致，删除in {\pluto@exueke}
-
     \parbox[t][7cm][t]{\textwidth}{\erhao
-  \begin{center} { \bfseries \pluto@etitle}\end{center} }
-
+  \begin{center}\textbf{\MakeUppercase{\pluto@etitle}}\end{center} }
     %★★★★若信息内容不太长，不会引起信息内容分行时，使用tabular环境，否则使用下面的tabularx环境。
     {\sihao\renewcommand{\arraystretch}{1.3}
       \begin{tabular}{@{}l@{~}l@{}}
@@ -899,7 +897,7 @@ breaklines=true
 \newcommand\pluto@put@keywords[2]{%
   \begingroup
     \setbox\pluto@kw=\hbox{#1}
-    \ifpluto@bachelor\indent\else\noindent\hangindent\wd\pluto@kw\hangafter1\fi%
+    \noindent\hangindent\wd\pluto@kw\hangafter1%
     \box\pluto@kw#2\par
   \endgroup}
 
@@ -915,8 +913,7 @@ breaklines=true
   \pluto@appendix@chapter*{\eabstractcname}[\eabstractename]
   \pluto@eabstract
   \vskip12bp
-  \pluto@put@keywords{%
-    \textbf{\ifpluto@bachelor Keywords:\else Key words:\fi\enskip}}{\pluto@ekeywords}}
+  \pluto@put@keywords{\textbf{Keywords:\enskip}}{\pluto@ekeywords}}
 
 \newenvironment{denotation}[1][2.5cm]{%
   \clearpage
@@ -990,6 +987,11 @@ breaklines=true
       \penalty\@highpenalty
     \endgroup
   \fi}
+
+% 按工大标准, 缩小目录中各级标题之间的缩进，使它们相隔一个字符距离，也就是12pt
+\renewcommand*\l@section{\@dottedtocline{1}{1em}{1.8em}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{2em}{2.5em}}
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{3\ccwd}{3.1em}}
 
 % 英文目录格式
 \def\@dotsep{0.75}           % 定义英文目录的点间距
